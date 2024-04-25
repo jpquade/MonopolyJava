@@ -8,14 +8,11 @@ public class Property {
     // number of houses on property
     private int houseCount;
 
-    // are houses allowed on this property
-    private boolean houseAllowed;
+    // are houses/hotels allowed on this property
+    private boolean improvementAllowed;
 
     // number of hotels on property
     private int hotelCount;
-
-    // are hotels allowed on this property
-    private boolean hotelAllowed;
 
     // property is mortgaged or not
     private boolean mortgaged;
@@ -49,7 +46,7 @@ public class Property {
         this.owner = owner;
     }
 
-    public Property(String name, int cost, String color, Boolean hotelAllowed, Boolean houseAllowed) {
+    public Property(String name, int cost, String color, Boolean improvementAllowed) {
         this.name = name;
         this.cost = cost;
         this.houseCount = 0;
@@ -57,8 +54,7 @@ public class Property {
         this.mortgaged = false;
         this.color = color;
         this.owner = Owner.NONE;
-        this.hotelAllowed = hotelAllowed;
-        this.houseAllowed = houseAllowed;
+        this.improvementAllowed = improvementAllowed;
     }
 
     public String getName() {
@@ -85,8 +81,8 @@ public class Property {
         this.houseCount = houseCount;
     }
 
-    public boolean isHouseAllowed() {
-        return houseAllowed;
+    public boolean isImprovementAllowed() {
+        return improvementAllowed;
     }
 
     public int getHotelCount() {
@@ -95,10 +91,6 @@ public class Property {
 
     public void setHotelCount(int hotelCount) {
         this.hotelCount = hotelCount;
-    }
-
-    public boolean isHotelAllowed() {
-        return hotelAllowed;
     }
 
     public boolean isMortgaged() {
