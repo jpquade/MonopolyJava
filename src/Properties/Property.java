@@ -1,3 +1,18 @@
+package Properties;
+
+// enumerator for name of piece that owns property
+enum Owner{
+    NONE,
+    DOG,
+    CAT,
+    BATTLESHIP,
+    PENGUIN,
+    RUBBERDUCKY,
+    TOPHAT,
+    RACECAR,
+    THIMBLE;
+}
+
 public class Property {
     // name of property
     private String name;
@@ -6,13 +21,13 @@ public class Property {
     private int cost;
 
     // number of houses on property
-    private int houseCount;
+    //private int houseCount;
 
     // are houses/hotels allowed on this property
-    private boolean improvementAllowed;
+    //private boolean improvementAllowed;
 
     // number of hotels on property
-    private int hotelCount;
+    //private int hotelCount;
 
     // property is mortgaged or not
     private boolean mortgaged;
@@ -23,38 +38,21 @@ public class Property {
     // which player owns the propery
     private Owner owner;
 
-    // enumerator for name of piece that owns property
-    private enum Owner{
-        NONE,
-        DOG,
-        CAT,
-        BATTLESHIP,
-        PENGUIN,
-        RUBBERDUCKY,
-        TOPHAT,
-        RACECAR,
-        THIMBLE;
-    }
-
-    public Property(String name, int cost, int houseCount, int hotelCount, boolean mortgaged, String color, Owner owner) {
+    public Property(String name, int cost, boolean mortgaged, String color, Owner owner) {
         this.name = name;
         this.cost = cost;
-        this.houseCount = houseCount;
-        this.hotelCount = hotelCount;
         this.mortgaged = mortgaged;
         this.color = color;
         this.owner = owner;
     }
 
-    public Property(String name, int cost, String color, Boolean improvementAllowed) {
+    public Property(String name, int cost, String color) {
         this.name = name;
         this.cost = cost;
-        this.houseCount = 0;
-        this.hotelCount = 0;
         this.mortgaged = false;
         this.color = color;
         this.owner = Owner.NONE;
-        this.improvementAllowed = improvementAllowed;
+
     }
 
     public String getName() {
@@ -71,26 +69,6 @@ public class Property {
 
     public void setCost(int cost) {
         this.cost = cost;
-    }
-
-    public int getHouseCount() {
-        return houseCount;
-    }
-
-    public void setHouseCount(int houseCount) {
-        this.houseCount = houseCount;
-    }
-
-    public boolean isImprovementAllowed() {
-        return improvementAllowed;
-    }
-
-    public int getHotelCount() {
-        return hotelCount;
-    }
-
-    public void setHotelCount(int hotelCount) {
-        this.hotelCount = hotelCount;
     }
 
     public boolean isMortgaged() {
