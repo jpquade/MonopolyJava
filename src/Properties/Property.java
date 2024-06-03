@@ -1,24 +1,13 @@
 package Properties;
 
-// enumerator for name of piece that owns property
-enum Owner{
-    NONE,
-    DOG,
-    CAT,
-    BATTLESHIP,
-    PENGUIN,
-    RUBBERDUCKY,
-    TOPHAT,
-    RACECAR,
-    THIMBLE;
-}
+import Misc.Owner;
 
-public class Property {
+public abstract class Property {
     // name of property
-    private String name;
+    protected String name;
 
     // cost of property
-    private int cost;
+    protected int cost;
 
     // number of houses on property
     //private int houseCount;
@@ -30,15 +19,19 @@ public class Property {
     //private int hotelCount;
 
     // property is mortgaged or not
-    private boolean mortgaged;
+    protected boolean mortgaged;
 
     // property color
-    private String color;
+    protected String color;
+
+    protected int count;
+
+    protected double rent;
 
     // which player owns the propery
-    private Owner owner;
+    protected Owner owner;
 
-    public Property(String name, int cost, boolean mortgaged, String color, Owner owner) {
+    protected Property(String name, int cost, boolean mortgaged, String color, int count, double rent, Owner owner) {
         this.name = name;
         this.cost = cost;
         this.mortgaged = mortgaged;
@@ -46,7 +39,7 @@ public class Property {
         this.owner = owner;
     }
 
-    public Property(String name, int cost, String color) {
+    protected Property(String name, int cost, String color) {
         this.name = name;
         this.cost = cost;
         this.mortgaged = false;
@@ -81,6 +74,26 @@ public class Property {
 
     public String getColor() {
         return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public double getRent() {
+        return rent;
+    }
+
+    public void setRent(int rent) {
+        this.rent = rent;
     }
 
     public Owner getOwner() {

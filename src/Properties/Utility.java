@@ -19,4 +19,14 @@ public class Utility extends Property{
         utilityCount = 0;
         utilityRent = 25;
     }
+
+    public int rentOneUtility(int diceRoll){
+        // Return 4 * dice roll
+        return  4 * diceRoll;
+    }
+
+    public int rentTwoUtility(int diceRoll){
+        // Return 10 * dice roll
+        return  10 * diceRoll;
+    }
 }
