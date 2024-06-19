@@ -1,51 +1,40 @@
 package Properties;
 
-import Misc.Owner;
+import Enums.Color;
+import Enums.Owner;
+import Enums.PropertyType;
 
-public abstract class Property {
-    // name of property
-    protected String name;
+public class Property {
+    private PropertyType propertyType;
+    private String name;
+    private Color color;
+    private boolean improvementAllowed;
+    private int house;
+    private boolean hotel;
+    private boolean isMortgaged;
+    private int colorCount;
+    private boolean monopoly;
+    private Owner owner;
 
-    // cost of property
-    protected int cost;
-
-    // number of houses on property
-    //private int houseCount;
-
-    // are houses/hotels allowed on this property
-    //private boolean improvementAllowed;
-
-    // number of hotels on property
-    //private int hotelCount;
-
-    // property is mortgaged or not
-    protected boolean mortgaged;
-
-    // property color
-    protected String color;
-
-    protected int count;
-
-    protected double rent;
-
-    // which player owns the propery
-    protected Owner owner;
-
-    protected Property(String name, int cost, boolean mortgaged, String color, int count, double rent, Owner owner) {
+    private Property(PropertyType propertyType, String name, Color color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, int colorCount, boolean monopoly, Owner owner) {
+        this.propertyType = propertyType;
         this.name = name;
-        this.cost = cost;
-        this.mortgaged = mortgaged;
         this.color = color;
+        this.improvementAllowed = improvementAllowed;
+        this.house = house;
+        this.hotel = hotel;
+        this.isMortgaged = isMortgaged;
+        this.colorCount = colorCount;
+        this.monopoly = monopoly;
         this.owner = owner;
     }
 
-    protected Property(String name, int cost, String color) {
-        this.name = name;
-        this.cost = cost;
-        this.mortgaged = false;
-        this.color = color;
-        this.owner = Owner.NONE;
+    public PropertyType getPropertyType() {
+        return propertyType;
+    }
 
+    public void setPropertyType(PropertyType propertyType) {
+        this.propertyType = propertyType;
     }
 
     public String getName() {
@@ -56,44 +45,60 @@ public abstract class Property {
         this.name = name;
     }
 
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public boolean isMortgaged() {
-        return mortgaged;
-    }
-
-    public void setMortgaged(boolean mortgaged) {
-        this.mortgaged = mortgaged;
-    }
-
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
-    public int getCount() {
-        return count;
+    public boolean isImprovementAllowed() {
+        return improvementAllowed;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setImprovementAllowed(boolean improvementAllowed) {
+        this.improvementAllowed = improvementAllowed;
     }
 
-    public double getRent() {
-        return rent;
+    public int getHouse() {
+        return house;
     }
 
-    public void setRent(int rent) {
-        this.rent = rent;
+    public void setHouse(int house) {
+        this.house = house;
+    }
+
+    public boolean isHotel() {
+        return hotel;
+    }
+
+    public void setHotel(boolean hotel) {
+        this.hotel = hotel;
+    }
+
+    public boolean isMortgaged() {
+        return isMortgaged;
+    }
+
+    public void setMortgaged(boolean mortgaged) {
+        isMortgaged = mortgaged;
+    }
+
+    public int getColorCount() {
+        return colorCount;
+    }
+
+    public void setColorCount(int colorCount) {
+        this.colorCount = colorCount;
+    }
+
+    public boolean isMonopoly() {
+        return monopoly;
+    }
+
+    public void setMonopoly(boolean monopoly) {
+        this.monopoly = monopoly;
     }
 
     public Owner getOwner() {
@@ -102,5 +107,89 @@ public abstract class Property {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "propertyType=" + propertyType +
+                ", name='" + name + '\'' +
+                ", color=" + color +
+                ", improvementAllowed=" + improvementAllowed +
+                ", house=" + house +
+                ", hotel=" + hotel +
+                ", isMortgaged=" + isMortgaged +
+                ", colorCount=" + colorCount +
+                ", monopoly=" + monopoly +
+                ", owner=" + owner +
+                '}';
+    }
+
+    public static class PropertyBuilder {
+
+        private PropertyType propertyType;
+        private String name;
+        private Color color;
+        private boolean improvementAllowed;
+        private int house;
+        private boolean hotel;
+        private boolean isMortgaged;
+        private int colorCount;
+        private boolean monopoly;
+        private Owner owner;
+
+        public PropertyBuilder propertyType(PropertyType propertyType) {
+            this.propertyType = propertyType;
+            return this;
+        }
+
+        public PropertyBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public PropertyBuilder color(Color color) {
+            this.color = color;
+            return this;
+        }
+
+        public PropertyBuilder improvementAllowed(boolean improvementAllowed) {
+            this.improvementAllowed = improvementAllowed;
+            return this;
+        }
+
+        public PropertyBuilder house(int house) {
+            this.house = house;
+            return this;
+        }
+
+        public PropertyBuilder hotel(boolean hotel) {
+            this.hotel = hotel;
+            return this;
+        }
+
+        public PropertyBuilder mortgaged(boolean mortgaged) {
+            isMortgaged = mortgaged;
+            return this;
+        }
+
+        public PropertyBuilder colorCount(int colorCount) {
+            this.colorCount = colorCount;
+            return this;
+        }
+
+        public PropertyBuilder monopoly(boolean monopoly) {
+            this.monopoly = monopoly;
+            return this;
+        }
+
+        public PropertyBuilder owner(Owner owner) {
+            this.owner = owner;
+            return this;
+        }
+
+        public Property build() {
+            return new Property(propertyType, name, color, improvementAllowed, house, hotel, isMortgaged, colorCount, monopoly, owner);
+        }
     }
 }

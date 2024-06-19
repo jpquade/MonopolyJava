@@ -1,4 +1,4 @@
-package Misc;
+package Enums;
 
 public enum Owner {
     // enumerator for name of piece that owns property
