@@ -180,7 +180,7 @@ public class PropertyFinancials {
             return this;
         }
 
-        public PropertyFinancialBuilder rortgageCost(int mortgageCost) {
+        public PropertyFinancialBuilder mortgageCost(int mortgageCost) {
             this.mortgageCost = mortgageCost;
             return this;
         }

@@ -1,7 +1,7 @@
 public class Player {
 
     // Player token choice
-    String token;
+    Enum Owner;
     // Location on board by number position
     int location;
     // Cash player has
