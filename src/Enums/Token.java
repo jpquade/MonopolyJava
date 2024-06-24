@@ -1,6 +1,6 @@
 package Enums;
 
-public enum Owner {
+public enum Token {
     // enumerator for name of piece that owns property
     NONE,
     DOG,
