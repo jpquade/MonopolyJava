@@ -4,9 +4,7 @@ public class Player {
 
     // Player token choice
     Token token;
-    // Location on board by number position
     int location;
-    // Cash player has
     double cash;
 
     public Player(Token token, int location, double cash) {
