@@ -97,5 +97,12 @@ public class TurnTracker {
         // dice roll: min = 1, max = 6, + 1 makes max number inclusive
         //int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 
+        int currentPlayer = 0;
+
+        if(currentPlayer == playerList.size() - 1) currentPlayer = 0;
+        else currentPlayer++;
+
+
+
     }
 }
