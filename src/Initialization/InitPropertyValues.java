@@ -9,12 +9,11 @@ import Properties.PropertyFinancials;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InitValues {
+public class InitPropertyValues {
 
     private ArrayList<Property> propertyAttributes;
     private ArrayList<PropertyFinancials> propertyFinancialAttributes;
-    private ArrayList<String> board = new ArrayList<>();
-    public InitValues() {
+    public InitPropertyValues() {
         initializePropertyAttributes();
         initializePropertyFinancialAttributes();
     }
@@ -102,49 +101,6 @@ public class InitValues {
                 new PropertyFinancials.PropertyFinancialBuilder().name("Pennsylvania RailRoad")                 .price(200).mortgageCost(100).build(),
                 new PropertyFinancials.PropertyFinancialBuilder().name("B&O RailRoad")                          .price(200).mortgageCost(100).build(),
                 new PropertyFinancials.PropertyFinancialBuilder().name("Short Line Railroad")                   .price(200).mortgageCost(100).build()
-        ));
-
-        board = new ArrayList<>(Arrays.asList(
-                "GO",
-                "Mediterranean Avenue",
-                "Community Chest",
-                "Baltic Avenue",
-                "Income Tax",
-                "Reading RailRoad",
-                "Oriental Avenue",
-                "Chance",
-                "Vermont Avenue",
-                "Connecticut Avenue",
-                "Jail",
-                "St. Charles Place",
-                "Electric Company",
-                "States Avenue",
-                "Virginia Avenue",
-                "Pennsylvania RailRoad",
-                "St. James Place",
-                "Community Chest",
-                "Tennessee Avenue",
-                "New York Avenue",
-                "Free Parking",
-                "Kentucky Avenue",
-                "Chance",
-                "Indiana Avenue",
-                "Illinois Avenue",
-                "B&O RailRoad",
-                "Atlantic Avenue",
-                "Ventnor Avenue",
-                "Water Works",
-                "Marvin Gardens",
-                "Go To Jail",
-                "Pacific Avenue",
-                "North Carolina Avenue",
-                "Community Chest",
-                "Pennsylvania Avenue",
-                "Short Line Railroad",
-                "Chance",
-                "Park Place",
-                "Luxury Tax",
-                "Boardwalk"
         ));
     }
 

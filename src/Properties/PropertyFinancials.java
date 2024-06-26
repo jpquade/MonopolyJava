@@ -3,7 +3,7 @@ package Properties;
 public class PropertyFinancials {
 
     String name;
-    int price;
+    double price;
     double rent;
     double pricePerHouse;
     double rentOneHouse;
@@ -11,9 +11,9 @@ public class PropertyFinancials {
     double rentThreeHouse;
     double rentFourHouse;
     double rentHotel;
-    int mortgageCost;
+    double mortgageCost;
 
-    private PropertyFinancials(String name, int price, double rent, double pricePerHouse, double rentOneHouse, double rentTwoHouse, double rentThreeHouse, double rentFourHouse, double rentHotel, int mortgageCost) {
+    private PropertyFinancials(String name, double price, double rent, double pricePerHouse, double rentOneHouse, double rentTwoHouse, double rentThreeHouse, double rentFourHouse, double rentHotel, double mortgageCost) {
         this.name = name;
         this.price = price;
         this.rent = rent;
@@ -34,7 +34,7 @@ public class PropertyFinancials {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -98,7 +98,7 @@ public class PropertyFinancials {
         this.rentHotel = rentHotel;
     }
 
-    public int getMortgageCost() {
+    public double getMortgageCost() {
         return mortgageCost;
     }
 
@@ -125,7 +125,7 @@ public class PropertyFinancials {
     public static class PropertyFinancialBuilder{
 
         String name;
-        int price;
+        double price;
         double rent;
         double pricePerHouse;
         double rentOneHouse;
@@ -133,14 +133,14 @@ public class PropertyFinancials {
         double rentThreeHouse;
         double rentFourHouse;
         double rentHotel;
-        int mortgageCost;
+        double mortgageCost;
 
         public PropertyFinancialBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public PropertyFinancialBuilder price(int price) {
+        public PropertyFinancialBuilder price(double price) {
             this.price = price;
             return this;
         }
@@ -180,7 +180,7 @@ public class PropertyFinancials {
             return this;
         }
 
-        public PropertyFinancialBuilder mortgageCost(int mortgageCost) {
+        public PropertyFinancialBuilder mortgageCost(double mortgageCost) {
             this.mortgageCost = mortgageCost;
             return this;
         }

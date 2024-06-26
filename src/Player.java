@@ -34,4 +34,14 @@ public class Player {
     public void setCash(double cash) {
         this.cash = cash;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerNumber=" + playerNumber +
+                ", token=" + token +
+                ", boardLocation=" + boardLocation +
+                ", cash=" + cash +
+                '}';
+    }
 }

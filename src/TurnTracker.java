@@ -1,27 +1,25 @@
+import Data.GameData;
 import Enums.Token;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TurnTracker {
 
     private int numberOfPlayers;
     private final ArrayList<Player> playerList;
     private final ArrayList<String> tokenList;
-    private ArrayList<Integer> randomPlayerList;
     private final Scanner scanner;
 
     public TurnTracker() {
         numberOfPlayers = 0;
         playerList = new ArrayList<>();
         tokenList = new ArrayList<>(Arrays.asList("DOG", "CAT", "BATTLESHIP", "PENGUIN", "RUBBERDUCKY", "TOPHAT", "RACECAR", "THIMBLE"));
-        randomPlayerList = new ArrayList<>();
         scanner = new Scanner(System.in);
     }
 
-    private boolean isInteger(String s) {
+    // checks if string contains a valid number
+    private boolean isNumber(String s) {
         int radix = 10;
 
         if(s.isEmpty()) return false;
@@ -35,52 +33,43 @@ public class TurnTracker {
         return true;
     }
 
-    private boolean between(String s){
-        return Integer.parseInt(s) < 2 || 8 < Integer.parseInt(s);
+    // checks if string converted into number is in a range
+    private boolean checkRange(String s, int lo, int hi){
+        return Integer.parseInt(s) < lo || hi < Integer.parseInt(s);
     }
 
     public void turnProgression(){
 
         String entry = "";
 
-//        do{
-//            System.out.println();
-//            System.out.print("What is the number of players(Make sure to only enter a valid number \"2-8\")? ");
-//            entry = scanner.nextLine().trim();
-//        }
-//        while(!isInteger(entry) || between(entry));
-//
-//        numberOfPlayers = Integer.parseInt(entry);
-        boolean isNumber = false;
-        int value = 0;
-        while(!isInteger(entry) || between(entry)){
+        do{
             System.out.println();
             System.out.print("What is the number of players(Make sure to only enter a valid number \"2-8\")? ");
             entry = scanner.nextLine().trim();
-
-            if(isInteger(entry)){
-
-            }
         }
+        while(!isNumber(entry) || checkRange(entry, 2 , 8));
+
         numberOfPlayers = Integer.parseInt(entry);
 
-        System.out.println();
-
         for (int index = 0; index < numberOfPlayers; index++){
-            System.out.println();
-            System.out.println("########################################################");
-            System.out.println(STR."Player \{index + 1}, which token do you want to use?");
-            System.out.println();
+            int playerNumber = index + 1;
+            do{
+                System.out.println();
+                System.out.println("########################################################");
+                System.out.println(STR."Player \{index + 1}, which token do you want to use?");
+                System.out.println();
 
-            for(int tokenIndex = 0; tokenIndex < tokenList.size(); tokenIndex++){
-                System.out.println(STR."\{tokenIndex}: \{tokenList.get(tokenIndex)}");
+                for(int tokenIndex = 0; tokenIndex < tokenList.size(); tokenIndex++){
+                    System.out.println(STR."\{tokenIndex}: \{tokenList.get(tokenIndex)}");
+                }
+
+                System.out.println();
+                System.out.print("Enter the valid number of the token you want to use: ");
+                entry = scanner.nextLine().trim();
             }
-                int playerNumber = index + 1;
+            while(!isNumber(entry) || checkRange(entry, 0, tokenList.size() - 1));
 
-            System.out.println();
-            System.out.print("Enter the number of the token you want to use: ");
-
-            int tokenNumber = Integer.parseInt(scanner.nextLine().trim());
+            int tokenNumber = Integer.parseInt(entry);
 
             playerList.add(new Player(playerNumber, Token.valueOf(tokenList.get(tokenNumber)),0,1500));
             tokenList.remove(tokenNumber);
@@ -90,14 +79,23 @@ public class TurnTracker {
         }
 
         System.out.println();
-        Iterator<Player> iterator = playerList.iterator();
+        System.out.println("########################################################");
+        System.out.println("Shuffling player order");
 
-//        while(iterator.hasNext()){
-//            System.out.println(iterator.next() + " ");
-//        }
-        // randomize which player starts
+        Collections.shuffle(playerList);
 
+        System.out.println();
 
+        for (Player player : playerList) {
+            System.out.println(player.toString());
+        }
+
+        boolean gameContinues = true;
+
+        GameData gameData = new GameData();
+
+        // dice roll: min = 1, max = 6, + 1 makes max number inclusive
+        //int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 
     }
 }
