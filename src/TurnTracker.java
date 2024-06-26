@@ -38,6 +38,12 @@ public class TurnTracker {
         return Integer.parseInt(s) < lo || hi < Integer.parseInt(s);
     }
 
+    private void jailOptionGenerator(){
+
+    }
+
+
+
     public void turnProgression(){
 
         String entry = "";
@@ -71,7 +77,7 @@ public class TurnTracker {
 
             int tokenNumber = Integer.parseInt(entry);
 
-            playerList.add(new Player(playerNumber, Token.valueOf(tokenList.get(tokenNumber)),0,1500));
+            playerList.add(new Player(playerNumber, Token.valueOf(tokenList.get(tokenNumber)),0,1500, false, 0, 0));
             tokenList.remove(tokenNumber);
 
             System.out.println();
@@ -86,23 +92,59 @@ public class TurnTracker {
 
         System.out.println();
 
-        for (Player player : playerList) {
-            System.out.println(player.toString());
-        }
-
         boolean gameContinues = true;
 
         GameData gameData = new GameData();
 
-        // dice roll: min = 1, max = 6, + 1 makes max number inclusive
-        //int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+        int currentPlayerIndex = 0;
 
-        int currentPlayer = 0;
+        if(currentPlayerIndex == playerList.size() - 1) currentPlayerIndex = 0;
+        else currentPlayerIndex++;
 
-        if(currentPlayer == playerList.size() - 1) currentPlayer = 0;
-        else currentPlayer++;
+        System.out.println();
+        System.out.println(STR."\{playerList.get(currentPlayerIndex).getToken()}'S TURN");
 
+        ArrayList<String> jailOptions = new ArrayList<>();
+        jailOptions.add("Would you like to use your \"Get Out of Jail Free\" card?");
+        jailOptions.add("Would you like to pay $50 to leave jail?");
+        jailOptions.add("Would you like to roll the dice?");
 
+        if(playerList.get(currentPlayerIndex).isInJail()) {
+            if (playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() > 0){
+                do {
+                    System.out.println();
+                    System.out.println(STR."1: \{jailOptions.get(0)}");
+                    System.out.println(STR."2: \{jailOptions.get(1)}");
+                    System.out.println(STR."3: \{jailOptions.get(2)}");
+                    System.out.print("Please enter a valid selection:  ");
+                    entry = scanner.nextLine().trim().toLowerCase();
+
+                }
+                while (!isNumber(entry) && !checkRange(entry, 1,3));
+
+            }
+            int jailSelection = Integer.parseInt(entry);
+
+            switch(jailSelection){
+                case 1:
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        System.out.println();
+        System.out.println("Rolling dice");
+
+        int diceOne = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
+        int diceTwo = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
+        System.out.println(STR."First Dice Roll:  \{diceOne}");
+        System.out.println(STR."Second Dice Roll: \{diceTwo}");
 
     }
 }
