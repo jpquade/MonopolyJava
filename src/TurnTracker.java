@@ -42,6 +42,128 @@ public class TurnTracker {
 
     }
 
+    private void isInJail(int currentPlayerIndex, String entry){
+        // checks if player is in jail
+        if(playerList.get(currentPlayerIndex).isInJail()) {
+
+            // increases the in jail counter every turn that player is in jail
+            playerList.get(currentPlayerIndex).setTimeInJail(playerList.get(currentPlayerIndex).getTimeInJail() + 1);
+
+            // if player has get out of jail card / and time in jail is less than 3
+            if (playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() > 0 && playerList.get(currentPlayerIndex).getTimeInJail() <= 3) {
+
+                do {
+                    System.out.println();
+                    System.out.println(STR."1: Use your \"Get Out of Jail Free\" card?");
+                    System.out.println(STR."2: Pay $50 to leave jail?");
+                    System.out.println(STR."3: Roll the dice?");
+                    System.out.print("Please enter a valid selection:  ");
+                    entry = scanner.nextLine().trim().toLowerCase();
+
+                }
+                while (!isNumber(entry) && !checkRange(entry, 1, 3));
+
+                int jailSelection = Integer.parseInt(entry);
+
+                switch (jailSelection) {
+                    // use get out of jail free card
+                    case 1:
+                        playerList.get(currentPlayerIndex).setGetOutOfJailFreeCount(playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() - 1);
+                        playerList.get(currentPlayerIndex).setInJail(false);
+                        playerList.get(currentPlayerIndex).setBoardLocation(10);
+                        playerList.get(currentPlayerIndex).setDoubleDiceCount(0);
+                        break;
+                    // attempt to pay to get out of jail
+                    case 2:
+                        if (playerList.get(currentPlayerIndex).getCash() < 50) {
+
+                            do {
+                                System.out.println("Insufficient funds");
+                                System.out.println("1: Return to main Jail Options");
+                                System.out.println("2: Raise money");
+                                System.out.print("Please enter a valid selection:  ");
+                                entry = scanner.nextLine().trim().toLowerCase();
+                            }
+                            while (!isNumber(entry) && !checkRange(entry, 1, 2));
+
+                            int getOutofJailSelection = Integer.parseInt(entry);
+
+                            switch(getOutofJailSelection){
+                                case 1:
+                                    return;
+                                case 2:
+
+
+                            }
+                        }
+                        else{
+                            playerList.get(currentPlayerIndex).setCash(playerList.get(currentPlayerIndex).getCash() - 50);
+                            playerList.get(currentPlayerIndex).setInJail(false);
+                            playerList.get(currentPlayerIndex).setBoardLocation(10);
+                        }
+                        break;
+                    // attempt to roll to get out of jail
+                    case 3:
+                        System.out.println();
+                        System.out.println("Rolling dice");
+
+                        int diceOne = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
+                        int diceTwo = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
+                        System.out.println(STR."First Dice Roll:  \{diceOne}");
+                        System.out.println(STR."Second Dice Roll: \{diceTwo}");
+
+                        // player rolled doubles and left jail
+                        if(playerList.get(currentPlayerIndex).getTimeInJail() == 3){
+                            if(diceOne == diceTwo){
+                                playerList.get(currentPlayerIndex).setInJail(false);
+                                playerList.get(currentPlayerIndex).setBoardLocation(10);
+                            }
+                            // player has to pay to get out of jail after 3rd roll
+                            else{
+                                do {
+                                    System.out.println("Insufficient funds");
+                                    System.out.println("Raise money");
+                                    System.out.println("####################");
+                                    // ways to raise funds
+                                    System.out.println("1. Mortgage Property");
+                                    System.out.println("2. Sell Improvements");
+                                    System.out.println("3. Sell Property");
+                                    System.out.print("Please enter a valid selection:  ");
+
+                                    entry = scanner.nextLine().trim().toLowerCase();
+                                }
+                                while (!isNumber(entry) && !checkRange(entry, 1, 2));
+
+                                int paymentOptions = Integer.parseInt(entry);
+
+                                switch(paymentOptions){
+                                    case 1:
+//                                        if(playerList.get(currentPlayerIndex).)
+                                }
+
+                            }
+                        }
+                        break;
+
+
+                }
+            } else {
+                do {
+                    System.out.println();
+
+                    System.out.println(STR."1: Would you like to pay $50 to leave jail?");
+                    System.out.println(STR."2: Would you like to roll the dice?");
+                    System.out.print("Please enter a valid selection:  ");
+                    entry = scanner.nextLine().trim().toLowerCase();
+
+                }
+                while (!isNumber(entry) && !checkRange(entry, 1, 2));
+            }
+        }
+    }
+
 
 
     public void turnProgression(){
@@ -77,7 +199,7 @@ public class TurnTracker {
 
             int tokenNumber = Integer.parseInt(entry);
 
-            playerList.add(new Player(playerNumber, Token.valueOf(tokenList.get(tokenNumber)),0,1500, false, 0, 0));
+            playerList.add(new Player(playerNumber, Token.valueOf(tokenList.get(tokenNumber)),0,1500, false, 0, 0,0));
             tokenList.remove(tokenNumber);
 
             System.out.println();
@@ -104,53 +226,9 @@ public class TurnTracker {
         System.out.println();
         System.out.println(STR."\{playerList.get(currentPlayerIndex).getToken()}'S TURN");
 
-        if(playerList.get(currentPlayerIndex).isInJail()) {
-            if (playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() > 0){
-                entry = "IncludeFree";
-
-                do {
-                    System.out.println();
-                    System.out.println(STR."1: Would you like to use your \"Get Out of Jail Free\" card?");
-                    System.out.println(STR."2: Would you like to pay $50 to leave jail?");
-                    System.out.println(STR."3: Would you like to roll the dice?");
-                    System.out.print("Please enter a valid selection:  ");
-                    entry = scanner.nextLine().trim().toLowerCase();
-
-                }
-                while (!isNumber(entry) && !checkRange(entry, 1,3));
-
-                int jailSelection = Integer.parseInt(entry);
-
-                switch(jailSelection){
-                    case 1:
-                        playerList.get(currentPlayerIndex).setGetOutOfJailFreeCount(playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() - 1);
-                        playerList.get(currentPlayerIndex)
-                    break;
-                }
-            }
-            else{
-                do {
-                    System.out.println();
-
-                    System.out.println(STR."1: Would you like to pay $50 to leave jail?");
-                    System.out.println(STR."2: Would you like to roll the dice?");
-                    System.out.print("Please enter a valid selection:  ");
-                    entry = scanner.nextLine().trim().toLowerCase();
-
-                }
-                while (!isNumber(entry) && !checkRange(entry, 1,2));
-            }
-
-            int index = 0;
-            switch(jailSelection){
-                case "IncludeFree":
-                    playerList.get(currentPlayerIndex).setGetOutOfJailFreeCount(playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() - 1);
-                    index = 0;
-                    break;
-                case "NoFree":
-                    index = 1;
-                    break;
-            }
+        // checks if player is in jail and remains in while loop until it is resolved
+        while(playerList.get(currentPlayerIndex).isInJail()){
+            isInJail(currentPlayerIndex, entry);
         }
 
         System.out.println();

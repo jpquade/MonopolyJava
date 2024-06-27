@@ -9,8 +9,9 @@ public class Player {
     private boolean inJail;
     private int doubleDiceCount;
     private int getOutOfJailFreeCount;
+    private int timeInJail;
 
-    public Player(int playerNumber, Token token, int boardLocation, double cash, boolean inJail, int doubleDiceCount, int getOutOfJailFreeCount) {
+    public Player(int playerNumber, Token token, int boardLocation, double cash, boolean inJail, int doubleDiceCount, int getOutOfJailFreeCount, int timeInJail) {
         this.playerNumber = playerNumber;
         this.token = token;
         this.boardLocation = boardLocation;
@@ -18,6 +19,7 @@ public class Player {
         this.inJail = inJail;
         this.doubleDiceCount = doubleDiceCount;
         this.getOutOfJailFreeCount = getOutOfJailFreeCount;
+        this.timeInJail = timeInJail;
     }
 
     public int getPlayerNumber() { return playerNumber;}
@@ -59,4 +61,8 @@ public class Player {
     public int getGetOutOfJailFreeCount() {return getOutOfJailFreeCount;}
 
     public void setGetOutOfJailFreeCount(int getOutOfJailFreeCount) {this.getOutOfJailFreeCount = getOutOfJailFreeCount;}
+
+    public int getTimeInJail() {return timeInJail;}
+
+    public void setTimeInJail(int timeInJail) {this.timeInJail = timeInJail;}
 }
