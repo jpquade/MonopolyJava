@@ -109,8 +109,12 @@ public class TurnTracker {
         jailOptions.add("Would you like to pay $50 to leave jail?");
         jailOptions.add("Would you like to roll the dice?");
 
+        String jailSelection = "";
+
         if(playerList.get(currentPlayerIndex).isInJail()) {
             if (playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() > 0){
+                jailSelection = "IncludeFree";
+
                 do {
                     System.out.println();
                     System.out.println(STR."1: \{jailOptions.get(0)}");
@@ -121,17 +125,17 @@ public class TurnTracker {
 
                 }
                 while (!isNumber(entry) && !checkRange(entry, 1,3));
-
             }
-            int jailSelection = Integer.parseInt(entry);
+            else jailSelection = "NoFree";
 
+            int index = 0;
             switch(jailSelection){
-                case 1:
-
+                case "IncludeFree":
+                    playerList.get(currentPlayerIndex).setGetOutOfJailFreeCount(playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() - 1);
+                    index = 0;
                     break;
-                case 2:
-                    break;
-                case 3:
+                case "NoFree":
+                    index = 1;
                     break;
             }
         }
