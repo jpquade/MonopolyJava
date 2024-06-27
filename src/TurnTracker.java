@@ -104,29 +104,42 @@ public class TurnTracker {
         System.out.println();
         System.out.println(STR."\{playerList.get(currentPlayerIndex).getToken()}'S TURN");
 
-        ArrayList<String> jailOptions = new ArrayList<>();
-        jailOptions.add("Would you like to use your \"Get Out of Jail Free\" card?");
-        jailOptions.add("Would you like to pay $50 to leave jail?");
-        jailOptions.add("Would you like to roll the dice?");
-
-        String jailSelection = "";
-
         if(playerList.get(currentPlayerIndex).isInJail()) {
             if (playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() > 0){
-                jailSelection = "IncludeFree";
+                entry = "IncludeFree";
 
                 do {
                     System.out.println();
-                    System.out.println(STR."1: \{jailOptions.get(0)}");
-                    System.out.println(STR."2: \{jailOptions.get(1)}");
-                    System.out.println(STR."3: \{jailOptions.get(2)}");
+                    System.out.println(STR."1: Would you like to use your \"Get Out of Jail Free\" card?");
+                    System.out.println(STR."2: Would you like to pay $50 to leave jail?");
+                    System.out.println(STR."3: Would you like to roll the dice?");
                     System.out.print("Please enter a valid selection:  ");
                     entry = scanner.nextLine().trim().toLowerCase();
 
                 }
                 while (!isNumber(entry) && !checkRange(entry, 1,3));
+
+                int jailSelection = Integer.parseInt(entry);
+
+                switch(jailSelection){
+                    case 1:
+                        playerList.get(currentPlayerIndex).setGetOutOfJailFreeCount(playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() - 1);
+                        playerList.get(currentPlayerIndex)
+                    break;
+                }
             }
-            else jailSelection = "NoFree";
+            else{
+                do {
+                    System.out.println();
+
+                    System.out.println(STR."1: Would you like to pay $50 to leave jail?");
+                    System.out.println(STR."2: Would you like to roll the dice?");
+                    System.out.print("Please enter a valid selection:  ");
+                    entry = scanner.nextLine().trim().toLowerCase();
+
+                }
+                while (!isNumber(entry) && !checkRange(entry, 1,2));
+            }
 
             int index = 0;
             switch(jailSelection){
