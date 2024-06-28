@@ -1,5 +1,6 @@
 import Data.GameData;
 import Enums.Token;
+import Properties.Property;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,12 +11,14 @@ public class TurnTracker {
     private final ArrayList<Player> playerList;
     private final ArrayList<String> tokenList;
     private final Scanner scanner;
+    private final GameData gameData;
 
     public TurnTracker() {
         numberOfPlayers = 0;
         playerList = new ArrayList<>();
         tokenList = new ArrayList<>(Arrays.asList("DOG", "CAT", "BATTLESHIP", "PENGUIN", "RUBBERDUCKY", "TOPHAT", "RACECAR", "THIMBLE"));
         scanner = new Scanner(System.in);
+        gameData = new GameData();
     }
 
     // checks if string contains a valid number
@@ -140,7 +143,16 @@ public class TurnTracker {
 
                                 switch(paymentOptions){
                                     case 1:
-//                                        if(playerList.get(currentPlayerIndex).)
+                                        ArrayList<Property> checkMortgaged = new ArrayList<>();
+                                        for(Property property: gameData.getPropertyMap().values()){
+                                            if(!property.isMortgaged() && property.getOwner() == playerList.get(currentPlayerIndex).getToken()){
+                                                System.out.println(STR."\{property.getName()} mortgage amount: \{gameData.getPropertyFinancialsMap().get(property.getName()).getMortgageAmount()}");
+
+                                                System.out.println(gameData.getPropertyFinancialsMap().get(property.getName()).toString());
+
+                                            }
+                                        }
+                                        break;
                                 }
 
                             }

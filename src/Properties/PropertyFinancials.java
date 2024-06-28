@@ -11,9 +11,9 @@ public class PropertyFinancials {
     double rentThreeHouse;
     double rentFourHouse;
     double rentHotel;
-    double mortgageCost;
+    double mortgageAmount;
 
-    private PropertyFinancials(String name, double price, double rent, double pricePerHouse, double rentOneHouse, double rentTwoHouse, double rentThreeHouse, double rentFourHouse, double rentHotel, double mortgageCost) {
+    private PropertyFinancials(String name, double price, double rent, double pricePerHouse, double rentOneHouse, double rentTwoHouse, double rentThreeHouse, double rentFourHouse, double rentHotel, double mortgageAmount) {
         this.name = name;
         this.price = price;
         this.rent = rent;
@@ -23,7 +23,7 @@ public class PropertyFinancials {
         this.rentThreeHouse = rentThreeHouse;
         this.rentFourHouse = rentFourHouse;
         this.rentHotel = rentHotel;
-        this.mortgageCost = mortgageCost;
+        this.mortgageAmount = mortgageAmount;
     }
 
     public String getName() {
@@ -98,12 +98,12 @@ public class PropertyFinancials {
         this.rentHotel = rentHotel;
     }
 
-    public double getMortgageCost() {
-        return mortgageCost;
+    public double getMortgageAmount() {
+        return mortgageAmount;
     }
 
-    public void setMortgageCost(int mortgageCost) {
-        this.mortgageCost = mortgageCost;
+    public void setMortgageAmount(int mortgageAmount) {
+        this.mortgageAmount = mortgageAmount;
     }
 
     @Override
@@ -118,7 +118,7 @@ public class PropertyFinancials {
                 ", rentThreeHouse=" + rentThreeHouse +
                 ", rentFourHouse=" + rentFourHouse +
                 ", rentHotel=" + rentHotel +
-                ", mortgageCost=" + mortgageCost +
+                ", mortgageAmount=" + mortgageAmount +
                 '}';
     }
 
