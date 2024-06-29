@@ -1,6 +1,7 @@
 import Data.GameData;
 import Enums.Token;
-import Properties.Property;
+import Properties.*;
+
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -82,8 +83,8 @@ public class TurnTracker {
 
                             do {
                                 System.out.println("Insufficient funds");
-                                System.out.println("1: Return to main Jail Options");
-                                System.out.println("2: Raise money");
+                                System.out.println("1: Raise money");
+                                System.out.println("2: Return to main Jail Options");
                                 System.out.print("Please enter a valid selection:  ");
                                 entry = scanner.nextLine().trim().toLowerCase();
                             }
@@ -93,9 +94,9 @@ public class TurnTracker {
 
                             switch(getOutofJailSelection){
                                 case 1:
-                                    return;
-                                case 2:
 
+                                case 2:
+                                    return;
 
                             }
                         }
@@ -133,6 +134,7 @@ public class TurnTracker {
                                     System.out.println("1. Mortgage Property");
                                     System.out.println("2. Sell Improvements");
                                     System.out.println("3. Sell Property");
+                                    System.out.println("4: Return to main Jail Options");
                                     System.out.print("Please enter a valid selection:  ");
 
                                     entry = scanner.nextLine().trim().toLowerCase();
@@ -143,17 +145,49 @@ public class TurnTracker {
 
                                 switch(paymentOptions){
                                     case 1:
-                                        ArrayList<Property> checkMortgaged = new ArrayList<>();
+
+                                        System.out.println("List of un-mortgaged properties you own:");
+                                        System.out.println();
+
+                                        int i = 0;
+
+                                        ArrayList<PropertyFinancials> listOfUnMortgaged = new ArrayList<>();
+
                                         for(Property property: gameData.getPropertyMap().values()){
                                             if(!property.isMortgaged() && property.getOwner() == playerList.get(currentPlayerIndex).getToken()){
-                                                System.out.println(STR."\{property.getName()} mortgage amount: \{gameData.getPropertyFinancialsMap().get(property.getName()).getMortgageAmount()}");
-
-                                                System.out.println(gameData.getPropertyFinancialsMap().get(property.getName()).toString());
-
+                                                System.out.println(STR."\{i + 1}: \{property.getName()} mortgage amount: \{gameData.getPropertyFinancialsMap().get(property.getName()).getMortgageAmount()}");
+                                                listOfUnMortgaged.add(gameData.getPropertyFinancialsMap().get(property.getName()));
                                             }
+
+                                            i++;
                                         }
+
+                                        System.out.println(STR."\{i + 1}: Return to main Jail Options");
+
+                                        System.out.println("Select which property you want to mortgage.");
+
+                                        do {
+                                            System.out.print("Please enter a valid selection:  ");
+                                            entry = scanner.nextLine().trim().toLowerCase();
+                                        }
+                                        while (!isNumber(entry) && !checkRange(entry, i, i + 1));
+
+                                        int selection = Integer.parseInt(entry) - 1;
+
+                                        if( 0 <= selection && selection <= i){
+                                            playerList.get(currentPlayerIndex).setCash(playerList.get(currentPlayerIndex).getCash() + gameData.getPropertyFinancialsMap().get(listOfUnMortgaged.get(selection).getName()).getMortgageAmount());
+                                            gameData.getPropertyMap().get(listOfUnMortgaged.get(selection).getName()).setMortgaged(true);
+                                            System.out.println(STR."\{playerList.get(currentPlayerIndex).getToken()} current cash: \{playerList.get(currentPlayerIndex).getCash()}");
+                                        }
+                                        else return;
+
                                         break;
+                                    case 4:
+                                        return;
                                 }
+
+                                // find and offer improvements to sell
+                                // find properties to sell to other players
 
                             }
                         }
