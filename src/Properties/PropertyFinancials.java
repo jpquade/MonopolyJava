@@ -3,21 +3,22 @@ package Properties;
 public class PropertyFinancials {
 
     String name;
-    double price;
-    double rent;
-    double pricePerHouse;
-    double rentOneHouse;
-    double rentTwoHouse;
-    double rentThreeHouse;
-    double rentFourHouse;
-    double rentHotel;
-    double mortgageAmount;
+    int price;
+    int rent;
+    int pricePerImprovement;
+    int rentOneHouse;
+    int rentTwoHouse;
+    int rentThreeHouse;
+    int rentFourHouse;
+    int rentHotel;
+    int mortgageAmount;
 
-    private PropertyFinancials(String name, double price, double rent, double pricePerHouse, double rentOneHouse, double rentTwoHouse, double rentThreeHouse, double rentFourHouse, double rentHotel, double mortgageAmount) {
+    public PropertyFinancials(String name, int price, int rent, int pricePerImprovement, int rentOneHouse, int rentTwoHouse,
+                              int rentThreeHouse, int rentFourHouse, int rentHotel, int mortgageAmount) {
         this.name = name;
         this.price = price;
         this.rent = rent;
-        this.pricePerHouse = pricePerHouse;
+        this.pricePerImprovement = pricePerImprovement;
         this.rentOneHouse = rentOneHouse;
         this.rentTwoHouse = rentTwoHouse;
         this.rentThreeHouse = rentThreeHouse;
@@ -34,7 +35,7 @@ public class PropertyFinancials {
         this.name = name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -42,63 +43,63 @@ public class PropertyFinancials {
         this.price = price;
     }
 
-    public double getRent() {
+    public int getRent() {
         return rent;
     }
 
-    public void setRent(double rent) {
+    public void setRent(int rent) {
         this.rent = rent;
     }
 
-    public double getPricePerHouse() {
-        return pricePerHouse;
+    public int getPricePerImprovement() {
+        return pricePerImprovement;
     }
 
-    public void setPricePerHouse(double pricePerHouse) {
-        this.pricePerHouse = pricePerHouse;
+    public void setPricePerImprovement(int pricePerImprovement) {
+        this.pricePerImprovement = pricePerImprovement;
     }
 
-    public double getRentOneHouse() {
+    public int getRentOneHouse() {
         return rentOneHouse;
     }
 
-    public void setRentOneHouse(double rentOneHouse) {
+    public void setRentOneHouse(int rentOneHouse) {
         this.rentOneHouse = rentOneHouse;
     }
 
-    public double getRentTwoHouse() {
+    public int getRentTwoHouse() {
         return rentTwoHouse;
     }
 
-    public void setRentTwoHouse(double rentTwoHouse) {
+    public void setRentTwoHouse(int rentTwoHouse) {
         this.rentTwoHouse = rentTwoHouse;
     }
 
-    public double getRentThreeHouse() {
+    public int getRentThreeHouse() {
         return rentThreeHouse;
     }
 
-    public void setRentThreeHouse(double rentThreeHouse) {
+    public void setRentThreeHouse(int rentThreeHouse) {
         this.rentThreeHouse = rentThreeHouse;
     }
 
-    public double getRentFourHouse() {
+    public int getRentFourHouse() {
         return rentFourHouse;
     }
 
-    public void setRentFourHouse(double rentFourHouse) {
+    public void setRentFourHouse(int rentFourHouse) {
         this.rentFourHouse = rentFourHouse;
     }
 
-    public double getRentHotel() {
+    public int getRentHotel() {
         return rentHotel;
     }
 
-    public void setRentHotel(double rentHotel) {
+    public void setRentHotel(int rentHotel) {
         this.rentHotel = rentHotel;
     }
 
-    public double getMortgageAmount() {
+    public int getMortgageAmount() {
         return mortgageAmount;
     }
 
@@ -112,7 +113,7 @@ public class PropertyFinancials {
                 "name='" + name + '\'' +
                 ", price=" + price +
                 ", rent=" + rent +
-                ", pricePerHouse=" + pricePerHouse +
+                ", pricePerHouse=" + pricePerImprovement +
                 ", rentOneHouse=" + rentOneHouse +
                 ", rentTwoHouse=" + rentTwoHouse +
                 ", rentThreeHouse=" + rentThreeHouse +
@@ -125,68 +126,69 @@ public class PropertyFinancials {
     public static class PropertyFinancialBuilder{
 
         String name;
-        double price;
-        double rent;
-        double pricePerHouse;
-        double rentOneHouse;
-        double rentTwoHouse;
-        double rentThreeHouse;
-        double rentFourHouse;
-        double rentHotel;
-        double mortgageCost;
+        int price;
+        int rent;
+        int pricePerImprovement;
+        int rentOneHouse;
+        int rentTwoHouse;
+        int rentThreeHouse;
+        int rentFourHouse;
+        int rentHotel;
+        int mortgageCost;
 
         public PropertyFinancialBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public PropertyFinancialBuilder price(double price) {
+        public PropertyFinancialBuilder price(int price) {
             this.price = price;
             return this;
         }
 
-        public PropertyFinancialBuilder rent(double rent) {
+        public PropertyFinancialBuilder rent(int rent) {
             this.rent = rent;
             return this;
         }
 
-        public PropertyFinancialBuilder pricePerHouse(double pricePerHouse) {
-            this.pricePerHouse = pricePerHouse;
+        public PropertyFinancialBuilder pricePerImprovement(int pricePerImprovement) {
+            this.pricePerImprovement = pricePerImprovement;
             return this;
         }
 
-        public PropertyFinancialBuilder rentOneHouse(double rentOneHouse) {
+        public PropertyFinancialBuilder rentOneHouse(int rentOneHouse) {
             this.rentOneHouse = rentOneHouse;
             return this;
         }
 
-        public PropertyFinancialBuilder rentTwoHouse(double rentTwoHouse) {
+        public PropertyFinancialBuilder rentTwoHouse(int rentTwoHouse) {
             this.rentTwoHouse = rentTwoHouse;
             return this;
         }
 
-        public PropertyFinancialBuilder rentThreeHouse(double rentThreeHouse) {
+        public PropertyFinancialBuilder rentThreeHouse(int rentThreeHouse) {
             this.rentThreeHouse = rentThreeHouse;
             return this;
         }
 
-        public PropertyFinancialBuilder rentFourHouse(double rentFourHouse) {
+        public PropertyFinancialBuilder rentFourHouse(int rentFourHouse) {
             this.rentFourHouse = rentFourHouse;
             return this;
         }
 
-        public PropertyFinancialBuilder rentHotel(double rentHotel) {
+        public PropertyFinancialBuilder rentHotel(int rentHotel) {
             this.rentHotel = rentHotel;
             return this;
         }
 
-        public PropertyFinancialBuilder mortgageCost(double mortgageCost) {
+        public PropertyFinancialBuilder mortgageCost(int mortgageCost) {
             this.mortgageCost = mortgageCost;
             return this;
         }
 
         public PropertyFinancials build(){
-            return new PropertyFinancials(name,  price,  rent,  pricePerHouse,  rentOneHouse,  rentTwoHouse,  rentThreeHouse,  rentFourHouse,  rentHotel,  mortgageCost);
+            return new PropertyFinancials(name,  price,  rent, pricePerImprovement,  rentOneHouse,  rentTwoHouse,
+                    rentThreeHouse,  rentFourHouse, rentHotel,  mortgageCost);
         }
     }
 }

@@ -204,6 +204,24 @@ public class TurnTracker {
 
                                         ArrayList<String> listOfImproved = new ArrayList<>();
 
+                                        for(Property property: gameData.getPropertyMap().values()){
+                                            if(property.getHouse() > 0 || property.isHotel()){
+
+                                                if(property.getHouse() > 0){
+                                                    System.out.println(STR."\{i + 1}: \{property.getName()} has  \{gameData
+                                                            .getPropertyMap().get(property.getName()).getHouse()} house(s) that sell for \{gameData
+                                                            .getPropertyFinancialsMap().get(property.getName()).getPricePerImprovement() / 2} each}");
+                                                }
+                                                else{
+                                                    System.out.println(STR."\{i + 1}: \{property.getName()} has a \{gameData
+                                                            .getPropertyMap().get(property.getName()).isHotel()} hotel that sells for \{gameData
+                                                            .getPropertyFinancialsMap().get(property.getName()).getPricePerImprovement() / 2}.}");
+                                                }
+                                                listOfImproved.add(property.getName());
+                                            }
+                                            i++;
+                                        }
+
                                         break;
                                     case 3:
                                         // find properties to sell to other players
