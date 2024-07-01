@@ -72,7 +72,8 @@ public class TurnTracker {
                 switch (jailSelection) {
                     // use get out of jail free card
                     case 1:
-                        playerList.get(currentPlayerIndex).setGetOutOfJailFreeCount(playerList.get(currentPlayerIndex).getGetOutOfJailFreeCount() - 1);
+                        playerList.get(currentPlayerIndex).setGetOutOfJailFreeCount(playerList.get(currentPlayerIndex)
+                                .getGetOutOfJailFreeCount() - 1);
                         playerList.get(currentPlayerIndex).setInJail(false);
                         playerList.get(currentPlayerIndex).setBoardLocation(10);
                         playerList.get(currentPlayerIndex).setDoubleDiceCount(0);
@@ -141,6 +142,8 @@ public class TurnTracker {
                                 }
                                 while (!isNumber(entry) && !checkRange(entry, 1, 2));
 
+                                // index to keep track of element number
+                                int i;
                                 int paymentOptions = Integer.parseInt(entry);
 
                                 switch(paymentOptions){
@@ -149,19 +152,18 @@ public class TurnTracker {
                                         System.out.println("List of un-mortgaged properties you own:");
                                         System.out.println();
 
-                                        int i = 0;
+                                        i = 0;
 
-                                        ArrayList<PropertyFinancials> listOfUnMortgaged = new ArrayList<>();
+                                        ArrayList<String> listOfUnMortgaged = new ArrayList<>();
 
                                         for(Property property: gameData.getPropertyMap().values()){
                                             if(!property.isMortgaged() && property.getOwner() == playerList.get(currentPlayerIndex).getToken()){
-                                                System.out.println(STR."\{i + 1}: \{property.getName()} mortgage amount: \{gameData.getPropertyFinancialsMap().get(property.getName()).getMortgageAmount()}");
-                                                listOfUnMortgaged.add(gameData.getPropertyFinancialsMap().get(property.getName()));
+                                                System.out.println(STR."\{i + 1}: \{property.getName()} mortgage amount: \{gameData
+                                                        .getPropertyFinancialsMap().get(property.getName()).getMortgageAmount()}");
+                                                listOfUnMortgaged.add(property.getName());
                                             }
-
                                             i++;
                                         }
-
                                         System.out.println(STR."\{i + 1}: Return to main Jail Options");
 
                                         System.out.println("Select which property you want to mortgage.");
@@ -172,22 +174,45 @@ public class TurnTracker {
                                         }
                                         while (!isNumber(entry) && !checkRange(entry, i, i + 1));
 
-                                        int selection = Integer.parseInt(entry) - 1;
+                                        int mortgageSelection = Integer.parseInt(entry) - 1;
 
-                                        if( 0 <= selection && selection <= i){
-                                            playerList.get(currentPlayerIndex).setCash(playerList.get(currentPlayerIndex).getCash() + gameData.getPropertyFinancialsMap().get(listOfUnMortgaged.get(selection).getName()).getMortgageAmount());
-                                            gameData.getPropertyMap().get(listOfUnMortgaged.get(selection).getName()).setMortgaged(true);
-                                            System.out.println(STR."\{playerList.get(currentPlayerIndex).getToken()} current cash: \{playerList.get(currentPlayerIndex).getCash()}");
+                                        if( 0 <= mortgageSelection && mortgageSelection <= i){
+                                            // set player cash (current player cash + mortgage amt)
+                                            playerList.get(currentPlayerIndex).setCash(playerList.get(currentPlayerIndex)
+                                                    .getCash() + gameData.getPropertyFinancialsMap().get(listOfUnMortgaged
+                                                    .get(mortgageSelection)).getMortgageAmount());
+                                            // mortgage property set to true
+                                            gameData.getPropertyMap().get(listOfUnMortgaged.get(mortgageSelection)).setMortgaged(true);
+
+                                            System.out.println(STR."Mortgaged \{listOfUnMortgaged.get(mortgageSelection)} and added \{gameData
+                                                    .getPropertyFinancialsMap().get(listOfUnMortgaged.get(mortgageSelection)).getMortgageAmount()} to wallet.");
+                                            System.out.println(STR."\{playerList.get(currentPlayerIndex)
+                                                    .getToken()}'S current cash: \{playerList.get(currentPlayerIndex).getCash()}");
                                         }
+                                        // return to main jail options if elected.
                                         else return;
 
+                                        break;
+                                    case 2:
+                                        // find and offer improvements to sell
+
+                                        System.out.println("List of improved properties you own:");
+                                        System.out.println();
+
+                                        // index to keep track of element number within listOfUnMortgaged
+                                        i = 0;
+
+                                        ArrayList<String> listOfImproved = new ArrayList<>();
+
+                                        break;
+                                    case 3:
+                                        // find properties to sell to other players
                                         break;
                                     case 4:
                                         return;
                                 }
 
-                                // find and offer improvements to sell
-                                // find properties to sell to other players
+
 
                             }
                         }
