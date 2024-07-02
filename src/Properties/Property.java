@@ -65,10 +65,7 @@ public class Property {
         return house;
     }
 
-    public void setHouse(int house) {
-        this.house = house;
-    }
-
+    public void setHouse(int house) {this.house = house;}
     public boolean isHotel() {
         return hotel;
     }

@@ -38,8 +38,8 @@ public class TurnTracker {
     }
 
     // checks if string converted into number is in a range
-    private boolean checkRange(String s, int lo, int hi){
-        return Integer.parseInt(s) < lo || hi < Integer.parseInt(s);
+    private boolean inRange(String s, int lo, int hi){
+        return lo <= Integer.parseInt(s) || Integer.parseInt(s) <= hi;
     }
 
     private void jailOptionGenerator(){
@@ -65,7 +65,7 @@ public class TurnTracker {
                     entry = scanner.nextLine().trim().toLowerCase();
 
                 }
-                while (!isNumber(entry) && !checkRange(entry, 1, 3));
+                while (!isNumber(entry) && !inRange(entry, 1, 3));
 
                 int jailSelection = Integer.parseInt(entry);
 
@@ -89,7 +89,7 @@ public class TurnTracker {
                                 System.out.print("Please enter a valid selection:  ");
                                 entry = scanner.nextLine().trim().toLowerCase();
                             }
-                            while (!isNumber(entry) && !checkRange(entry, 1, 2));
+                            while (!isNumber(entry) && !inRange(entry, 1, 2));
 
                             int getOutofJailSelection = Integer.parseInt(entry);
 
@@ -140,12 +140,13 @@ public class TurnTracker {
 
                                     entry = scanner.nextLine().trim().toLowerCase();
                                 }
-                                while (!isNumber(entry) && !checkRange(entry, 1, 2));
+                                while (!isNumber(entry) && !inRange(entry, 1, 2));
 
                                 // index to keep track of element number
                                 int i;
                                 int paymentOptions = Integer.parseInt(entry);
 
+                                // choose how to get additional funding
                                 switch(paymentOptions){
                                     case 1:
 
@@ -172,11 +173,11 @@ public class TurnTracker {
                                             System.out.print("Please enter a valid selection:  ");
                                             entry = scanner.nextLine().trim().toLowerCase();
                                         }
-                                        while (!isNumber(entry) && !checkRange(entry, i, i + 1));
+                                        while (!isNumber(entry) && !inRange(entry, i, i + 1));
 
                                         int mortgageSelection = Integer.parseInt(entry) - 1;
 
-                                        if( 0 <= mortgageSelection && mortgageSelection <= i){
+                                        if(inRange(entry, 0, i)){
                                             // set player cash (current player cash + mortgage amt)
                                             playerList.get(currentPlayerIndex).setCash(playerList.get(currentPlayerIndex)
                                                     .getCash() + gameData.getPropertyFinancialsMap().get(listOfUnMortgaged
@@ -189,12 +190,12 @@ public class TurnTracker {
                                             System.out.println(STR."\{playerList.get(currentPlayerIndex)
                                                     .getToken()}'S current cash: \{playerList.get(currentPlayerIndex).getCash()}");
                                         }
-                                        // return to main jail options if elected.
+                                        //  else return to main jail options
                                         else return;
 
                                         break;
                                     case 2:
-                                        // find and offer improvements to sell
+                                        // find improvements to sell
 
                                         System.out.println("List of improved properties you own:");
                                         System.out.println();
@@ -222,6 +223,63 @@ public class TurnTracker {
                                             i++;
                                         }
 
+                                        System.out.println(STR."\{i + 1}: Return to main Jail Options");
+
+                                        System.out.println("Select which property you want to sell improvements from.");
+
+                                        do {
+                                            System.out.print("Please enter a valid selection:  ");
+                                            entry = scanner.nextLine().trim().toLowerCase();
+                                        }
+                                        while (!isNumber(entry) && !inRange(entry, 0, i + 1));
+
+                                        int improvementSelection = Integer.parseInt(entry) - 1;
+
+                                        if(inRange(entry, 0, i)) {
+
+                                            int numberOfHouses = gameData.getPropertyMap().get(listOfImproved.get(improvementSelection)).getHouse();
+                                            boolean numberOfHotels = gameData.getPropertyMap().get(listOfImproved.get(improvementSelection)).isHotel();
+
+                                            // sell houses
+                                            if (numberOfHouses > 0) {
+
+                                                System.out.println(STR."How many houses do you want to sell out of \{numberOfHouses}house(s)?");
+                                                System.out.println();
+                                                System.out.println(STR."Enter number of houses up to\{numberOfHouses}");
+                                                System.out.println(STR."\{numberOfHouses + 1}: Return to main Jail Options");
+
+                                                do {
+                                                    System.out.print("Please enter a valid selection:  ");
+                                                    entry = scanner.nextLine().trim().toLowerCase();
+                                                }
+                                                while (!isNumber(entry) && !inRange(entry, 1, numberOfHouses));
+
+                                                int housesToSell = Integer.parseInt(entry);
+
+                                                // code for selling number of houses
+
+
+                                        }
+                                        else return;
+
+
+                                        // sell hotels
+
+                                        // set player cash (current player cash + mortgage amt)
+//                                            playerList.get(currentPlayerIndex).setCash(playerList.get(currentPlayerIndex)
+//                                                    .getCash() + gameData.getPropertyFinancialsMap().get(listOfUnMortgaged
+//                                                    .get(mortgageSelection)).getMortgageAmount());
+                                        // mortgage property set to true
+//                                            gameData.getPropertyMap().get(listOfUnMortgaged.get(mortgageSelection)).setMortgaged(true);
+//
+//                                            System.out.println(STR."Mortgaged \{listOfUnMortgaged.get(mortgageSelection)} and added \{gameData
+//                                                    .getPropertyFinancialsMap().get(listOfUnMortgaged.get(mortgageSelection)).getMortgageAmount()} to wallet.");
+//                                            System.out.println(STR."\{playerList.get(currentPlayerIndex)
+//                                                    .getToken()}'S current cash: \{playerList.get(currentPlayerIndex).getCash()}");
+                                    }
+                                        // return to main jail options if selected.
+
+
                                         break;
                                     case 3:
                                         // find properties to sell to other players
@@ -229,14 +287,9 @@ public class TurnTracker {
                                     case 4:
                                         return;
                                 }
-
-
-
                             }
                         }
                         break;
-
-
                 }
             } else {
                 do {
@@ -248,7 +301,7 @@ public class TurnTracker {
                     entry = scanner.nextLine().trim().toLowerCase();
 
                 }
-                while (!isNumber(entry) && !checkRange(entry, 1, 2));
+                while (!isNumber(entry) && !inRange(entry, 1, 2));
             }
         }
     }
@@ -264,7 +317,7 @@ public class TurnTracker {
             System.out.print("What is the number of players(Make sure to only enter a valid number \"2-8\")? ");
             entry = scanner.nextLine().trim();
         }
-        while(!isNumber(entry) || checkRange(entry, 2 , 8));
+        while(!isNumber(entry) || !inRange(entry, 2 , 8));
 
         numberOfPlayers = Integer.parseInt(entry);
 
@@ -284,7 +337,7 @@ public class TurnTracker {
                 System.out.print("Enter the valid number of the token you want to use: ");
                 entry = scanner.nextLine().trim();
             }
-            while(!isNumber(entry) || checkRange(entry, 0, tokenList.size() - 1));
+            while(!isNumber(entry) || !inRange(entry, 0, tokenList.size() - 1));
 
             int tokenNumber = Integer.parseInt(entry);
 
