@@ -305,6 +305,7 @@ public class TurnTracker {
 
                                                 }
                                                 else return;
+
                                             }
                                         }
                                         // if option i + 1 return to main menu
