@@ -5,13 +5,13 @@ public class Player {
     private int playerNumber;
     private Token token;
     private int boardLocation;
-    private double cash;
+    private int cash;
     private boolean inJail;
     private int doubleDiceCount;
     private int getOutOfJailFreeCount;
     private int timeInJail;
 
-    public Player(int playerNumber, Token token, int boardLocation, double cash, boolean inJail, int doubleDiceCount, int getOutOfJailFreeCount, int timeInJail) {
+    public Player(int playerNumber, Token token, int boardLocation, int cash, boolean inJail, int doubleDiceCount, int getOutOfJailFreeCount, int timeInJail) {
         this.playerNumber = playerNumber;
         this.token = token;
         this.boardLocation = boardLocation;
@@ -42,11 +42,11 @@ public class Player {
         this.boardLocation = boardLocation;
     }
 
-    public double getCash() {
+    public int getCash() {
         return cash;
     }
 
-    public void setCash(double cash) {
+    public void setCash(int cash) {
         this.cash = cash;
     }
 

@@ -14,9 +14,9 @@ public class Property {
     private boolean isMortgaged;
     private int colorCount;
     private boolean monopoly;
-    private Token token;
+    private Token tokenOwner;
 
-    private Property(PropertyType propertyType, String name, Color color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, int colorCount, boolean monopoly, Token token) {
+    private Property(PropertyType propertyType, String name, Color color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, int colorCount, boolean monopoly, Token tokenOwner) {
         this.propertyType = propertyType;
         this.name = name;
         this.color = color;
@@ -26,7 +26,7 @@ public class Property {
         this.isMortgaged = isMortgaged;
         this.colorCount = colorCount;
         this.monopoly = monopoly;
-        this.token = token;
+        this.tokenOwner = tokenOwner;
     }
 
     public PropertyType getPropertyType() {
@@ -99,11 +99,11 @@ public class Property {
     }
 
     public Token getOwner() {
-        return token;
+        return tokenOwner;
     }
 
     public void setOwner(Token token) {
-        this.token = token;
+        this.tokenOwner = token;
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Property {
                 ", isMortgaged=" + isMortgaged +
                 ", colorCount=" + colorCount +
                 ", monopoly=" + monopoly +
-                ", owner=" + token +
+                ", owner=" + tokenOwner +
                 '}';
     }
 
@@ -133,7 +133,7 @@ public class Property {
         private boolean isMortgaged;
         private int colorCount;
         private boolean monopoly;
-        private Token token;
+        private Token tokenOwner;
 
         public PropertyBuilder propertyType(PropertyType propertyType) {
             this.propertyType = propertyType;
@@ -180,13 +180,13 @@ public class Property {
             return this;
         }
 
-        public PropertyBuilder owner(Token token) {
-            this.token = token;
+        public PropertyBuilder owner(Token tokenOwner) {
+            this.tokenOwner = tokenOwner;
             return this;
         }
 
         public Property build() {
-            return new Property(propertyType, name, color, improvementAllowed, house, hotel, isMortgaged, colorCount, monopoly, token);
+            return new Property(propertyType, name, color, improvementAllowed, house, hotel, isMortgaged, colorCount, monopoly, tokenOwner);
         }
     }
 }
