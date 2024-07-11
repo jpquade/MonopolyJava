@@ -1,9 +1,9 @@
 import Data.GameData;
 import Enums.Token;
 import Properties.*;
+import Utilities.Dice;
 
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,8 +14,9 @@ public class TurnTracker {
     private final ArrayList<String> tokenList;
     private final Scanner scanner;
     private final GameData gameData;
-    private final Map<String, Property> propertyAttributes;
-    private final Map<String, PropertyFinancials> propertyFinancials;
+    private final LinkedHashMap<String, Property> propertyAttributes;
+    private final LinkedHashMap<String, PropertyFinancials> propertyFinancials;
+    private final Dice dice;
 
     public TurnTracker() {
         numberOfPlayers = 0;
@@ -23,8 +24,9 @@ public class TurnTracker {
         tokenList = new ArrayList<>(Arrays.asList("DOG", "CAT", "BATTLESHIP", "PENGUIN", "RUBBERDUCKY", "TOPHAT", "RACECAR", "THIMBLE"));
         scanner = new Scanner(System.in);
         gameData = new GameData();
-        propertyAttributes = new HashMap<>(gameData.getPropertyMap());
-        propertyFinancials = new HashMap<>(gameData.getPropertyFinancialsMap());
+        propertyAttributes = new LinkedHashMap<>(gameData.getPropertyMap());
+        propertyFinancials = new LinkedHashMap<>(gameData.getPropertyFinancialsMap());
+        dice = new Dice();
     }
 
     // checks if string contains a valid number
@@ -48,56 +50,344 @@ public class TurnTracker {
     }
 
     // checks if valid number and correct range
-    private boolean numberAndRanged(String s, int lo, int hi){
-        if(isValidNumber(s)){
-            return inRange(s, lo, hi);
-        }
-        return false;
+    private boolean notNumberAndInRange(String s, int lo, int hi){
+
+        return !isValidNumber(s) || !inRange(s, lo, hi);
     }
 
-private void raiseMoneyOptions(String userEntry){
+    // checks for a valid entry
+    private String validEntry(int lo, int hi){
 
-    System.out.println("1. Mortgage Property");
-    System.out.println("2. Sell Improvements");
-    System.out.println("3. Sell Property");
-    System.out.println("4: Return to main Options");
+        String userEntry = "";
 
-    do {
-        System.out.print("Please enter a valid selection:  ");
-        userEntry = scanner.nextLine().trim().toLowerCase();
+        do {
+            System.out.print("Please enter a valid selection:  ");
+            userEntry = scanner.nextLine().trim().toLowerCase();
+        }
+        while (notNumberAndInRange(userEntry, lo, hi));
 
-    } while (!numberAndRanged(userEntry,1, 4));
-}
+        return userEntry;
+    }
+
+
+    private void mortgageProperty(Player player){
+
+        System.out.println("List of un-mortgaged properties you own without improvements:");
+        System.out.println();
+
+        LinkedHashMap<Integer, String> listOfUnMortgaged = new LinkedHashMap<>();
+        int i = 1;
+
+        for(Property property: propertyAttributes.values()){
+
+            // checks for player owned properties with no improvements
+            if(!property.isMortgaged() && property.getOwner() == player.getToken() && property.getHouse() == 0 && !property.isHotel()){
+                System.out.println(STR."\{i}. \{property.getName()} mortgage amount: \{propertyFinancials
+                        .get(property.getName()).getMortgageAmount()}");
+                listOfUnMortgaged.put(i, property.getName());
+            }
+            i++;
+        }
+        System.out.println(STR."\{i}: Return to main Options");
+
+        System.out.println("Select which property you want to mortgage.");
+
+        String userEntry = validEntry(1, i);
+
+        int mortgageSelection = Integer.parseInt(userEntry) - 1;
+
+        if(inRange(userEntry, 0, i)){
+
+            // set player cash (current player cash + mortgage amount)
+            player.setCash(player
+                    .getCash() + propertyFinancials.get(listOfUnMortgaged
+                    .get(mortgageSelection)).getMortgageAmount());
+
+            // mortgage property set to true
+            propertyAttributes.get(listOfUnMortgaged.get(mortgageSelection)).setMortgaged(true);
+
+            System.out.println(STR."Mortgaged \{listOfUnMortgaged.get(mortgageSelection)} and added \{gameData
+                    .getPropertyFinancialsMap().get(listOfUnMortgaged.get(mortgageSelection)).getMortgageAmount()} to wallet.");
+            System.out.println(STR."\{player
+                    .getToken()}'S now has: \{player.getCash()}");
+        }
+    }
+
+    private void sellImprovements(Player player){
+        System.out.println("List of improved properties you own:");
+        System.out.println();
+
+        // index to keep track of element number within listOfUnMortgaged
+        int i = 1;
+
+        LinkedHashMap<Integer, String> listOfImproved = new LinkedHashMap<>();
+
+        for(Property property: propertyAttributes.values()){
+            if(property.isImprovementAllowed() && (property.getHouse() > 0 || property.isHotel())){
+
+                if(property.getHouse() > 0){
+                    for(Property propertyColor : propertyAttributes.values()){
+                        if(!propertyColor.getName().equals(property.getName()) && propertyColor.getColor() == property.getColor() && propertyColor.isHotel()){
+                            System.out.println(STR." : \{property.getName()} has \{propertyAttributes
+                                    .get(property.getName()).getHouse()} house(s) that cannot be sold until the hotels are sold on \{propertyColor.getName()}");
+                        }
+                    }
+
+                    System.out.println(STR."\{i}: \{property.getName()} has \{propertyAttributes
+                            .get(property.getName()).getHouse()} house(s) that sell for \{gameData
+                            .getPropertyFinancialsMap().get(property.getName()).getPricePerImprovement() / 2} each}");
+                }
+                else{
+                    System.out.println(STR."\{i}: \{property.getName()} has a \{propertyAttributes
+                            .get(property.getName()).isHotel()} hotel that sells for \{gameData
+                            .getPropertyFinancialsMap().get(property.getName()).getPricePerImprovement() / 2}.}");
+                }
+                listOfImproved.put(i, property.getName());
+            }
+            i++;
+        }
+
+        System.out.println(STR."\{i}: Return to main Options");
+
+        System.out.println("Select which property you want to sell improvements from.");
+
+        String userEntry = validEntry(0, i);
+
+        int improvementSelection = Integer.parseInt(userEntry) - 1;
+
+        // if option selected is 0 to i - sell a property
+        if(inRange(userEntry, 0, i)) {
+
+            Property selectedPropertyAttributes = propertyAttributes.get(listOfImproved.get(improvementSelection));
+            PropertyFinancials selectedPropertyFinancials = propertyFinancials.get(listOfImproved.get(improvementSelection));
+
+            int numberOfHouses = selectedPropertyAttributes.getHouse();
+
+            // sell houses
+            if (numberOfHouses > 0) {
+
+                // check if another property of the same color has a hotel that needs to be sold first before houses on this property
+                for(Property propertyColor : propertyAttributes.values()){
+                    if(!propertyColor.getName().equals(selectedPropertyAttributes.getName())
+                            && propertyColor.getColor() == selectedPropertyAttributes.getColor() && propertyColor.isHotel()){
+
+                        System.out.println("This property color shares another property that has a hotel which must be sold first before selling houses on this property");
+                        return;
+                    }
+                }
+
+                System.out.println(STR."How many houses do you want to sell? You have \{numberOfHouses} house(s) on this property.");
+                System.out.println();
+                System.out.println(STR."Enter number of houses up to \{numberOfHouses}");
+                System.out.println(STR."\{numberOfHouses + 1}: Return to main Options");
+
+                int housesToSell = Integer.parseInt(validEntry(1, numberOfHouses));
+
+                // remove houses sold
+                selectedPropertyAttributes.setHouse(selectedPropertyAttributes.getHouse() - housesToSell);
+
+                // add cash from sold houses to player
+                player.setCash(player.getCash()
+                        + (housesToSell * selectedPropertyFinancials.getPricePerImprovement() / 2));
+
+                System.out.println(STR."Selling \{numberOfHouses} house(s) for half of \{selectedPropertyFinancials
+                        .getPricePerImprovement()} each.");
+
+                System.out.println(STR."\{player.getToken()} now has \{player.getCash()}");
+
+            }
+            // sell hotel
+            else{
+                System.out.println(STR."1: Sell your hotel.");
+                System.out.println(STR."2: Return to main Options");
+                System.out.println();
+
+                do {
+                    System.out.print("Please enter a valid selection: ");
+                    userEntry = scanner.nextLine().trim().toLowerCase();
+                }
+                while (!isValidNumber(userEntry) && !inRange(userEntry, 1, 2));
+
+                int sellHotelSelection = Integer.parseInt(userEntry);
+
+                if(sellHotelSelection == 1){
+
+                    // remove hotel sold
+                    selectedPropertyAttributes.setHotel(false);
+
+                    // add cash from sold hotel to player
+                    player.setCash(player.getCash() + selectedPropertyFinancials.getPricePerImprovement() / 2);
+
+                    System.out.println(STR."Selling hotel for half of \{selectedPropertyFinancials.getPricePerImprovement()}.");
+                    System.out.println(STR."\{player.getToken()} now has \{player.getCash()}");
+                }
+            }
+        }
+    }
+
+    private void sellProperty(Player player){
+        LinkedHashMap<Integer, Integer> playerChoice = new LinkedHashMap<>();
+        int i = 1;
+
+        System.out.println(STR."Which player if any wants to purchase a property from \{player.getToken()}");
+        System.out.println();
+        for(Player otherPlayer : playerList){
+            if(otherPlayer != player){
+                System.out.println(STR."\{i}: \{otherPlayer.getToken()}");
+                playerChoice.put(i, otherPlayer.getPlayerNumber());
+            }
+
+            i++;
+        }
+
+        System.out.println(STR."\{i}: Return to main Options");
+
+        int playerPay = Integer.parseInt(validEntry(1, i));
+
+        Player selectedPlayer = playerList.get(playerChoice.get(playerPay));
+
+        System.out.println(STR."Here is a list of properties player:\{selectedPlayer.getToken()}can purchase.");
+        System.out.println();
+
+        ArrayList<String> listOfProperties = new ArrayList<>();
+
+        i = 0;
+
+        for(Property property: propertyAttributes.values()){
+            if(property.getOwner() == player.getToken()){
+                if(!property.isMortgaged()){
+                    System.out.println(STR."\{i + 1}: \{property.getName()}");
+                }
+                else{
+                    System.out.println(STR. "\{i + 1}: \{property.getName()} is currently mortgaged and will cost an additional 10% of the mortgage rate to purchase");
+                }
+                listOfProperties.add(property.getName());
+            }
+            i++;
+        }
+
+        System.out.println(STR."\{i}: Return to main Options");
+
+        int selectProperty = Integer.parseInt(validEntry(1, i));
+
+        Property selectedPropertyAttributes = propertyAttributes.get(listOfProperties.get(selectProperty));
+        PropertyFinancials selectedPropertyFinancials = propertyFinancials.get(listOfProperties.get(selectProperty));
+
+        if(selectedPropertyAttributes.isMortgaged()){
+            System.out.println(STR."Property selected is mortgaged. The interest \{selectedPropertyFinancials
+                    .getMortgageAmount() * .10} + the amount entered will be the final cost.");
+
+            System.out.println("Enter an amount the property will be purchased for in whole dollars only");
+
+            int propertyCost = Integer.parseInt(validEntry(1, selectedPlayer.getCash()));
+
+            System.out.println(STR."Are you sure you want to purchase this property for the sum of:\{propertyCost} + \{selectedPropertyFinancials
+                    .getMortgageAmount() * .10}");
+
+            String entry = "";
+
+            do {
+                System.out.print("Please enter y/n ");
+                entry = scanner.nextLine().trim().toLowerCase();
+            }
+            while (!entry.equals("y") && !entry.equals("n"));
+
+            if(entry.equals("y")){
+                // if player purchasing property has enough cash
+                if(selectedPlayer.getCash() - (propertyCost + selectedPropertyFinancials.getMortgageAmount() * .10) >= 0){
+                    selectedPlayer.setCash(selectedPlayer.getCash() - (int)(propertyCost + selectedPropertyFinancials.getMortgageAmount() * .10));
+                }
+                else{
+                    System.out.println();
+                    System.out.println(STR."\{selectedPlayer.getToken()} doesn't have enough cash.");
+                    return;
+                }
+            }
+            else return;
+        }
+        else {
+
+            // if property is not mortgaged
+
+            System.out.println("Enter an amount the property will be purchased for in whole dollars only");
+
+            int propertyCost = Integer.parseInt(validEntry(1, selectedPlayer.getCash()));
+
+            System.out.println(STR."Are you sure you want to purchase this property for the sum of:\{propertyCost}");
+
+            String entry = "";
+
+            do {
+                System.out.print("Please enter y/n ");
+                entry = scanner.nextLine().trim().toLowerCase();
+            }
+            while (!entry.equals("y") && !entry.equals("n"));
+
+            if(entry.equals("y")){
+                // if player purchasing property has enough cash
+                if(selectedPlayer.getCash() - (propertyCost + selectedPropertyFinancials.getMortgageAmount() * .10) >= 0){
+                    selectedPlayer.setCash(selectedPlayer.getCash() - (propertyCost));
+                }
+                else{
+                    System.out.println();
+                    System.out.println(STR."\{selectedPlayer.getToken()} doesn't have enough cash.");
+                    return;
+                }
+            }
+        }
+
+    }
+
+    // different ways to raise money
+    private void raiseMoneyOptions(Player player){
+
+        System.out.println("1. Mortgage Property");
+        System.out.println("2. Sell Improvements");
+        System.out.println("3. Sell Property");
+        System.out.println("4: Return to main Options");
+
+        switch(Integer.parseInt(validEntry(1, 4))){
+
+            case 1: // mortgage property
+
+                mortgageProperty(player);
+                break;
+
+            case 2: // sell improvements
+
+                sellImprovements(player);
+                break;
+
+            case 3: // sell property
+
+                sellProperty(player);
+                break;
+        }
+    }
 
 
     private void isInJail(String entry, Player player){
+
         // checks if player is in jail
         if(player.isInJail()) {
 
             // increases the in jail counter every turn that player is in jail
             player.setTimeInJail(player.getTimeInJail() + 1);
 
-            // if player has get out of jail card / and time in jail is less than 3
+            // if player has get out of jail card and time in jail is less than 3
             if (player.getGetOutOfJailFreeCount() > 0 && player.getTimeInJail() <= 3) {
 
-                do {
-                    System.out.println();
-                    System.out.println(STR."1: Use your \"Get Out of Jail Free\" card?");
-                    System.out.println(STR."2: Pay $50 to leave jail?");
-                    System.out.println(STR."3: Roll the dice?");
-                    System.out.print("Please enter a valid selection:  ");
-                    entry = scanner.nextLine().trim().toLowerCase();
+                System.out.println();
+                System.out.println(STR."1: Use your \"Get Out of Jail Free\" card?");
+                System.out.println(STR."2: Pay $50 to leave jail?");
+                System.out.println(STR."3: Roll the dice?");
 
-                }
-                while (!isValidNumber(entry) && !inRange(entry, 1, 3));
-
-                int jailSelection = Integer.parseInt(entry);
+                int jailSelection = Integer.parseInt(validEntry(1,3));
 
                 switch (jailSelection) {
                     // use get out of jail free card
                     case 1:
-                        player.setGetOutOfJailFreeCount(player
-                                .getGetOutOfJailFreeCount() - 1);
+                        player.setGetOutOfJailFreeCount(player.getGetOutOfJailFreeCount() - 1);
                         player.setInJail(false);
                         player.setBoardLocation(10);
                         player.setDoubleDiceCount(0);
@@ -105,31 +395,16 @@ private void raiseMoneyOptions(String userEntry){
 
                     // attempt to pay to get out of jail
                     case 2:
-                        if (player.getCash() < 50) {
+                        if (player.getCash() >= 50) {
 
-                            do {
-                                System.out.println("Insufficient funds");
-                                System.out.println("1: Raise money");
-                                System.out.println("2: Return to main Options");
-                                System.out.print("Please enter a valid selection:  ");
-                                entry = scanner.nextLine().trim().toLowerCase();
-                            }
-                            while (!numberAndRanged(entry, 1, 2));
-
-                            switch(Integer.parseInt(entry)){
-                                case 1:
-
-                                    // get back to
-
-                                case 2:
-                                    return;
-
-                            }
-                        }
-                        else{
                             player.setCash(player.getCash() - 50);
                             player.setInJail(false);
                             player.setBoardLocation(10);
+
+                        } else{
+
+                            System.out.println("Insufficient funds raise money");
+
                         }
                         break;
 
@@ -171,291 +446,21 @@ private void raiseMoneyOptions(String userEntry){
 
                                 // index to keep track of element number
                                 int i;
-                                int paymentOptions = Integer.parseInt(entry);
 
                                 // choose how to get additional funding
-                                switch(paymentOptions){
+                                switch(Integer.parseInt(entry)){
+
+                                    // Mortgage Property
                                     case 1:
 
-                                        System.out.println("List of un-mortgaged properties you own without improvements:");
-                                        System.out.println();
-
-                                        i = 0;
-
-                                        ArrayList<String> listOfUnMortgaged = new ArrayList<>();
-
-                                        for(Property property: propertyAttributes.values()){
-                                            if(!property.isMortgaged() && property.getOwner() == player.getToken() && property.getHouse() == 0 && !property.isHotel()){
-                                                System.out.println(STR."\{i + 1}: \{property.getName()} mortgage amount: \{propertyFinancials
-                                                        .get(property.getName()).getMortgageAmount()}");
-                                                listOfUnMortgaged.add(property.getName());
-                                            }
-                                            i++;
-                                        }
-                                        System.out.println(STR."\{i + 1}: Return to main Options");
-
-                                        System.out.println("Select which property you want to mortgage.");
-
-                                        do {
-                                            System.out.print("Please enter a valid selection:  ");
-                                            entry = scanner.nextLine().trim().toLowerCase();
-                                        }
-                                        while (!isValidNumber(entry) && !inRange(entry, i, i + 1));
-
-                                        int mortgageSelection = Integer.parseInt(entry) - 1;
-
-                                        if(inRange(entry, 0, i)){
-                                            // set player cash (current player cash + mortgage amt)
-                                            player.setCash(player
-                                                    .getCash() + propertyFinancials.get(listOfUnMortgaged
-                                                    .get(mortgageSelection)).getMortgageAmount());
-                                            // mortgage property set to true
-                                            propertyAttributes.get(listOfUnMortgaged.get(mortgageSelection)).setMortgaged(true);
-
-                                            System.out.println(STR."Mortgaged \{listOfUnMortgaged.get(mortgageSelection)} and added \{gameData
-                                                    .getPropertyFinancialsMap().get(listOfUnMortgaged.get(mortgageSelection)).getMortgageAmount()} to wallet.");
-                                            System.out.println(STR."\{player
-                                                    .getToken()}'S current cash: \{player.getCash()}");
-                                        }
-                                        //  else return to main jail options
-                                        else return;
 
                                         break;
                                     case 2:
-                                        // find improvements to sell
 
-                                        System.out.println("List of improved properties you own:");
-                                        System.out.println();
-
-                                        // index to keep track of element number within listOfUnMortgaged
-                                        i = 0;
-
-                                        ArrayList<String> listOfImproved = new ArrayList<>();
-
-                                        for(Property property: propertyAttributes.values()){
-                                            if(property.getHouse() > 0 || property.isHotel()){
-
-                                                if(property.getHouse() > 0){
-                                                    System.out.println(STR."\{i + 1}: \{property.getName()} has  \{propertyAttributes
-                                                            .get(property.getName()).getHouse()} house(s) that sell for \{gameData
-                                                            .getPropertyFinancialsMap().get(property.getName()).getPricePerImprovement() / 2} each}");
-                                                }
-                                                else{
-                                                    System.out.println(STR."\{i + 1}: \{property.getName()} has a \{propertyAttributes
-                                                            .get(property.getName()).isHotel()} hotel that sells for \{gameData
-                                                            .getPropertyFinancialsMap().get(property.getName()).getPricePerImprovement() / 2}.}");
-                                                }
-                                                listOfImproved.add(property.getName());
-                                            }
-                                            i++;
-                                        }
-
-                                        System.out.println(STR."\{i + 1}: Return to main Options");
-
-                                        System.out.println("Select which property you want to sell improvements from.");
-
-                                        do {
-                                            System.out.print("Please enter a valid selection:  ");
-                                            entry = scanner.nextLine().trim().toLowerCase();
-                                        }
-                                        while (!isValidNumber(entry) && !inRange(entry, 0, i + 1));
-
-                                        int improvementSelection = Integer.parseInt(entry) - 1;
-
-                                        // if option selected is 0 to i - sell a property
-                                        if(inRange(entry, 0, i)) {
-
-                                            int numberOfHouses = propertyAttributes.get(listOfImproved.get(improvementSelection)).getHouse();
-                                            //boolean hotelExists = propertyAttributes.get(listOfImproved.get(improvementSelection)).isHotel();
-
-                                            // sell houses
-                                            if (numberOfHouses > 0) {
-
-                                                // check if another property of the same color has a hotel that needs to be sold first before houses on this property
-                                                for(String improved : listOfImproved){
-                                                    if(propertyAttributes.get(listOfImproved.get(improvementSelection)).getColor() == propertyAttributes.get(improved).getColor() &&
-                                                            propertyAttributes.get(improved).isHotel()){
-                                                        System.out.println();
-                                                        System.out.println("Another property of the same color has a hotel. It must be sold first. Returning to previous menu");
-                                                        return;
-                                                    }
-                                                }
-
-                                                System.out.println(STR."How many houses do you want to sell? You have \{numberOfHouses} house(s).");
-                                                System.out.println();
-                                                System.out.println(STR."Enter number of houses up to \{numberOfHouses}");
-                                                System.out.println(STR."\{numberOfHouses + 1}: Return to main Options");
-
-                                                do {
-                                                    System.out.print("Please enter a valid selection: ");
-                                                    entry = scanner.nextLine().trim().toLowerCase();
-                                                }
-                                                while (!isValidNumber(entry) && !inRange(entry, 1, numberOfHouses));
-
-                                                int housesToSell = Integer.parseInt(entry);
-
-                                                // remove houses sold
-                                                propertyAttributes.get(listOfImproved.get(improvementSelection)).setHouse(propertyAttributes
-                                                        .get(listOfImproved.get(improvementSelection)).getHouse() - housesToSell);
-
-                                                // add cash from sold houses to player
-                                                player.setCash(player.getCash()
-                                                        + (housesToSell * propertyFinancials.get(listOfImproved.get(improvementSelection)).getPricePerImprovement() / 2));
-
-                                                System.out.println(STR."Selling \{numberOfHouses} house(s) for half of \{propertyFinancials
-                                                        .get(listOfImproved.get(improvementSelection)).getPricePerImprovement()} each.");
-
-                                                System.out.println(STR."\{player.getToken()} now has \{player.getCash()}");
-
-
-                                            }
-                                            // sell hotel
-                                            else{
-                                                System.out.println(STR."1: Sell your hotel.");
-                                                System.out.println(STR."2: Return to main Options");
-                                                System.out.println();
-
-                                                do {
-                                                    System.out.print("Please enter a valid selection: ");
-                                                    entry = scanner.nextLine().trim().toLowerCase();
-                                                }
-                                                while (!isValidNumber(entry) && !inRange(entry, 1, 2));
-
-                                                int sellHotelSelection = Integer.parseInt(entry);
-
-                                                if(sellHotelSelection == 1){
-
-                                                    // remove hotel sold
-                                                    propertyAttributes.get(listOfImproved.get(improvementSelection)).setHotel(false);
-
-                                                    // add cash from sold hotel to player
-                                                    player.setCash(player.getCash()
-                                                            + propertyFinancials.get(listOfImproved.get(improvementSelection)).getPricePerImprovement() / 2);
-
-                                                    System.out.println(STR."Selling hotel for half of \{propertyFinancials.get(listOfImproved
-                                                            .get(improvementSelection)).getPricePerImprovement()}.");
-                                                    System.out.println(STR."\{player.getToken()} now has \{player.getCash()}");
-
-                                                }
-                                                else return;
-
-                                            }
-                                        }
-                                        // if option i + 1 return to main menu
-                                        else return;
 
                                         break;
                                     case 3:
                                         // find properties to sell to other players
-
-                                        HashMap<Integer, Integer> playerChoice = new HashMap<>();
-                                        i = 1;
-
-                                        System.out.println("Which player if any wants to purchase a property from " + player.getToken());
-                                        System.out.println();
-                                        for(Player otherPlayer : playerList){
-                                            if(otherPlayer != player){
-                                                System.out.println(STR."\{i}: \{otherPlayer.getToken()}");
-                                                playerChoice.put(i, otherPlayer.getPlayerNumber());
-                                            }
-
-                                            i++;
-                                        }
-
-                                        System.out.println(STR."\{i + 1}: Return to main Options");
-
-                                        do {
-                                            System.out.print("Please enter a valid selection: ");
-                                            entry = scanner.nextLine().trim().toLowerCase();
-                                        }
-                                        while (!isValidNumber(entry) && !inRange(entry, 1, i + 1));
-
-                                        int playerPay = Integer.parseInt(entry) - 1;
-
-
-
-                                        System.out.println(STR."Here is a list of properties player:\{playerList.get(playerChoice.get(playerPay)).getToken()}can purchase.");
-                                        System.out.println();
-
-                                        ArrayList<String> listOfProperties = new ArrayList<>();
-
-                                        i = 0;
-
-                                        for(Property property: propertyAttributes.values()){
-                                            if(property.getOwner() == player.getToken()){
-                                                if(!property.isMortgaged()){
-                                                    System.out.println(STR."\{i + 1}: \{property.getName()}");
-                                                }
-                                                else{
-                                                    System.out.println(STR. "\{i + 1}: \{property.getName()} is currently mortgaged and will cost an additional 10% of the mortgage rate to purchase");
-                                                }
-                                                listOfProperties.add(property.getName());
-                                            }
-                                            i++;
-                                        }
-
-
-                                        System.out.println(STR."\{i + 1}: Return to main Options");
-
-                                        do {
-                                            System.out.print("Please enter a valid selection: ");
-                                            entry = scanner.nextLine().trim().toLowerCase();
-                                        }
-                                        while (!isValidNumber(entry) && !inRange(entry, 1, i + 1));
-
-                                        int selectProperty = Integer.parseInt(entry) - 1;
-
-                                        if(propertyAttributes.get(listOfProperties.get(selectProperty)).isMortgaged()){
-                                            System.out.println(STR."Property selected is mortgaged. The interest \{propertyFinancials.get(listOfProperties
-                                                    .get(selectProperty)).getMortgageAmount() * .10} + the amount entered will be the final cost.");
-
-                                            System.out.println("Enter an amount the property will be purchased for in whole dollars only");
-
-                                            do {
-                                                System.out.print("Please enter a valid selection: ");
-                                                entry = scanner.nextLine().trim().toLowerCase();
-                                            }
-                                            while (!isValidNumber(entry) && !inRange(entry, 1, playerList.get(playerChoice.get(playerPay)).getCash()));
-
-                                            int propertyCost = Integer.parseInt(entry) - 1;
-
-                                            System.out.println(STR."Are you sure you want to purchase this property for the sum of:\{propertyCost}\{propertyFinancials.get(listOfProperties
-                                                    .get(selectProperty)).getMortgageAmount() * .10}");
-
-                                            do {
-                                                System.out.print("Please enter y/n ");
-                                                entry = scanner.nextLine().trim().toLowerCase();
-                                            }
-                                            while (!entry.equals("y") && !entry.equals("n"));
-
-                                            if(entry.equals("y")){
-                                                // if player purchasing property has enough cash
-                                                if(playerList.get(playerChoice.get(playerPay)).getCash() - (propertyCost + propertyFinancials.get(listOfProperties
-                                                        .get(selectProperty)).getMortgageAmount() * .10) >= 0){
-                                                    playerList.get(playerChoice.get(playerPay)).setCash(playerList.get(playerChoice.get(playerPay)).getCash() - (int)(propertyCost + propertyFinancials.get(listOfProperties
-                                                            .get(selectProperty)).getMortgageAmount() * .10));
-                                                }
-                                                else{
-                                                    System.out.println();
-                                                    System.out.println(STR."\{playerList.get(playerChoice.get(playerPay)).getToken()} doesn't have enough cash.");
-                                                    return;
-                                                }
-                                            }
-                                            else{
-                                                return;
-                                            }
-
-
-
-                                        }
-                                        else if(!propertyAttributes.get(listOfProperties.get(selectProperty)).isMortgaged()){
-
-                                        }
-                                        else return;
-
-
-
-
 
                                         break;
                                     case 4:
@@ -554,12 +559,10 @@ private void raiseMoneyOptions(String userEntry){
             System.out.println();
             System.out.println("Rolling dice");
 
-            int diceOne = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+            dice.roll();
 
-            int diceTwo = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-
-            System.out.println(STR."First Dice Roll:  \{diceOne}");
-            System.out.println(STR."Second Dice Roll: \{diceTwo}");
+            System.out.println(STR."First Dice Roll:  \{dice.getDiceOne()}");
+            System.out.println(STR."Second Dice Roll: \{dice.getDiceTwo()}");
         }
 
 

@@ -3,6 +3,7 @@ package Data;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import Initialization.InitPropertyValues;
 import Properties.Property;
@@ -10,14 +11,14 @@ import Properties.PropertyFinancials;
 
 public class GameData {
     private ArrayList<String> gameBoard;
-    private HashMap<String, Property> propertyMap;
-    private HashMap<String, PropertyFinancials> propertyFinancialsMap;
+    private LinkedHashMap<String, Property> propertyMap;
+    private LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     InitPropertyValues initPropertyValues;
 
     public GameData(){
         initializeGameBoard();
-        propertyMap = new HashMap<>();
-        propertyFinancialsMap = new HashMap<>();
+        propertyMap = new LinkedHashMap<>();
+        propertyFinancialsMap = new LinkedHashMap<>();
         initPropertyValues = new InitPropertyValues();
         initPropertyMap();
     }
@@ -75,19 +76,19 @@ public class GameData {
 
     private void initPropertyFinancialMap() {for (PropertyFinancials propertyFinancials : initPropertyValues.getPropertyFinancialAttributes()) propertyFinancialsMap.put(propertyFinancials.getName(), propertyFinancials);}
 
-    public HashMap<String, Property> getPropertyMap() {
+    public LinkedHashMap<String, Property> getPropertyMap() {
         return propertyMap;
     }
 
-    public void setPropertyMap(HashMap<String, Property> propertyMap) {
+    public void setPropertyMap(LinkedHashMap<String, Property> propertyMap) {
         this.propertyMap = propertyMap;
     }
 
-    public HashMap<String, PropertyFinancials> getPropertyFinancialsMap() {
+    public LinkedHashMap<String, PropertyFinancials> getPropertyFinancialsMap() {
         return propertyFinancialsMap;
     }
 
-    public void setPropertyFinancialsMap(HashMap<String, PropertyFinancials> propertyFinancialsMap) {
+    public void setPropertyFinancialsMap(LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap) {
         this.propertyFinancialsMap = propertyFinancialsMap;
     }
 
