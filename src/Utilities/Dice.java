@@ -13,16 +13,15 @@ public class Dice {
     }
 
     public void roll(){
-        System.out.println();
-        System.out.println("Rolling dice");
+        System.out.println("Rolling dice...");
 
         // sets dice to random number between 1 and 6 inclusive
         diceOne = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 
         diceTwo = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 
-        System.out.println(STR."First Dice Roll:  \{diceOne}");
-        System.out.println(STR."Second Dice Roll: \{diceTwo}");
+        System.out.println(STR."Dice1: \{diceOne}");
+        System.out.println(STR."Dice2: \{diceTwo}");
     }
 
     public int getDiceOne() {

@@ -45,9 +45,7 @@ public class Property {
         this.name = name;
     }
 
-    public Color getColor() {
-        return color;
-    }
+    public Color getColor() {return color;}
 
     public void setColor(Color color) {
         this.color = color;
@@ -69,6 +67,7 @@ public class Property {
     public boolean isHotel() {
         return hotel;
     }
+
 
     public void setHotel(boolean hotel) {
         this.hotel = hotel;

@@ -1,20 +1,12 @@
+import GamePlaying.TurnTracker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.io.FileNotFoundException;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         TurnTracker turnTracker = new TurnTracker();
 
         turnTracker.turnProgression();
-
-
-
-
-
-
-
+        
     }
 }

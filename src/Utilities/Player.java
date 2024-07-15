@@ -1,3 +1,5 @@
+package Utilities;
+
 import Enums.Token;
 
 public class Player {

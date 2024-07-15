@@ -9,13 +9,16 @@ import Properties.PropertyFinancials;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InitPropertyValues {
+public class InitializeData {
 
     private ArrayList<Property> propertyAttributes;
     private ArrayList<PropertyFinancials> propertyFinancialAttributes;
-    public InitPropertyValues() {
+    private ArrayList<String> gameBoard;
+
+    public InitializeData() {
         initializePropertyAttributes();
         initializePropertyFinancialAttributes();
+        initializeGameBoard();
     }
 
     private void initializePropertyAttributes(){
@@ -104,6 +107,52 @@ public class InitPropertyValues {
         ));
     }
 
+    private void initializeGameBoard() {
+        gameBoard = new ArrayList<>(Arrays.asList(
+                "GO",                         // location 0
+                "Mediterranean Avenue",       // location 1
+                "Community Chest",            // location 2
+                "Baltic Avenue",              // location 3
+                "Income Tax",                 // location 4
+                "Reading RailRoad",           // location 5
+                "Oriental Avenue",            // location 6
+                "Chance",                     // location 7
+                "Vermont Avenue",             // location 8
+                "Connecticut Avenue",         // location 9
+                "Just Visiting Jail",         // location 10
+                "St. Charles Place",          // location 11
+                "Electric Company",           // location 12
+                "States Avenue",              // location 13
+                "Virginia Avenue",            // location 14
+                "Pennsylvania RailRoad",      // location 15
+                "St. James Place",            // location 16
+                "Community Chest",            // location 17
+                "Tennessee Avenue",           // location 18
+                "New York Avenue",            // location 19
+                "Free Parking",               // location 20
+                "Kentucky Avenue",            // location 21
+                "Chance",                     // location 22
+                "Indiana Avenue",             // location 23
+                "Illinois Avenue",            // location 24
+                "B&O RailRoad",               // location 25
+                "Atlantic Avenue",            // location 26
+                "Ventnor Avenue",             // location 27
+                "Water Works",                // location 28
+                "Marvin Gardens",             // location 29
+                "Go To Jail",                 // location 30
+                "Pacific Avenue",             // location 31
+                "North Carolina Avenue",      // location 32
+                "Community Chest",            // location 33
+                "Pennsylvania Avenue",        // location 34
+                "Short Line Railroad",        // location 35
+                "Chance",                     // location 36
+                "Park Place",                 // location 37
+                "Luxury Tax",                 // location 38
+                "Boardwalk",                  // location 39
+                "Jail"                        // location 40 not to be used when counting spaces moved
+        ));
+    }
+
     public ArrayList<Property> getPropertyAttributes() {
         return propertyAttributes;
     }
@@ -120,19 +169,19 @@ public class InitPropertyValues {
         this.propertyFinancialAttributes = propertyFinancialAttributes;
     }
 
-    @Override
-    public String toString() {
-        return "Initialization.InitValues{" +
-                "propertyAttributes=" + propertyAttributes +
-                ", propertyFinancialAttributes=" + propertyFinancialAttributes +
-                '}';
-    }
-
     public String propertyToString(){
         return propertyAttributes.toString();
     }
 
     public String propertyFinancialToString(){
         return propertyFinancialAttributes.toString();
+    }
+
+    public ArrayList<String> getGameBoard() {
+        return gameBoard;
+    }
+
+    public void setGameBoard(ArrayList<String> gameBoard) {
+        this.gameBoard = gameBoard;
     }
 }
