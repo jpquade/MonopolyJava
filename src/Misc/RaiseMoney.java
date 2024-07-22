@@ -1,4 +1,4 @@
-package Utilities;
+package Misc;
 
 import Properties.Property;
 import Properties.PropertyFinancials;

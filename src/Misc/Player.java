@@ -1,4 +1,4 @@
-package Utilities;
+package Misc;
 
 import Enums.Token;
 
@@ -67,4 +67,18 @@ public class Player {
     public int getTimeInJail() {return timeInJail;}
 
     public void setTimeInJail(int timeInJail) {this.timeInJail = timeInJail;}
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerNumber=" + playerNumber +
+                ", token=" + token +
+                ", boardLocation=" + boardLocation +
+                ", cash=" + cash +
+                ", inJail=" + inJail +
+                ", doubleDiceCount=" + doubleDiceCount +
+                ", getOutOfJailFreeCount=" + getOutOfJailFreeCount +
+                ", timeInJail=" + timeInJail +
+                '}';
+    }
 }

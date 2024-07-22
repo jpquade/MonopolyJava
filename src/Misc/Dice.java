@@ -1,4 +1,4 @@
-package Utilities;
+package Misc;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -19,6 +19,10 @@ public class Dice {
         diceOne = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 
         diceTwo = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
+//        // temporary
+//        diceOne = 2;
+//        diceTwo = 2;
 
         System.out.println(STR."Dice1: \{diceOne}");
         System.out.println(STR."Dice2: \{diceTwo}");
