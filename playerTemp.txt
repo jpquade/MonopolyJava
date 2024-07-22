@@ -1,2 +1,2 @@
-1 DOG 40 45 true 0 0 0
-2 CAT 40 45 true 0 0 0
+1 DOG 40 45 true 0 0 3
+2 CAT 40 45 true 0 0 3

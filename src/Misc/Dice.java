@@ -20,12 +20,12 @@ public class Dice {
 
         diceTwo = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 
-//        // temporary
+//        enabled while debugging
 //        diceOne = 2;
 //        diceTwo = 2;
 
-        System.out.println(STR."Dice1: \{diceOne}");
-        System.out.println(STR."Dice2: \{diceTwo}");
+        System.out.println(STR."Dice 1: \{diceOne}");
+        System.out.println(STR."Dice 2: \{diceTwo}");
     }
 
     public int getDiceOne() {

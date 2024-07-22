@@ -6,7 +6,7 @@ STANDARD LIGHTBLUE true NONE Connecticut Avenue
 STANDARD PINK true NONE St Charles Place
 STANDARD PINK true NONE States Avenue
 STANDARD PINK true NONE Virginia Avenue
-STANDARD Place ORANGE true NONE St. James
+STANDARD ORANGE true NONE St. James Place
 STANDARD ORANGE true NONE Tennessee Avenue
 STANDARD ORANGE true NONE New York Avenue
 STANDARD RED true NONE Kentucky Avenue
@@ -18,11 +18,11 @@ STANDARD YELLOW true NONE Marvin Gardens
 STANDARD GREEN true NONE Pacific Avenue
 STANDARD GREEN true NONE North Carolina Avenue
 STANDARD GREEN true NONE Pennsylvania Avenue
-STANDARD DARKBLUE true NONE ParkPlace
+STANDARD DARKBLUE true NONE Park Place
 STANDARD DARKBLUE true NONE Boardwalk
 UTILITY WHITE false NONE Electric Company
 UTILITY WHITE false NONE Water Works
 RAILROAD BLACK false NONE Reading Railroad
-RAILROAD BLACK false NONE Pennsylvania Rail Road
+RAILROAD BLACK false NONE Pennsylvania RailRoad
 RAILROAD BLACK false NONE B&O RailRoad
 RAILROAD BLACK false NONE Short Line Railroad

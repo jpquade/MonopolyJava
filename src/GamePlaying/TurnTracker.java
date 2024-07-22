@@ -25,14 +25,12 @@ public class TurnTracker {
     private final RaiseMoney raiseMoney;
     NumberValueCheck numberValueCheck;
 
-
     public TurnTracker() throws FileNotFoundException {
         GameData gameData = new GameData();
         numberOfPlayers = 0;
         playerList = new ArrayList<>();
         tokenList = new ArrayList<>(Arrays.asList("DOG", "CAT", "BATTLESHIP", "PENGUIN", "RUBBERDUCKY", "TOPHAT", "RACECAR", "THIMBLE"));
-        // temporarily disabled, re-enable for normal operation
-        //scanner = new Scanner(System.in); // disables while debugging
+        // scanner = new Scanner(System.in); // disabled while debugging
         scanner = new Scanner(new File("userInputs.txt"));
         gameBoard = gameData.getGameBoard();
         propertyAttributes = new LinkedHashMap<>(gameData.getPropertyMap());
@@ -50,18 +48,13 @@ public class TurnTracker {
 
     private boolean isInJail(String entry, Player player){
 
-        // increases the in jail counter every turn that player is in jail
-        player.setTimeInJail(player.getTimeInJail() + 1);
-
-        // if player has get out of jail card and time in jail is less than 3
-
         System.out.println();
         System.out.println(STR."1: Use your \"Get Out of Jail Free\" card.");
         System.out.println(STR."2: Pay $50 to leave jail.");
         System.out.println(STR."3: Roll the dice.");
         System.out.println();
         System.out.println(STR."Get out of jail free cards: \{player.getGetOutOfJailFreeCount()}");
-        System.out.println(STR."\{player.getToken()}S cash \{player.getCash()}");
+        System.out.println(STR."\{player.getToken()} has \{player.getCash()} cash.");
 
         Scanner jailScan = new Scanner(System.in);
 
@@ -131,30 +124,34 @@ public class TurnTracker {
                 }
 
                 // player has to pay to get out of jail after 3rd roll
-                else if (player.getTimeInJail() == 3) {
+                else if (player.getTimeInJail() >= 3) {
+
+                    System.out.println();
+                    System.out.println(STR."\{player.getToken()} did not get doubles and must pay to get out of jail.");
 
                     // ways to raise funds
                     while (player.getCash() < 50) {
-                        System.out.println();
-                        System.out.println("Insufficient funds to get out of jail after your 3rd roll");
+
+                        System.out.println("Insufficient funds to get out of jail after your 3rd roll.");
                         System.out.println("Raise money");
-                        System.out.println(player.getToken() + " has " + player.getCash() + " cash.");
+                        System.out.println(STR."\{player.getToken()} has \{player.getCash()} cash.");
                         System.out.println();
                         System.out.println("####################");
                         System.out.println();
-                        System.out.println("Return to main options has been disabled until you raise enough funds");
+                        System.out.println("Return to main options has been disabled until you raise enough funds.");
                         System.out.println();
 
                         raiseMoney.raiseMoneyOptions(player, propertyAttributes, numberValueCheck,
                                 propertyFinancials, playerList, jailScan);
                     }
 
+                    System.out.println(STR."\{player.getToken()} has \{player.getCash()} cash.");
                     player.setCash(player.getCash() - 50);
 
                     player.setInJail(false);
-                    System.out.println(STR."\{player.getToken()} paid to get out of jail.");
+                    System.out.println(STR."\{player.getToken()} (-50) paid to get out of jail.");
                     System.out.println(STR."\{player.getToken()} now has \{player.getCash()} cash.");
-                    System.out.println(STR."\{player.getToken()} is now out of jail");
+                    System.out.println(STR."\{player.getToken()} is now out of jail.");
 
                     return true;
                 }
@@ -169,7 +166,7 @@ public class TurnTracker {
 
         do{
             System.out.println();
-            System.out.print("What is the number of players(Make sure to only enter a valid number \"2-8\")? ");
+            System.out.print("What is the number of players (Make sure to only enter a valid number \"2-8\")? ");
             entry = scanner.nextLine().trim();
         }
         while(numberValueCheck.notValidNumber(entry) || numberValueCheck.notInRange(entry, 2 , 8));
@@ -185,7 +182,7 @@ public class TurnTracker {
 
                 System.out.println();
                 System.out.println("########################################################");
-                System.out.println(STR."Misc.Player \{index + 1}, which token do you want to use?");
+                System.out.println(STR."Player \{index + 1}, which token do you want to use?");
                 System.out.println();
 
                 for(int tokenIndex = 0; tokenIndex < tokenList.size(); tokenIndex++){
@@ -194,11 +191,10 @@ public class TurnTracker {
 
             int tokenNumber = Integer.parseInt(numberValueCheck.validEntry(1, tokenList.size(), scanner)) - 1;
 
-            //playerList.add(new Player(playerNumber, Token.valueOf(tokenList.get(tokenNumber)),0,1500, false, 0, 0,0));
-            // list of player settings - token boardlocation cash inJail doubleDiceCount getOutOfJailFreeCount timeInJail
-            //Scanner tempScan = new Scanner(new File("playerTemp.txt"));
+            // disabled while debugging
+            // playerList.add(new Player(playerNumber, Token.valueOf(tokenList.get(tokenNumber)),0,1500, false, 0, 0,0));
 
-            // used for testing
+            //temporary used for testing
             String playerNum = tempScan.next();
             String token = tempScan.next();
             String boardLocation = tempScan.next();
@@ -212,16 +208,14 @@ public class TurnTracker {
             playerList.add(new Player(Integer.parseInt(playerNum), Token.valueOf(token), Integer.parseInt(boardLocation),Integer.parseInt(cash),
                     Boolean.parseBoolean(inJail), Integer.parseInt(doubleDiceCount), Integer.parseInt(getOutOfJailFreeCount),Integer.parseInt(timeInJail)));
 
-
-            //playerList.add(new Player(playerNumber, Token.valueOf(tokenList.get(tokenNumber)),0,35, true, 0, 1,0));
             tokenList.remove(tokenNumber);
 
             System.out.println();
-            System.out.println(STR."Misc.Player \{playerNumber} is the \{playerList.get(index).getToken()}");
+            System.out.println(STR."Player \{playerNumber} is the \{playerList.get(index).getToken()}.");
         }
 
         System.out.println();
-        System.out.println("Shuffling player order");
+        System.out.println("Shuffling player order...");
 
         Collections.shuffle(playerList);
 
@@ -251,12 +245,14 @@ public class TurnTracker {
             System.out.println(STR."\{player.getToken()} has \{player.getCash()} cash.");
             System.out.println(STR."Times rolled doubles: \{player.getDoubleDiceCount()} at start of turn");
 
-            // recording starting location
-//            int startLocation = player.getBoardLocation();
-//            String currentNamedLocation = gameBoard.get(player.getBoardLocation());
-
             // checks if player is in jail and remains in while loop until it is resolved
             if(player.isInJail()){
+
+                // increases the in jail counter every turn that player is in jail
+                player.setTimeInJail(player.getTimeInJail() + 1);
+
+                // canEscape variable allows for a player to exit this block if out of jail to take rest of turn
+                // or if rolled while in jail for non-movement related activities
                 boolean canEscape = false;
                 while(player.isInJail() && !canEscape){
                     canEscape = isInJail(entry, player);
@@ -282,7 +278,7 @@ public class TurnTracker {
                         System.out.println(STR."\{player.getToken()} has been sent to jail.");
                     }
                     else{
-                        // sets player index back one so that this player can roll again
+                        // sets current player index back one so that this player can roll again after doubles rolled
                         if(currentPlayerIndex == 0) currentPlayerIndex = playerList.size() - 1;
                         else currentPlayerIndex--;
                     }
@@ -298,7 +294,7 @@ public class TurnTracker {
             if(!player.isInJail()){
                 int locationTotal = player.getBoardLocation() + dice.getDiceOne() + dice.getDiceTwo();
 
-                // temporary
+                // disabled while debugging
                 //int locationTotal = player.getBoardLocation() + 1;
 
                 // adjusts movement to number of spaces on board
@@ -307,13 +303,14 @@ public class TurnTracker {
                 }
 
                 player.setBoardLocation(locationTotal);
+                System.out.println(STR."\{player.getToken()} will move \{dice.getDiceOne() + dice.getDiceTwo()} spaces.");
             }
 
             System.out.println(STR."Started on. Index: \{startLocation} - \{currentNamedLocation}");
 
             int finalLocation = player.getBoardLocation();
 
-            // added a condition for displaying movement if player doesn't move i.e. being in jail
+            // added a condition for displaying alternate message if player doesn't move i.e. being in jail
             if(startLocation != finalLocation){
                 System.out.println(STR."Moved to.   Index: \{finalLocation} - \{gameBoard.get(player.getBoardLocation())}");
             } else {

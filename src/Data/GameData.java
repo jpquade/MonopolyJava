@@ -20,14 +20,15 @@ public class GameData {
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     InitializeData initializeData;
 
-    public GameData(){
+    public GameData() throws FileNotFoundException {
         initializeData = new InitializeData();
         gameBoard = new ArrayList<>();
         propertyMap = new LinkedHashMap<>();
         propertyFinancialsMap = new LinkedHashMap<>();
         initGameBoard();
-        initPropertyMap();
+        //initPropertyMap(); // disabled while debugging
         initPropertyFinancialMap();
+        initTempMap();
     }
 
     private void initGameBoard() {gameBoard = initializeData.getGameBoard();}
@@ -44,18 +45,50 @@ public class GameData {
         return propertyFinancialsMap;
     }
 
+    // enabled while debugging
     private void initTempMap() throws FileNotFoundException {
         Scanner tempScan = new Scanner(new File("propertyInputs.txt"));
+
+//        for(int i = 0; i < 2; i++) {
+//            String propertyType = tempScan.next();
+//            String color = tempScan.next();
+//            String canMortgage = tempScan.next();
+//            String owner = tempScan.next();
+//            owner = "CAT";
+//            String propertyName = tempScan.nextLine().trim();
+//
+//            System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
+//            propertyMap.put(propertyName,
+//                    new Property.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(Color.valueOf(color)).improvementAllowed(true).owner(Token.valueOf(owner)).build());
+//
+//        }
 
         for(int i = 0; i < 28; i++){
             String propertyType = tempScan.next();
             String color = tempScan.next();
+            String canMortgage = tempScan.next();
             String owner = tempScan.next();
+            if(i < 2){
+                owner = "CAT";
+            }
+            else if(i < 4){
+                owner = "DOG";
+            }
+            int houseCount = 0;
+            if(i == 0){
+                houseCount = 4;
+            }
+            if(i == 2){
+                houseCount = 4;
+            }
+
+
             String propertyName = tempScan.nextLine().trim();
+
+            System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
+            propertyMap.put(propertyName,
+                    new Property.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(Color.valueOf(color)).improvementAllowed(true).owner(Token.valueOf(owner)).house(houseCount).build());
+
         }
-
-        System.out.println();
-
-        //new Property.PropertyBuilder().propertyType(PropertyType.STANDARD).name("Mediterranean Avenue") .color(Color.BROWN).improvementAllowed(true).owner(Token.NONE).build(),
     }
 }
