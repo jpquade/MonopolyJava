@@ -46,12 +46,10 @@ public class RaiseMoney {
         LinkedHashMap<Integer, String> listOfUnMortgaged = new LinkedHashMap<>();
         int i = 1;
 
-
-
         // checks for player owned properties with no improvements that can be mortgaged
         for(Property property: propertyAttributes.values()){
 
-            // messages are generated as to why property cannot be mortgaged if applicable
+            // messages are generated when property cannot be mortgaged
             ArrayList<String> mortgageList = new ArrayList<>();
             StringBuilder cannotMortgageMessage = new StringBuilder();
 
@@ -59,11 +57,11 @@ public class RaiseMoney {
             if(!property.isMortgaged() && property.getOwner() == player.getToken()){
 
                 if(property.getHouse() > 0){
-                    String propertyHouse = STR."has house(s)";
+                    String propertyHouse = STR."House(s) on property";
                     mortgageList.add(propertyHouse);
                 }
                 else if(property.hasHotel()){
-                    String propertyHotel = STR."has a hotel";
+                    String propertyHotel = STR."Hotel on property";
                     mortgageList.add(propertyHotel);
                 }
 
@@ -83,22 +81,21 @@ public class RaiseMoney {
                     }
                 }
 
-                // property will be listed as able to mortgage
+                // property will be listed if it can be mortgaged
                 if(mortgageList.isEmpty()){
-                    System.out.println(STR."\{i}. \{property.getName()} - Mortgage amount: \{propertyFinancials
-                            .get(property.getName()).getMortgageAmount()}");
+                    System.out.printf("%1$-30s %2$s %n", STR."\{i}. \{property.getName()}",
+                            STR."Mortgage for:    \{propertyFinancials.get(property.getName()).getMortgageAmount()}");
                     listOfUnMortgaged.put(i, property.getName());
                     i++;
                 }
                 else{
-                    // print list of why property cannot be mortgaged
-                    cannotMortgageMessage.append(STR."/: \{property.getName()} ");
-                    cannotMortgageMessage.append("(Can't mortgage): ");
+                    // list of reasons property cannot be mortgaged
                     for(String message : mortgageList){
                         cannotMortgageMessage.append(STR."\{message}, ");
                     }
 
-                    System.out.println(cannotMortgageMessage.substring(0, cannotMortgageMessage.length() - 2));
+                    System.out.printf("%1$-30s %2$s%3$s %n", STR."/: \{property.getName()}", "Cannot mortgage: ",
+                            cannotMortgageMessage.substring(0, cannotMortgageMessage.length() - 2));
                 }
             }
         }

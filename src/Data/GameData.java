@@ -54,26 +54,32 @@ public class GameData {
             String color = tempScan.next();
             String canMortgage = tempScan.next();
             String owner = tempScan.next();
-            if(i < 2){
-                owner = "CAT";
-            }
-            else if(i < 4){
-                owner = "DOG";
-            }
+            boolean hasHotel = false;
             int houseCount = 0;
-            if(i == 0){
-                houseCount = 4;
+
+            if(i < 2) owner = "CAT";
+            if(i == 10){
+                owner = "CAT";
+                hasHotel = true;
             }
-            if(i == 2){
-                houseCount = 4;
-            }
+            if(i == 17) owner = "CAT";
+            if(i == 18) owner = "CAT";
+            if(i == 19) owner = "CAT";
+
+            if(i == 26) owner = "CAT";
+            if(1 < i && i < 4) owner = "DOG";
+            if(i == 0) houseCount = 4;
+            if(i == 1) houseCount = 4;
+            if(i == 2) houseCount = 4;
+
+
 
 
             String propertyName = tempScan.nextLine().trim();
 
             System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
             propertyMap.put(propertyName,
-                    new Property.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(Color.valueOf(color)).improvementAllowed(true).owner(Token.valueOf(owner)).house(houseCount).build());
+                    new Property.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(Color.valueOf(color)).improvementAllowed(true).owner(Token.valueOf(owner)).house(houseCount).hotel(hasHotel).build());
 
         }
     }

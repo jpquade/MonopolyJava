@@ -49,13 +49,14 @@ public class TurnTracker {
     private boolean isInJail(String entry, Player player){
 
         System.out.println();
-        System.out.println(STR."1: Use your \"Get Out of Jail Free\" card.");
+        System.out.println(STR."1: Use your \"Get Out of Jail Free\" card if you have one.");
         System.out.println(STR."2: Pay $50 to leave jail.");
         System.out.println(STR."3: Roll the dice.");
         System.out.println();
         System.out.println(STR."Get out of jail free cards: \{player.getGetOutOfJailFreeCount()}");
         System.out.println(STR."\{player.getToken()} has \{player.getCash()} cash.");
 
+        // enabled while debugging
         Scanner jailScan = new Scanner(System.in);
 
         System.out.println(STR."\{player.getToken()}S time in jail \{player.getTimeInJail()} turn(s).");
@@ -72,7 +73,7 @@ public class TurnTracker {
                     player.setInJail(false);
                     System.out.println(STR."\{player.getToken()} used Get out of Jail Free card");
                     System.out.println(STR."\{player.getToken()} now has \{player.getGetOutOfJailFreeCount()} get out of Jail Free cards");
-                    System.out.println(STR."\{player.getToken()} is now out of jail.");
+                    System.out.println(STR."\{player.getToken()} is now out of jail");
 
                     // rolling dice
                     dice.roll();
@@ -87,9 +88,12 @@ public class TurnTracker {
             case 2:
                 if (player.getCash() >= 50) {
 
+                    System.out.println(STR."\{player.getToken()} has \{player.getCash()} cash.");
                     player.setCash(player.getCash() - 50);
 
                     player.setInJail(false);
+                    System.out.println(STR."\{player.getToken()} paid (-50) to get out of jail.");
+                    System.out.println(STR."\{player.getToken()} now has \{player.getCash()} cash.");
                     System.out.println(STR."\{player.getToken()} is now out of jail");
 
                     // rolling dice
@@ -119,7 +123,6 @@ public class TurnTracker {
 
                     player.setInJail(false);
                     System.out.println(STR."\{player.getToken()} rolled doubles");
-                    System.out.println(STR."\{player.getToken()} is now out of jail");
                     return true;
                 }
 
@@ -151,7 +154,7 @@ public class TurnTracker {
                     player.setInJail(false);
                     System.out.println(STR."\{player.getToken()} (-50) paid to get out of jail.");
                     System.out.println(STR."\{player.getToken()} now has \{player.getCash()} cash.");
-                    System.out.println(STR."\{player.getToken()} is now out of jail.");
+                    System.out.println(STR."\{player.getToken()} is now out of jail");
 
                     return true;
                 }
