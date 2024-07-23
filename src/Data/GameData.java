@@ -49,20 +49,6 @@ public class GameData {
     private void initTempMap() throws FileNotFoundException {
         Scanner tempScan = new Scanner(new File("propertyInputs.txt"));
 
-//        for(int i = 0; i < 2; i++) {
-//            String propertyType = tempScan.next();
-//            String color = tempScan.next();
-//            String canMortgage = tempScan.next();
-//            String owner = tempScan.next();
-//            owner = "CAT";
-//            String propertyName = tempScan.nextLine().trim();
-//
-//            System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
-//            propertyMap.put(propertyName,
-//                    new Property.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(Color.valueOf(color)).improvementAllowed(true).owner(Token.valueOf(owner)).build());
-//
-//        }
-
         for(int i = 0; i < 28; i++){
             String propertyType = tempScan.next();
             String color = tempScan.next();

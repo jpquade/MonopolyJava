@@ -64,10 +64,10 @@ public class Property {
     }
 
     public void setHouse(int house) {this.house = house;}
-    public boolean isHotel() {
+
+    public boolean hasHotel() {
         return hotel;
     }
-
 
     public void setHotel(boolean hotel) {
         this.hotel = hotel;
@@ -103,22 +103,6 @@ public class Property {
 
     public void setOwner(Token token) {
         this.tokenOwner = token;
-    }
-
-    @Override
-    public String toString() {
-        return "Property{" +
-                "propertyType=" + propertyType +
-                ", name='" + name + '\'' +
-                ", color=" + color +
-                ", improvementAllowed=" + improvementAllowed +
-                ", house=" + house +
-                ", hotel=" + hotel +
-                ", isMortgaged=" + isMortgaged +
-                ", colorCount=" + colorCount +
-                ", monopoly=" + monopoly +
-                ", owner=" + tokenOwner +
-                '}';
     }
 
     public static class PropertyBuilder {

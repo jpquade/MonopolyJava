@@ -6,6 +6,7 @@ import Properties.PropertyFinancials;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class RaiseMoney {
 
@@ -39,34 +40,67 @@ public class RaiseMoney {
     private void mortgageProperty(Player player, LinkedHashMap<String, Property> propertyAttributes, LinkedHashMap<String, PropertyFinancials> propertyFinancials,
                                   NumberValueCheck numberValueCheck, Scanner scanner){
 
-        System.out.println("List of un-mortgaged properties you own without improvements:");
+        System.out.println("List of properties you own");
         System.out.println();
 
         LinkedHashMap<Integer, String> listOfUnMortgaged = new LinkedHashMap<>();
         int i = 1;
 
+
+
         // checks for player owned properties with no improvements that can be mortgaged
         for(Property property: propertyAttributes.values()){
+
+            // messages are generated as to why property cannot be mortgaged if applicable
+            ArrayList<String> mortgageList = new ArrayList<>();
+            StringBuilder cannotMortgageMessage = new StringBuilder();
 
             // property is not mortgaged and is owned my current player
             if(!property.isMortgaged() && property.getOwner() == player.getToken()){
 
-                if(property.getHouse() == 0 && !property.isHotel()){
+                if(property.getHouse() > 0){
+                    String propertyHouse = STR."has house(s)";
+                    mortgageList.add(propertyHouse);
+                }
+                else if(property.hasHotel()){
+                    String propertyHotel = STR."has a hotel";
+                    mortgageList.add(propertyHotel);
+                }
+
+                // searches for properties of the same color with hotels and houses that need to be sold first
+                for(Property propertyColor : propertyAttributes.values()){
+
+                    // checks other properties that are the same color having improvements built on them
+                    if(!propertyColor.getName().equals(property.getName()) && propertyColor.getColor() == property.getColor()){
+                        if(propertyColor.getHouse() > 0){
+                            String colorPropertyHouse = STR."Property of same color (\{propertyColor.getName()}) has house(s)";
+                            mortgageList.add(colorPropertyHouse);
+                        }
+                        else if(propertyColor.hasHotel()){
+                            String colorPropertyHotel = STR."Property of same color (\{propertyColor.getName()}) has a hotel)";
+                            mortgageList.add(colorPropertyHotel);
+                        }
+                    }
+                }
+
+                // property will be listed as able to mortgage
+                if(mortgageList.isEmpty()){
                     System.out.println(STR."\{i}. \{property.getName()} - Mortgage amount: \{propertyFinancials
                             .get(property.getName()).getMortgageAmount()}");
                     listOfUnMortgaged.put(i, property.getName());
                     i++;
                 }
-                else if(property.getHouse() > 0){
-                    System.out.println(STR."(/). (Cannot mortgage - house(s) on property) \{property.getName()} - Mortgage amount: \{propertyFinancials
-                            .get(property.getName()).getMortgageAmount()}");
-                }
-                else if(property.isHotel()){
-                    System.out.println(STR."(/). (Cannot mortgage - hotel on property) \{property.getName()} - Mortgage amount: \{propertyFinancials
-                            .get(property.getName()).getMortgageAmount()}");
+                else{
+                    // print list of why property cannot be mortgaged
+                    cannotMortgageMessage.append(STR."/: \{property.getName()} ");
+                    cannotMortgageMessage.append("(Can't mortgage): ");
+                    for(String message : mortgageList){
+                        cannotMortgageMessage.append(STR."\{message}, ");
+                    }
+
+                    System.out.println(cannotMortgageMessage.substring(0, cannotMortgageMessage.length() - 2));
                 }
             }
-
         }
         System.out.println(STR."\{i}: Return to main Options");
 
@@ -107,13 +141,13 @@ public class RaiseMoney {
         LinkedHashMap<Integer, String> listOfImproved = new LinkedHashMap<>();
 
         for(Property property: propertyAttributes.values()){
-            if(property.isImprovementAllowed() && (property.getHouse() > 0 || property.isHotel())){
+            if(property.isImprovementAllowed() && (property.getHouse() > 0 || property.hasHotel())){
 
                 if(property.getHouse() > 0){
 
                     // searches for properties of the same color with hotels that need to be sold first
                     for(Property propertyColor : propertyAttributes.values()){
-                        if(!propertyColor.getName().equals(property.getName()) && propertyColor.getColor() == property.getColor() && propertyColor.isHotel()){
+                        if(!propertyColor.getName().equals(property.getName()) && propertyColor.getColor() == property.getColor() && propertyColor.hasHotel()){
                             System.out.println(STR." : \{property.getName()} has \{propertyAttributes
                                     .get(property.getName()).getHouse()} house(s) that cannot be sold until the hotels are sold on \{propertyColor.getName()}");
                         }
@@ -154,7 +188,7 @@ public class RaiseMoney {
                 // check if another property of the same color has a hotel that needs to be sold first before houses on this property
                 for(Property propertyColor : propertyAttributes.values()){
                     if(!propertyColor.getName().equals(selectedPropertyAttributes.getName())
-                            && propertyColor.getColor() == selectedPropertyAttributes.getColor() && propertyColor.isHotel()){
+                            && propertyColor.getColor() == selectedPropertyAttributes.getColor() && propertyColor.hasHotel()){
 
                         System.out.println("This property color shares another property that has a hotel which must be sold first before selling houses on this property");
                         return;

@@ -8,6 +8,5 @@ public class App {
         TurnTracker turnTracker = new TurnTracker();
 
         turnTracker.turnProgression();
-        
     }
 }
