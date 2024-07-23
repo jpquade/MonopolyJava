@@ -39,7 +39,7 @@ public class RaiseMoney {
     private void mortgageProperty(Player player, LinkedHashMap<String, Property> propertyAttributes, LinkedHashMap<String, PropertyFinancials> propertyFinancials,
                                   NumberValueCheck numberValueCheck, Scanner scanner){
 
-        System.out.println("List of properties you own");
+        System.out.println(STR."List of properties \{player.getToken()} has:");
         System.out.println();
 
         LinkedHashMap<Integer, String> listOfUnMortgaged = new LinkedHashMap<>();
@@ -56,12 +56,12 @@ public class RaiseMoney {
             if(!property.isMortgaged() && property.getOwner() == player.getToken()){
 
                 if(property.getHouse() > 0){
-                    String propertyHouse = STR."House(s) on property";
-                    mortgageList.add(propertyHouse);
+                    String improvement = STR."House(s) on property";
+                    mortgageList.add(improvement);
                 }
                 else if(property.hasHotel()){
-                    String propertyHotel = STR."Hotel on property";
-                    mortgageList.add(propertyHotel);
+                    String improvement = STR."Hotel on property";
+                    mortgageList.add(improvement);
                 }
 
                 // searches for properties of the same color with hotels and houses that need to be sold first
@@ -128,7 +128,7 @@ public class RaiseMoney {
     private void sellImprovements(Player player, LinkedHashMap<String, Property> propertyAttributes, NumberValueCheck numberValueCheck,
                                   LinkedHashMap<String, PropertyFinancials> propertyFinancials, Scanner scanner){
 
-        System.out.println("List of improved properties you own:");
+        System.out.println(STR."List of improved properties \{player.getToken()} owns:");
         System.out.println();
 
         // index to keep track of element number within listOfUnMortgaged
@@ -137,34 +137,44 @@ public class RaiseMoney {
         LinkedHashMap<Integer, String> listOfImproved = new LinkedHashMap<>();
 
         for(Property property: propertyAttributes.values()){
-            if(property.isImprovementAllowed() && (property.getHouse() > 0 || property.hasHotel())){
+            if(property.isImprovementAllowed()){
 
+                // checks if property has houses
                 if(property.getHouse() > 0){
+
+                    // messages are generated when property cannot be mortgaged
+                    ArrayList<String> improvementList = new ArrayList<>();
+                    StringBuilder cannotSellHouse = new StringBuilder();
 
                     // searches for properties of the same color with hotels that need to be sold first
                     for(Property propertyColor : propertyAttributes.values()){
                         if(!propertyColor.getName().equals(property.getName()) && propertyColor.getColor() == property.getColor() && propertyColor.hasHotel()){
-                            System.out.println(STR." : \{property.getName()} has \{propertyAttributes
-                                    .get(property.getName()).getHouse()} house(s) that cannot be sold until the hotels are sold on \{propertyColor.getName()}");
+                            //System.out.println(STR."/: hotels on same property color \{propertyColor.getName()} must be sold first");
+                            String hotelImprovement = STR."Same property color \{propertyColor.getName()} has hotels that must be sold first";
+                            improvementList.add(hotelImprovement);
                         }
                     }
 
                     System.out.println(STR."\{i}: \{property.getName()} has \{propertyAttributes
-                            .get(property.getName()).getHouse()} house(s) that sell for \{propertyFinancials
-                            .get(property.getName()).getPricePerImprovement() / 2} each}");
+                            .get(property.getName()).getHouse()} house(s) eash for \{propertyFinancials
+                            .get(property.getName()).getPricePerImprovement() / 2} each");
+                    listOfImproved.put(i, property.getName());
+                    i++;
                 }
-                else{
-                    System.out.println(STR."\{i}: \{property.getName()} has a hotel that sells for \{propertyFinancials
-                            .get(property.getName()).getPricePerImprovement() / 2}.}");
+                // checks if property has hotels
+                else if(property.hasHotel()){
+                    System.out.println(STR."\{i}: \{property.getName()} has hotel for \{propertyFinancials
+                            .get(property.getName()).getPricePerImprovement() / 2}.");
+                    listOfImproved.put(i, property.getName());
+                    i++;
                 }
-                listOfImproved.put(i, property.getName());
+
             }
-            i++;
         }
 
         System.out.println(STR."\{i}: Return to main Options");
 
-        System.out.println("Select which property you want to sell improvements from.");
+        System.out.println("Select which property you want to sell improvements from or return to main options.");
 
         String userEntry = numberValueCheck.validEntry(0, i, scanner);
 

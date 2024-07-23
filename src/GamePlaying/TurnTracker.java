@@ -103,7 +103,7 @@ public class TurnTracker {
                 } else {
 
                     System.out.println();
-                    System.out.println("Insufficient funds raise money");
+                    System.out.println("Insufficient funds, raise money");
                     System.out.println();
 
                     raiseMoney.raiseMoneyOptions(player, propertyAttributes, numberValueCheck,
