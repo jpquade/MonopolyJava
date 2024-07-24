@@ -1,6 +1,6 @@
 package Misc;
 
-import Properties.Property;
+import Properties.PropertyAttributes;
 import Properties.PropertyFinancials;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class RaiseMoney {
     public RaiseMoney(){}
 
     // different ways to raise money
-    public void raiseMoneyOptions(Player player, LinkedHashMap<String, Property> propertyAttributes, NumberValueCheck numberValueCheck,
+    public void raiseMoneyOptions(Player player, LinkedHashMap<String, PropertyAttributes> propertyAttributes, NumberValueCheck numberValueCheck,
                                   LinkedHashMap<String, PropertyFinancials> propertyFinancials, ArrayList<Player> playerList, Scanner scanner){
 
         System.out.println("1. Mortgage Property");
@@ -24,19 +24,19 @@ public class RaiseMoney {
 
         switch(Integer.parseInt(numberValueCheck.validEntry(1, 4, scanner))){
 
-            case 1: // mortgage property
+            case 1: // mortgage propertyAttributes
                 mortgageProperty(player, propertyAttributes, propertyFinancials, numberValueCheck, scanner);
                 break;
             case 2: // sell improvements
                 sellImprovements(player, propertyAttributes, numberValueCheck, propertyFinancials, scanner);
                 break;
-            case 3: // sell property
+            case 3: // sell propertyAttributes
                 sellProperty(player, playerList, numberValueCheck, propertyAttributes, propertyFinancials, scanner);
                 break;
         }
     }
 
-    private void mortgageProperty(Player player, LinkedHashMap<String, Property> propertyAttributes, LinkedHashMap<String, PropertyFinancials> propertyFinancials,
+    private void mortgageProperty(Player player, LinkedHashMap<String, PropertyAttributes> propertyAttributes, LinkedHashMap<String, PropertyFinancials> propertyFinancials,
                                   NumberValueCheck numberValueCheck, Scanner scanner){
 
         System.out.println(STR."List of properties \{player.getToken()} has:");
@@ -46,54 +46,54 @@ public class RaiseMoney {
         int i = 1;
 
         // checks for player owned properties with no improvements that can be mortgaged
-        for(Property property: propertyAttributes.values()){
+        for(PropertyAttributes propertyFeatures: propertyAttributes.values()){
 
-            // messages are generated when property cannot be mortgaged
+            // messages are generated when propertyAttributes cannot be mortgaged
             ArrayList<String> mortgageList = new ArrayList<>();
             StringBuilder cannotMortgageMessage = new StringBuilder();
 
-            // property is not mortgaged and is owned my current player
-            if(!property.isMortgaged() && property.getOwner() == player.getToken()){
+            // propertyAttributes is not mortgaged and is owned my current player
+            if(!propertyFeatures.isMortgaged() && propertyFeatures.getOwner() == player.getToken()){
 
-                if(property.getHouse() > 0){
+                if(propertyFeatures.getHouse() > 0){
                     String improvement = STR."House(s) on property";
                     mortgageList.add(improvement);
                 }
-                else if(property.hasHotel()){
+                else if(propertyFeatures.hasHotel()){
                     String improvement = STR."Hotel on property";
                     mortgageList.add(improvement);
                 }
 
                 // searches for properties of the same color with hotels and houses that need to be sold first
-                for(Property propertyColor : propertyAttributes.values()){
+                for(PropertyAttributes propertyAttributesColor : propertyAttributes.values()){
 
                     // checks other properties that are the same color having improvements built on them
-                    if(!propertyColor.getName().equals(property.getName()) && propertyColor.getColor() == property.getColor()){
-                        if(propertyColor.getHouse() > 0){
-                            String colorPropertyHouse = STR."Property of same color (\{propertyColor.getName()}) has house(s)";
+                    if(!propertyAttributesColor.getName().equals(propertyFeatures.getName()) && propertyAttributesColor.getColor() == propertyFeatures.getColor()){
+                        if(propertyAttributesColor.getHouse() > 0){
+                            String colorPropertyHouse = STR."Property of same color (\{propertyAttributesColor.getName()}) has house(s)";
                             mortgageList.add(colorPropertyHouse);
                         }
-                        else if(propertyColor.hasHotel()){
-                            String colorPropertyHotel = STR."Property of same color (\{propertyColor.getName()}) has a hotel)";
+                        else if(propertyAttributesColor.hasHotel()){
+                            String colorPropertyHotel = STR."Property of same color (\{propertyAttributesColor.getName()}) has a hotel)";
                             mortgageList.add(colorPropertyHotel);
                         }
                     }
                 }
 
-                // property will be listed if it can be mortgaged
+                // propertyAttributes will be listed if it can be mortgaged
                 if(mortgageList.isEmpty()){
-                    System.out.printf("%1$-30s %2$s %n", STR."\{i}. \{property.getName()}",
-                            STR."Mortgage for:    \{propertyFinancials.get(property.getName()).getMortgageAmount()}");
-                    listOfUnMortgaged.put(i, property.getName());
+                    System.out.printf("%1$-30s %2$s %n", STR."\{i}. \{propertyFeatures.getName()}",
+                            STR."Mortgage for:    \{propertyFinancials.get(propertyFeatures.getName()).getMortgageAmount()}");
+                    listOfUnMortgaged.put(i, propertyFeatures.getName());
                     i++;
                 }
                 else{
-                    // list of reasons property cannot be mortgaged
+                    // list of reasons propertyAttributes cannot be mortgaged
                     for(String message : mortgageList){
                         cannotMortgageMessage.append(STR."\{message}, ");
                     }
 
-                    System.out.printf("%1$-30s %2$s%3$s %n", STR."/: \{property.getName()}", "Cannot mortgage: ",
+                    System.out.printf("%1$-30s %2$s%3$s %n", STR."/: \{propertyFeatures.getName()}", "Cannot mortgage: ",
                             cannotMortgageMessage.substring(0, cannotMortgageMessage.length() - 2));
                 }
             }
@@ -115,7 +115,7 @@ public class RaiseMoney {
                     .getCash() + propertyFinancials.get(listOfUnMortgaged
                     .get(mortgageSelection)).getMortgageAmount());
 
-            // mortgage property set to true
+            // mortgage propertyAttributes set to true
             propertyAttributes.get(listOfUnMortgaged.get(mortgageSelection)).setMortgaged(true);
 
             System.out.println(STR."Mortgaged \{listOfUnMortgaged.get(mortgageSelection)} and added \{propertyFinancials
@@ -125,7 +125,7 @@ public class RaiseMoney {
         }
     }
 
-    private void sellImprovements(Player player, LinkedHashMap<String, Property> propertyAttributes, NumberValueCheck numberValueCheck,
+    private void sellImprovements(Player player, LinkedHashMap<String, PropertyAttributes> propertyAttributes, NumberValueCheck numberValueCheck,
                                   LinkedHashMap<String, PropertyFinancials> propertyFinancials, Scanner scanner){
 
         System.out.println(STR."List of improved properties \{player.getToken()} owns:");
@@ -136,39 +136,38 @@ public class RaiseMoney {
 
         LinkedHashMap<Integer, String> listOfImproved = new LinkedHashMap<>();
 
-        for(Property property: propertyAttributes.values()){
-            if(property.isImprovementAllowed()){
+        for(PropertyAttributes propertyfeatures: propertyAttributes.values()){
+            if(propertyfeatures.isImprovementAllowed()){
 
-                // checks if property has houses
-                if(property.getHouse() > 0){
+                // checks if propertyAttributes has houses
+                if(propertyfeatures.getHouse() > 0){
 
-                    // messages are generated when property cannot be mortgaged
+                    // messages are generated when propertyAttributes cannot be mortgaged
                     ArrayList<String> improvementList = new ArrayList<>();
                     StringBuilder cannotSellHouse = new StringBuilder();
 
                     // searches for properties of the same color with hotels that need to be sold first
-                    for(Property propertyColor : propertyAttributes.values()){
-                        if(!propertyColor.getName().equals(property.getName()) && propertyColor.getColor() == property.getColor() && propertyColor.hasHotel()){
-                            //System.out.println(STR."/: hotels on same property color \{propertyColor.getName()} must be sold first");
-                            String hotelImprovement = STR."Same property color \{propertyColor.getName()} has hotels that must be sold first";
+                    for(PropertyAttributes propertyAttributesColor : propertyAttributes.values()){
+                        if(!propertyAttributesColor.getName().equals(propertyfeatures.getName()) && propertyAttributesColor.getColor() == propertyfeatures.getColor() && propertyAttributesColor.hasHotel()){
+                            //System.out.println(STR."/: hotels on same propertyAttributes color \{propertyColor.getName()} must be sold first");
+                            String hotelImprovement = STR."Same propertyAttributes color \{propertyAttributesColor.getName()} has hotels that must be sold first";
                             improvementList.add(hotelImprovement);
                         }
                     }
 
-                    System.out.println(STR."\{i}: \{property.getName()} has \{propertyAttributes
-                            .get(property.getName()).getHouse()} house(s) eash for \{propertyFinancials
-                            .get(property.getName()).getPricePerImprovement() / 2} each");
-                    listOfImproved.put(i, property.getName());
+                    System.out.println(STR."\{i}: \{propertyfeatures.getName()} has \{propertyAttributes
+                            .get(propertyfeatures.getName()).getHouse()} house(s) eash for \{propertyFinancials
+                            .get(propertyfeatures.getName()).getPricePerImprovement() / 2} each");
+                    listOfImproved.put(i, propertyfeatures.getName());
                     i++;
                 }
-                // checks if property has hotels
-                else if(property.hasHotel()){
-                    System.out.println(STR."\{i}: \{property.getName()} has hotel for \{propertyFinancials
-                            .get(property.getName()).getPricePerImprovement() / 2}.");
-                    listOfImproved.put(i, property.getName());
+                // checks if propertyAttributes has hotels
+                else if(propertyfeatures.hasHotel()){
+                    System.out.println(STR."\{i}: \{propertyfeatures.getName()} has hotel for \{propertyFinancials
+                            .get(propertyfeatures.getName()).getPricePerImprovement() / 2}.");
+                    listOfImproved.put(i, propertyfeatures.getName());
                     i++;
                 }
-
             }
         }
 
@@ -180,21 +179,21 @@ public class RaiseMoney {
 
         int improvementSelection = Integer.parseInt(userEntry) - 1;
 
-        // if option selected is 0 to i - sell a property
+        // if option selected is 0 to i - sell a propertyAttributes
         if(numberValueCheck.notInRange(userEntry, 0, i)) {
 
-            Property selectedPropertyAttributes = propertyAttributes.get(listOfImproved.get(improvementSelection));
+            PropertyAttributes selectedPropertyAttributesAttributes = propertyAttributes.get(listOfImproved.get(improvementSelection));
             PropertyFinancials selectedPropertyFinancials = propertyFinancials.get(listOfImproved.get(improvementSelection));
 
-            int numberOfHouses = selectedPropertyAttributes.getHouse();
+            int numberOfHouses = selectedPropertyAttributesAttributes.getHouse();
 
             // sell houses
             if (numberOfHouses > 0) {
 
-                // check if another property of the same color has a hotel that needs to be sold first before houses on this property
-                for(Property propertyColor : propertyAttributes.values()){
-                    if(!propertyColor.getName().equals(selectedPropertyAttributes.getName())
-                            && propertyColor.getColor() == selectedPropertyAttributes.getColor() && propertyColor.hasHotel()){
+                // check if another propertyAttributes of the same color has a hotel that needs to be sold first before houses on this propertyAttributes
+                for(PropertyAttributes propertyAttributesColor : propertyAttributes.values()){
+                    if(!propertyAttributesColor.getName().equals(selectedPropertyAttributesAttributes.getName())
+                            && propertyAttributesColor.getColor() == selectedPropertyAttributesAttributes.getColor() && propertyAttributesColor.hasHotel()){
 
                         System.out.println("This property color shares another property that has a hotel which must be sold first before selling houses on this property");
                         return;
@@ -209,7 +208,7 @@ public class RaiseMoney {
                 int housesToSell = Integer.parseInt(numberValueCheck.validEntry(1, numberOfHouses, scanner));
 
                 // remove houses sold
-                selectedPropertyAttributes.setHouse(selectedPropertyAttributes.getHouse() - housesToSell);
+                selectedPropertyAttributesAttributes.setHouse(selectedPropertyAttributesAttributes.getHouse() - housesToSell);
 
                 // add cash from sold houses to player
                 player.setCash(player.getCash()
@@ -232,7 +231,7 @@ public class RaiseMoney {
                 if(sellHotelSelection == 1){
 
                     // remove hotel sold
-                    selectedPropertyAttributes.setHotel(false);
+                    selectedPropertyAttributesAttributes.setHotel(false);
 
                     // add cash from sold hotel to player
                     player.setCash(player.getCash() + selectedPropertyFinancials.getPricePerImprovement() / 2);
@@ -245,7 +244,7 @@ public class RaiseMoney {
     }
 
     private void sellProperty(Player player, ArrayList<Player> playerList, NumberValueCheck numberValueCheck,
-                              LinkedHashMap<String, Property> propertyAttributes, LinkedHashMap<String,
+                              LinkedHashMap<String, PropertyAttributes> propertyAttributes, LinkedHashMap<String,
             PropertyFinancials> propertyFinancials, Scanner scanner){
         LinkedHashMap<Integer, Integer> playerChoice = new LinkedHashMap<>();
         int i = 1;
@@ -274,15 +273,15 @@ public class RaiseMoney {
 
         i = 0;
 
-        for(Property property: propertyAttributes.values()){
-            if(property.getOwner() == player.getToken()){
-                if(!property.isMortgaged()){
-                    System.out.println(STR."\{i + 1}: \{property.getName()}");
+        for(PropertyAttributes propertyFeatures: propertyAttributes.values()){
+            if(propertyFeatures.getOwner() == player.getToken()){
+                if(!propertyFeatures.isMortgaged()){
+                    System.out.println(STR."\{i + 1}: \{propertyFeatures.getName()}");
                 }
                 else{
-                    System.out.println(STR. "\{i + 1}: \{property.getName()} is currently mortgaged and will cost an additional 10% of the mortgage rate to purchase");
+                    System.out.println(STR. "\{i + 1}: \{propertyFeatures.getName()} is currently mortgaged and will cost an additional 10% of the mortgage rate to purchase");
                 }
-                listOfProperties.add(property.getName());
+                listOfProperties.add(propertyFeatures.getName());
             }
             i++;
         }
@@ -291,10 +290,10 @@ public class RaiseMoney {
 
         int selectProperty = Integer.parseInt(numberValueCheck.validEntry(1, i, scanner));
 
-        Property selectedPropertyAttributes = propertyAttributes.get(listOfProperties.get(selectProperty));
+        PropertyAttributes selectedPropertyAttributesAttributes = propertyAttributes.get(listOfProperties.get(selectProperty));
         PropertyFinancials selectedPropertyFinancials = propertyFinancials.get(listOfProperties.get(selectProperty));
 
-        if(selectedPropertyAttributes.isMortgaged()){
+        if(selectedPropertyAttributesAttributes.isMortgaged()){
             System.out.println(STR."Property selected is mortgaged. The interest \{selectedPropertyFinancials
                     .getMortgageAmount() * .10} + the amount entered will be the final cost.");
 
@@ -314,7 +313,7 @@ public class RaiseMoney {
             while (!entry.equals("y") && !entry.equals("n"));
 
             if(entry.equals("y")){
-                // if player purchasing property has enough cash
+                // if player purchasing propertyAttributes has enough cash
                 if(selectedPlayer.getCash() - (propertyCost + selectedPropertyFinancials.getMortgageAmount() * .10) >= 0){
                     selectedPlayer.setCash(selectedPlayer.getCash() - (int)(propertyCost + selectedPropertyFinancials.getMortgageAmount() * .10));
                 }
@@ -325,7 +324,7 @@ public class RaiseMoney {
             }
         }
         else {
-            // if property is not mortgaged
+            // if propertyAttributes is not mortgaged
             System.out.println("Enter an amount the property will be purchased for in whole dollars only");
 
             int propertyCost = Integer.parseInt(numberValueCheck.validEntry(1, selectedPlayer.getCash(), scanner));
@@ -341,7 +340,7 @@ public class RaiseMoney {
             while (!entry.equals("y") && !entry.equals("n"));
 
             if(entry.equals("y")){
-                // if player purchasing property has enough cash
+                // if player purchasing propertyAttributes has enough cash
                 if(selectedPlayer.getCash() - (propertyCost + selectedPropertyFinancials.getMortgageAmount() * .10) >= 0){
                     selectedPlayer.setCash(selectedPlayer.getCash() - (propertyCost));
                 }

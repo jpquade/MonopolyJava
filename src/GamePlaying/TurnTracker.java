@@ -1,7 +1,7 @@
 package GamePlaying;
 
 import Data.GameData;
-import Enums.Token;
+import Enums.PlayerToken;
 import Properties.*;
 import Misc.Dice;
 import Misc.NumberValueCheck;
@@ -19,7 +19,7 @@ public class TurnTracker {
     private final ArrayList<String> tokenList;
     private final Scanner scanner;
     private final ArrayList<String> gameBoard;
-    private final LinkedHashMap<String, Property> propertyAttributes;
+    private final LinkedHashMap<String, PropertyAttributes> propertyAttributes;
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancials;
     private final Dice dice;
     private final RaiseMoney raiseMoney;
@@ -185,7 +185,7 @@ public class TurnTracker {
 
                 System.out.println();
                 System.out.println("########################################################");
-                System.out.println(STR."Player \{index + 1}, which token do you want to use?");
+                System.out.println(STR."Player \{index + 1}, which playerToken do you want to use?");
                 System.out.println();
 
                 for(int tokenIndex = 0; tokenIndex < tokenList.size(); tokenIndex++){
@@ -199,7 +199,7 @@ public class TurnTracker {
 
             //temporary used for testing
             String playerNum = tempScan.next();
-            String token = tempScan.next();
+            String playerToken = tempScan.next();
             String boardLocation = tempScan.next();
             String cash = tempScan.next();
             String inJail = tempScan.next();
@@ -207,8 +207,8 @@ public class TurnTracker {
             String getOutOfJailFreeCount = tempScan.next();
             String timeInJail = tempScan.nextLine().trim();
 
-            //System.out.println(playerNum + token + boardLocation + cash + inJail + doubleDiceCount + getOutOfJailFreeCount + timeInJail);
-            playerList.add(new Player(Integer.parseInt(playerNum), Token.valueOf(token), Integer.parseInt(boardLocation),Integer.parseInt(cash),
+            //System.out.println(playerNum + playerToken + boardLocation + cash + inJail + doubleDiceCount + getOutOfJailFreeCount + timeInJail);
+            playerList.add(new Player(Integer.parseInt(playerNum), PlayerToken.valueOf(playerToken), Integer.parseInt(boardLocation),Integer.parseInt(cash),
                     Boolean.parseBoolean(inJail), Integer.parseInt(doubleDiceCount), Integer.parseInt(getOutOfJailFreeCount),Integer.parseInt(timeInJail)));
 
             tokenList.remove(tokenNumber);

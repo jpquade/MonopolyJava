@@ -1,22 +1,22 @@
 package Properties;
 
-import Enums.Color;
-import Enums.Token;
+import Enums.PlayerToken;
+import Enums.PropertyColor;
 import Enums.PropertyType;
 
-public class Property {
+public class PropertyAttributes {
     private PropertyType propertyType;
     private String name;
-    private Color color;
+    private PropertyColor color;
     private boolean improvementAllowed;
     private int house;
     private boolean hotel;
     private boolean isMortgaged;
     private int colorCount;
     private boolean monopoly;
-    private Token tokenOwner;
+    private PlayerToken playerTokenOwner;
 
-    private Property(PropertyType propertyType, String name, Color color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, int colorCount, boolean monopoly, Token tokenOwner) {
+    private PropertyAttributes(PropertyType propertyType, String name, PropertyColor color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, int colorCount, boolean monopoly, PlayerToken playerTokenOwner) {
         this.propertyType = propertyType;
         this.name = name;
         this.color = color;
@@ -26,7 +26,7 @@ public class Property {
         this.isMortgaged = isMortgaged;
         this.colorCount = colorCount;
         this.monopoly = monopoly;
-        this.tokenOwner = tokenOwner;
+        this.playerTokenOwner = playerTokenOwner;
     }
 
     public PropertyType getPropertyType() {
@@ -45,9 +45,9 @@ public class Property {
         this.name = name;
     }
 
-    public Color getColor() {return color;}
+    public PropertyColor getColor() {return color;}
 
-    public void setColor(Color color) {
+    public void setColor(PropertyColor color) {
         this.color = color;
     }
 
@@ -97,26 +97,26 @@ public class Property {
         this.monopoly = monopoly;
     }
 
-    public Token getOwner() {
-        return tokenOwner;
+    public PlayerToken getOwner() {
+        return playerTokenOwner;
     }
 
-    public void setOwner(Token token) {
-        this.tokenOwner = token;
+    public void setOwner(PlayerToken playerToken) {
+        this.playerTokenOwner = playerToken;
     }
 
     public static class PropertyBuilder {
 
         private PropertyType propertyType;
         private String name;
-        private Color color;
+        private PropertyColor color;
         private boolean improvementAllowed;
         private int house;
         private boolean hotel;
         private boolean isMortgaged;
         private int colorCount;
         private boolean monopoly;
-        private Token tokenOwner;
+        private PlayerToken playerTokenOwner;
 
         public PropertyBuilder propertyType(PropertyType propertyType) {
             this.propertyType = propertyType;
@@ -128,7 +128,7 @@ public class Property {
             return this;
         }
 
-        public PropertyBuilder color(Color color) {
+        public PropertyBuilder color(PropertyColor color) {
             this.color = color;
             return this;
         }
@@ -163,13 +163,13 @@ public class Property {
             return this;
         }
 
-        public PropertyBuilder owner(Token tokenOwner) {
-            this.tokenOwner = tokenOwner;
+        public PropertyBuilder owner(PlayerToken playerTokenOwner) {
+            this.playerTokenOwner = playerTokenOwner;
             return this;
         }
 
-        public Property build() {
-            return new Property(propertyType, name, color, improvementAllowed, house, hotel, isMortgaged, colorCount, monopoly, tokenOwner);
+        public PropertyAttributes build() {
+            return new PropertyAttributes(propertyType, name, color, improvementAllowed, house, hotel, isMortgaged, colorCount, monopoly, playerTokenOwner);
         }
     }
 }

@@ -1,6 +1,6 @@
 package Enums;
 
-public enum Color {
+public enum PropertyColor {
     BROWN,
     LIGHTBLUE,
     PINK,

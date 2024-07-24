@@ -1,11 +1,11 @@
 package Misc;
 
-import Enums.Token;
+import Enums.PlayerToken;
 
 public class Player {
 
     private int playerNumber;
-    private Token token;
+    private PlayerToken playerToken;
     private int boardLocation;
     private int cash;
     private boolean inJail;
@@ -13,9 +13,9 @@ public class Player {
     private int getOutOfJailFreeCount;
     private int timeInJail;
 
-    public Player(int playerNumber, Token token, int boardLocation, int cash, boolean inJail, int doubleDiceCount, int getOutOfJailFreeCount, int timeInJail) {
+    public Player(int playerNumber, PlayerToken playerToken, int boardLocation, int cash, boolean inJail, int doubleDiceCount, int getOutOfJailFreeCount, int timeInJail) {
         this.playerNumber = playerNumber;
-        this.token = token;
+        this.playerToken = playerToken;
         this.boardLocation = boardLocation;
         this.cash = cash;
         this.inJail = inJail;
@@ -28,12 +28,12 @@ public class Player {
 
     public void setPlayerNumber(int playerNumber) { this.playerNumber = playerNumber;}
 
-    public Token getToken() {
-        return token;
+    public PlayerToken getToken() {
+        return playerToken;
     }
 
-    public void setToken(Token token) {
-        this.token = token;
+    public void setToken(PlayerToken playerToken) {
+        this.playerToken = playerToken;
     }
 
     public int getBoardLocation() {
@@ -72,7 +72,7 @@ public class Player {
     public String toString() {
         return "Player{" +
                 "playerNumber=" + playerNumber +
-                ", token=" + token +
+                ", token=" + playerToken +
                 ", boardLocation=" + boardLocation +
                 ", cash=" + cash +
                 ", inJail=" + inJail +

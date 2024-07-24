@@ -1,6 +1,6 @@
 package Enums;
 
-public enum Token {
+public enum PlayerToken {
     NONE,
     DOG,
     CAT,

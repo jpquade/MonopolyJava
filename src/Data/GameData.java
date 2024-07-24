@@ -3,20 +3,19 @@ package Data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-import Enums.Color;
+import Enums.PlayerToken;
+import Enums.PropertyColor;
 import Enums.PropertyType;
-import Enums.Token;
 import Initialization.InitializeData;
-import Properties.Property;
+import Properties.PropertyAttributes;
 import Properties.PropertyFinancials;
 
 public class GameData {
     private ArrayList<String> gameBoard;
-    private final LinkedHashMap<String, Property> propertyMap;
+    private final LinkedHashMap<String, PropertyAttributes> propertyMap;
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     InitializeData initializeData;
 
@@ -33,13 +32,13 @@ public class GameData {
 
     private void initGameBoard() {gameBoard = initializeData.getGameBoard();}
 
-    private void initPropertyMap() {for (Property property : initializeData.getPropertyAttributes()) propertyMap.put(property.getName(), property);}
+    private void initPropertyMap() {for (PropertyAttributes propertyAttributes : initializeData.getPropertyAttributes()) propertyMap.put(propertyAttributes.getName(), propertyAttributes);}
 
     private void initPropertyFinancialMap() {for (PropertyFinancials propertyFinancials : initializeData.getPropertyFinancialAttributes()) propertyFinancialsMap.put(propertyFinancials.getName(), propertyFinancials);}
 
     public ArrayList<String> getGameBoard() {return gameBoard;}
 
-    public LinkedHashMap<String, Property> getPropertyMap() {return propertyMap;}
+    public LinkedHashMap<String, PropertyAttributes> getPropertyMap() {return propertyMap;}
 
     public LinkedHashMap<String, PropertyFinancials> getPropertyFinancialsMap() {
         return propertyFinancialsMap;
@@ -72,14 +71,11 @@ public class GameData {
             if(i == 1) houseCount = 4;
             if(i == 2) houseCount = 4;
 
-
-
-
             String propertyName = tempScan.nextLine().trim();
 
             System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
             propertyMap.put(propertyName,
-                    new Property.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(Color.valueOf(color)).improvementAllowed(true).owner(Token.valueOf(owner)).house(houseCount).hotel(hasHotel).build());
+                    new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(PropertyColor.valueOf(color)).improvementAllowed(true).owner(PlayerToken.valueOf(owner)).house(houseCount).hotel(hasHotel).build());
 
         }
     }
