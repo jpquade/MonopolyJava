@@ -10,20 +10,14 @@ public class ColorGroup {
 
     private PropertyColor color;
     private boolean isMonopoly;
-    private int totalHouseCount;
-    private int totalHotelCount;
-    private int propertyCount;
     private ArrayList<String> propertyList;
     private LinkedHashMap<Integer, String> houseStock;
 
-    private ColorGroup(PropertyColor color, boolean isMonopoly, int totalHouseCount, int totalHotelCount, int propertyCount, ArrayList<String> propertyList, LinkedHashMap<Integer, String> houseStock) {
+    private ColorGroup(PropertyColor color, boolean isMonopoly, ArrayList<String> propertyList) {
         this.color = color;
         this.isMonopoly = isMonopoly;
-        this.totalHouseCount = totalHouseCount;
-        this.propertyCount = propertyCount;
         this.propertyList = propertyList;
-        this.houseStock = houseStock;
-        this.totalHotelCount = totalHotelCount;
+        houseStock = new LinkedHashMap<>();
     }
 
     public boolean checkForMonopoly(Player player, LinkedHashMap<String, PropertyAttributes> propertyAttributesMap){
@@ -43,17 +37,73 @@ public class ColorGroup {
         return true;
     }
 
+    public boolean colorGroupHasMortgaged(LinkedHashMap<String, PropertyAttributes> propertyAttributesMap){
+
+        for(String propertyName : propertyList){
+            if(propertyAttributesMap.get(propertyName).isMortgaged()) return false;
+        }
+
+        return true;
+    }
+
+    public int getColorGroupHouseCount(LinkedHashMap<String, PropertyAttributes> propertyAttributesMap){
+        int houseCount = 0;
+
+        for(String propertyName : propertyList){
+            houseCount += propertyAttributesMap.get(propertyName).getHouse();
+        }
+
+        return houseCount;
+    }
+
+    private int getColorGroupHotelCount(LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) {
+        int hotelCount = 0;
+
+        for(String propertyName : propertyList){
+            if(propertyAttributesMap.get(propertyName).hasHotel()) hotelCount++;
+        }
+
+        return hotelCount;
+    }
+
+    // this method might change. When buying a house I might give them a choice of color group then available properties they can buy houses for
+    public void buildHouse(Player player, PropertyAttributes attributes, PropertyFinancials financials,LinkedHashMap<String, PropertyAttributes> propertyAttributesMap){
+
+        // if player has enough cash to purchase house and meets other requirements to purchase a house
+        if(financials.getPricePerImprovement() <= player.getCash() && canAddHouse(attributes, propertyAttributesMap)){
+            player.setCash(player.getCash() - financials.getPricePerImprovement());
+            attributes.setHouse(attributes.getHouse() + 1);
+            houseStock.put(houseStock.size() + 1 , attributes.getName());
+
+            System.out.println(STR."\{player.getToken()} purchased a house for \{attributes.getName()}");
+            System.out.println(STR."\{attributes.getName()} now has \{attributes.getHouse()} house(s).");
+        }
+    }
+
+    // this method might change. When buying a hotel I might give them a choice of color group then available properties they can buy hotels for
+    public void buildHotel(Player player, PropertyAttributes attributes, PropertyFinancials financials,LinkedHashMap<String, PropertyAttributes> propertyAttributesMap){
+
+        // if player has enough cash to purchase house and meets other requirements to purchase a house
+        if(financials.getPricePerImprovement() <= player.getCash() && canAddHotel(attributes, propertyAttributesMap)){
+            player.setCash(player.getCash() - financials.getPricePerImprovement());
+            attributes.setHotel(true);
+
+            System.out.println(STR."\{player.getToken()} purchased hotel for \{attributes.getName()}");
+            System.out.println(STR."\{attributes.getName()} now has a hotel");
+        }
+    }
+
     public boolean canAddHouse(PropertyAttributes attributes, LinkedHashMap<String, PropertyAttributes> propertyAttributesMap){
 
-        // checks for color group monopoly and if improvements can be built
-        if(!isMonopoly || !attributes.isImprovementAllowed()) return false;
+        // checks for color group monopoly, if improvements can be built, if the color group has a mortgage, color group has hotels
+        if(!isMonopoly || !attributes.isImprovementAllowed()
+                || colorGroupHasMortgaged(propertyAttributesMap)
+                || colorHotelsExist(propertyAttributesMap)) return false;
 
-        // if any hotels exist on color group then houses cannot be purchased
-        if(colorHotelsExist(propertyAttributesMap)) return false;
-
+        int totalHouseCount = getColorGroupHouseCount(propertyAttributesMap);
 
         if(propertyList.size() == 2){
-            // property group of size 2
+            // property color group of size 2
             if(totalHouseCount == 0 || totalHouseCount == 1){
                 return attributes.getHouse() < 1;
             }
@@ -66,9 +116,8 @@ public class ColorGroup {
             else if(totalHouseCount == 6 || totalHouseCount == 7){
                 return attributes.getHouse() < 4;
             }
-        }
-        else{
-            // property group of size 3
+        } else{
+            // property color group of size 3
             if(totalHouseCount >= 0 && totalHouseCount <= 2){
                 return attributes.getHouse() < 1;
             }
@@ -86,23 +135,21 @@ public class ColorGroup {
         return false;
     }
 
-    public boolean canAddHotel(PropertyAttributes attributes){
+    public boolean canAddHotel(PropertyAttributes attributes, LinkedHashMap<String, PropertyAttributes> propertyAttributesMap){
 
-        // add conditions for adding hotels
+        int totalHouseCount = getColorGroupHouseCount(propertyAttributesMap);
+        int totalHotelCount = getColorGroupHotelCount(propertyAttributesMap);
 
-        // 0 hotels
-        // 1 hotel
-        // 2 hotel
-        // 3 hotel etc
-
-        // conditions for group of 2 or group of 3
-
-        if(totalHotelCount >= 0 && totalHotelCount <= 2){
-            //if(totalHotelCount)
-
-            return !attributes.hasHotel();
+        if(propertyList.size() == 2){
+            // property color group of size 2
+            if(totalHouseCount == 8) return true;
+            else return totalHouseCount == 4 && totalHotelCount == 1 && !attributes.hasHotel();
+        } else{
+            // property color group of size 3
+            if(totalHouseCount == 12) return true;
+            else if(totalHouseCount == 8 && totalHotelCount == 1 && !attributes.hasHotel()) return true;
+            else return totalHouseCount == 4 && totalHotelCount == 2 && !attributes.hasHotel();
         }
-        return false;
     }
 
     public PropertyColor getColor() {
@@ -121,22 +168,6 @@ public class ColorGroup {
         this.isMonopoly = monopoly;
     }
 
-    public int getTotalHouseCount() {
-        return totalHouseCount;
-    }
-
-    public void setTotalHouseCount(int totalHouseCount) {
-        this.totalHouseCount = totalHouseCount;
-    }
-
-    public int getPropertyCount() {
-        return propertyCount;
-    }
-
-    public void setPropertyCount(int propertyCount) {
-        this.propertyCount = propertyCount;
-    }
-
     public ArrayList<String> getPropertyList() {
         return propertyList;
     }
@@ -153,21 +184,10 @@ public class ColorGroup {
         this.houseStock = houseStock;
     }
 
-    public int getTotalHotelCount() {
-        return totalHotelCount;
-    }
-
-    public void setTotalHotelCount(int totalHotelCount) {
-        this.totalHotelCount = totalHotelCount;
-    }
-
     public static class ColorGroupBuilder {
 
         private PropertyColor color;
         private boolean isMonopoly;
-        private int totalHouseCount;
-        private int totalHotelCount;
-        private int propertyCount;
         private ArrayList<String> propertyList;
         private LinkedHashMap<Integer, String> houseStock;
 
@@ -181,33 +201,13 @@ public class ColorGroup {
             return this;
         }
 
-        public ColorGroupBuilder totalHouseCount(int totalHouseCount) {
-            this.totalHouseCount = totalHouseCount;
-            return this;
-        }
-
-        public ColorGroupBuilder totalHotelCount(int totalHotelCount) {
-            this.totalHotelCount = totalHotelCount;
-            return this;
-        }
-
-        public ColorGroupBuilder propertyCount(int propertyCount) {
-            this.propertyCount = propertyCount;
-            return this;
-        }
-
         public ColorGroupBuilder propertyList(ArrayList<String> propertyList) {
             this.propertyList = propertyList;
             return this;
         }
 
-        public ColorGroupBuilder houseStock(LinkedHashMap<Integer, String> houseStock) {
-            this.houseStock = houseStock;
-            return this;
-        }
-
         public ColorGroup build() {
-            return new ColorGroup(color, isMonopoly, totalHouseCount, totalHotelCount, propertyCount, propertyList, houseStock);
+            return new ColorGroup(color, isMonopoly, propertyList);
         }
     }
 }

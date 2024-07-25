@@ -2,16 +2,16 @@ package Properties;
 
 public class PropertyFinancials {
 
-    String name;
-    int price;
-    int rent;
-    int pricePerImprovement;
-    int rentOneHouse;
-    int rentTwoHouse;
-    int rentThreeHouse;
-    int rentFourHouse;
-    int rentHotel;
-    int mortgageAmount;
+    private String name;
+    private int price;
+    private int rent;
+    private int pricePerImprovement;
+    private int rentOneHouse;
+    private int rentTwoHouse;
+    private  int rentThreeHouse;
+    private int rentFourHouse;
+    private int rentHotel;
+    private int mortgageAmount;
 
     public PropertyFinancials(String name, int price, int rent, int pricePerImprovement, int rentOneHouse, int rentTwoHouse,
                               int rentThreeHouse, int rentFourHouse, int rentHotel, int mortgageAmount) {
