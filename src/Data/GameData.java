@@ -15,14 +15,14 @@ import Properties.PropertyFinancials;
 
 public class GameData {
     private ArrayList<String> gameBoard;
-    private final LinkedHashMap<String, PropertyAttributes> propertyMap;
+    private final LinkedHashMap<String, PropertyAttributes> propertyAttributesMap;
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     InitializeData initializeData;
 
     public GameData() throws FileNotFoundException {
         initializeData = new InitializeData();
         gameBoard = new ArrayList<>();
-        propertyMap = new LinkedHashMap<>();
+        propertyAttributesMap = new LinkedHashMap<>();
         propertyFinancialsMap = new LinkedHashMap<>();
         initGameBoard();
         //initPropertyMap(); // disabled while debugging
@@ -32,13 +32,13 @@ public class GameData {
 
     private void initGameBoard() {gameBoard = initializeData.getGameBoard();}
 
-    private void initPropertyMap() {for (PropertyAttributes propertyAttributes : initializeData.getPropertyAttributes()) propertyMap.put(propertyAttributes.getName(), propertyAttributes);}
+    private void initPropertyMap() {for (PropertyAttributes propertyAttributes : initializeData.getPropertyAttributes()) propertyAttributesMap.put(propertyAttributes.getName(), propertyAttributes);}
 
     private void initPropertyFinancialMap() {for (PropertyFinancials propertyFinancials : initializeData.getPropertyFinancialAttributes()) propertyFinancialsMap.put(propertyFinancials.getName(), propertyFinancials);}
 
     public ArrayList<String> getGameBoard() {return gameBoard;}
 
-    public LinkedHashMap<String, PropertyAttributes> getPropertyMap() {return propertyMap;}
+    public LinkedHashMap<String, PropertyAttributes> getPropertyAttributesMap() {return propertyAttributesMap;}
 
     public LinkedHashMap<String, PropertyFinancials> getPropertyFinancialsMap() {
         return propertyFinancialsMap;
@@ -74,7 +74,7 @@ public class GameData {
             String propertyName = tempScan.nextLine().trim();
 
             System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
-            propertyMap.put(propertyName,
+            propertyAttributesMap.put(propertyName,
                     new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(PropertyColor.valueOf(color)).improvementAllowed(true).owner(PlayerToken.valueOf(owner)).house(houseCount).hotel(hasHotel).build());
 
         }

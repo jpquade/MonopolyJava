@@ -19,8 +19,8 @@ public class TurnTracker {
     private final ArrayList<String> tokenList;
     private final Scanner scanner;
     private final ArrayList<String> gameBoard;
-    private final LinkedHashMap<String, PropertyAttributes> propertyAttributes;
-    private final LinkedHashMap<String, PropertyFinancials> propertyFinancials;
+    private final LinkedHashMap<String, PropertyAttributes> propertyAttributesMap;
+    private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     private final Dice dice;
     private final RaiseMoney raiseMoney;
     NumberValueCheck numberValueCheck;
@@ -33,8 +33,8 @@ public class TurnTracker {
         // scanner = new Scanner(System.in); // disabled while debugging
         scanner = new Scanner(new File("userInputs.txt"));
         gameBoard = gameData.getGameBoard();
-        propertyAttributes = new LinkedHashMap<>(gameData.getPropertyMap());
-        propertyFinancials = new LinkedHashMap<>(gameData.getPropertyFinancialsMap());
+        propertyAttributesMap = new LinkedHashMap<>(gameData.getPropertyAttributesMap());
+        propertyFinancialsMap = new LinkedHashMap<>(gameData.getPropertyFinancialsMap());
         dice = new Dice();
         raiseMoney = new RaiseMoney();
         numberValueCheck = new NumberValueCheck();
@@ -106,8 +106,8 @@ public class TurnTracker {
                     System.out.println("Insufficient funds, raise money");
                     System.out.println();
 
-                    raiseMoney.raiseMoneyOptions(player, propertyAttributes, numberValueCheck,
-                            propertyFinancials, playerList, jailScan);
+                    raiseMoney.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
+                            propertyFinancialsMap, playerList, jailScan);
 
                 }
                 break;
@@ -144,8 +144,8 @@ public class TurnTracker {
                         System.out.println("Return to main options has been disabled until you raise enough funds.");
                         System.out.println();
 
-                        raiseMoney.raiseMoneyOptions(player, propertyAttributes, numberValueCheck,
-                                propertyFinancials, playerList, jailScan);
+                        raiseMoney.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
+                                propertyFinancialsMap, playerList, jailScan);
                     }
 
                     System.out.println(STR."\{player.getToken()} has \{player.getCash()} cash.");
