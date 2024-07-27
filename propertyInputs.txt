@@ -6,7 +6,7 @@ STANDARD LIGHTBLUE true NONE Connecticut Avenue
 STANDARD PINK true NONE St Charles Place
 STANDARD PINK true NONE States Avenue
 STANDARD PINK true NONE Virginia Avenue
-STANDARD ORANGE true NONE St. James Place
+STANDARD ORANGE true NONE St James Place
 STANDARD ORANGE true NONE Tennessee Avenue
 STANDARD ORANGE true NONE New York Avenue
 STANDARD RED true NONE Kentucky Avenue

@@ -25,14 +25,14 @@ public class GameData {
         propertyAttributesMap = new LinkedHashMap<>();
         propertyFinancialsMap = new LinkedHashMap<>();
         initGameBoard();
-        //initPropertyMap(); // disabled while debugging
+        //initAttributePropertyMap(); // disabled while debugging
         initPropertyFinancialMap();
         initTempMap();
     }
 
     private void initGameBoard() {gameBoard = initializeData.getGameBoard();}
 
-    private void initPropertyMap() {for (PropertyAttributes propertyAttributes : initializeData.getPropertyAttributes()) propertyAttributesMap.put(propertyAttributes.getName(), propertyAttributes);}
+    private void initAttributePropertyMap() {for (PropertyAttributes propertyAttributes : initializeData.getPropertyAttributes()) propertyAttributesMap.put(propertyAttributes.getName(), propertyAttributes);}
 
     private void initPropertyFinancialMap() {for (PropertyFinancials propertyFinancials : initializeData.getPropertyFinancialAttributes()) propertyFinancialsMap.put(propertyFinancials.getName(), propertyFinancials);}
 
@@ -51,7 +51,7 @@ public class GameData {
         for(int i = 0; i < 28; i++){
             String propertyType = tempScan.next();
             String color = tempScan.next();
-            String canMortgage = tempScan.next();
+            String improvement = tempScan.next();
             String owner = tempScan.next();
             boolean hasHotel = false;
             int houseCount = 0;
@@ -73,9 +73,11 @@ public class GameData {
 
             String propertyName = tempScan.nextLine().trim();
 
-            System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
+            //System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
             propertyAttributesMap.put(propertyName,
-                    new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName) .color(PropertyColor.valueOf(color)).improvementAllowed(true).owner(PlayerToken.valueOf(owner)).house(houseCount).hotel(hasHotel).build());
+                    new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName)
+                            .color(PropertyColor.valueOf(color)).improvementAllowed(true).owner(PlayerToken.valueOf(owner))
+                            .house(houseCount).hotel(hasHotel).build());
 
         }
     }

@@ -156,7 +156,7 @@ public class RaiseMoney {
                     }
 
                     System.out.println(STR."\{i}: \{propertyfeatures.getName()} has \{propertyAttributes
-                            .get(propertyfeatures.getName()).getHouse()} house(s) eash for \{propertyFinancials
+                            .get(propertyfeatures.getName()).getHouse()} house(s) for \{propertyFinancials
                             .get(propertyfeatures.getName()).getPricePerImprovement() / 2} each");
                     listOfImproved.put(i, propertyfeatures.getName());
                     i++;

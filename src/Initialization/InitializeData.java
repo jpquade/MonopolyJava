@@ -12,34 +12,34 @@ import java.util.Arrays;
 
 public class InitializeData {
 
-    String mediterraneanAvenue = "Mediterranean Avenue";
-    String balticAvenue = "Baltic Avenue";
-    String orientalAvenue = "Oriental Avenue";
-    String vermontAvenue = "Vermont Avenue";
-    String connecticutAvenue = "Connecticut Avenue";
-    String stCharlesPlace = "St Charles Place";
-    String statesAvenue = "States Avenue";
-    String virginiaAvenue = "Virginia Avenue";
-    String stJamesPlace = "St James Place";
-    String tennesseeAvenue = "Tennessee Avenue";
-    String newYorkAvenue = "New York Avenue";
-    String kentuckyAvenue = "Kentucky Avenue";
-    String indianaAvenue = "Indiana Avenue";
-    String illinoisAvenue = "Illinois Avenue";
-    String atlanticAvenue = "Atlantic Avenue";
-    String ventnorAvenue = "Ventnor Avenue";
-    String marvinGardens = "Marvin Gardens";
-    String pacificAvenue = "Pacific Avenue";
-    String northCarolinaAvenue = "North Carolina Avenue";
-    String pennsylvaniaAvenue = "Pennsylvania Avenue";
-    String parkPlace = "Park Place";
-    String boardWalk = "Boardwalk";
-    String electricCompany = "Electric Company";
-    String waterWorks = "Water Works";
-    String readingRailroad = "Reading Railroad";
-    String pennsylvaniaRailRoad = "Pennsylvania RailRoad";
-    String bandORailRoad = "B&O RailRoad";
-    String shortLineRailroad = "Short Line Railroad";
+    private final String mediterraneanAvenue = "Mediterranean Avenue";
+    private final String balticAvenue = "Baltic Avenue";
+    private final String orientalAvenue = "Oriental Avenue";
+    private final String vermontAvenue = "Vermont Avenue";
+    private final String connecticutAvenue = "Connecticut Avenue";
+    private final String stCharlesPlace = "St Charles Place";
+    private final String statesAvenue = "States Avenue";
+    private final String virginiaAvenue = "Virginia Avenue";
+    private final String stJamesPlace = "St James Place";
+    private final String tennesseeAvenue = "Tennessee Avenue";
+    private final String newYorkAvenue = "New York Avenue";
+    private final String kentuckyAvenue = "Kentucky Avenue";
+    private final String indianaAvenue = "Indiana Avenue";
+    private final String illinoisAvenue = "Illinois Avenue";
+    private final String atlanticAvenue = "Atlantic Avenue";
+    private final String ventnorAvenue = "Ventnor Avenue";
+    private final String marvinGardens = "Marvin Gardens";
+    private final String pacificAvenue = "Pacific Avenue";
+    private final String northCarolinaAvenue = "North Carolina Avenue";
+    private final String pennsylvaniaAvenue = "Pennsylvania Avenue";
+    private final String parkPlace = "Park Place";
+    private final String boardWalk = "Boardwalk";
+    private final String electricCompany = "Electric Company";
+    private final String waterWorks = "Water Works";
+    private final String readingRailroad = "Reading Railroad";
+    private final String pennsylvaniaRailRoad = "Pennsylvania RailRoad";
+    private final String bandORailRoad = "B&O RailRoad";
+    private final String shortLineRailroad = "Short Line Railroad";
 
     private ArrayList<PropertyAttributes> propertyAttributes;
     private ArrayList<PropertyFinancials> propertyFinancialAttributes;
@@ -52,7 +52,6 @@ public class InitializeData {
         initializeGameBoard();
         initializeColorGroup();
     }
-
 
     private void initializePropertyAttributes(){
 
@@ -188,8 +187,16 @@ public class InitializeData {
 
     private void initializeColorGroup() {
         colorGroup = new ArrayList<>(Arrays.asList(
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.BROWN).propertyList(new ArrayList<>(Arrays.asList(mediterraneanAvenue, balticAvenue))).build()
-            // add all the color groups
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.BROWN).propertyList(new ArrayList<>(Arrays.asList(mediterraneanAvenue, balticAvenue))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.LIGHTBLUE).propertyList(new ArrayList<>(Arrays.asList(orientalAvenue, vermontAvenue, connecticutAvenue))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.PINK).propertyList(new ArrayList<>(Arrays.asList(stCharlesPlace, statesAvenue, virginiaAvenue))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.ORANGE).propertyList(new ArrayList<>(Arrays.asList(stJamesPlace, tennesseeAvenue, newYorkAvenue))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.RED).propertyList(new ArrayList<>(Arrays.asList(kentuckyAvenue, indianaAvenue, illinoisAvenue))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.YELLOW).propertyList(new ArrayList<>(Arrays.asList(atlanticAvenue, ventnorAvenue, marvinGardens))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.GREEN).propertyList(new ArrayList<>(Arrays.asList(pacificAvenue, northCarolinaAvenue, pennsylvaniaAvenue))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.DARKBLUE).propertyList(new ArrayList<>(Arrays.asList(parkPlace, boardWalk))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.WHITE).propertyList(new ArrayList<>(Arrays.asList(electricCompany, waterWorks))).build(),
+            new ColorGroup.ColorGroupBuilder().color(PropertyColor.BLACK).propertyList(new ArrayList<>(Arrays.asList(readingRailroad, pennsylvaniaRailRoad, bandORailRoad, shortLineRailroad))).build()
         ));
     }
 
