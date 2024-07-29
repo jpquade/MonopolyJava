@@ -139,7 +139,7 @@ public class RaiseMoney {
         for(PropertyAttributes propertyfeatures: propertyAttributes.values()){
             if(propertyfeatures.isImprovementAllowed()){
 
-                // checks if propertyAttributes has houses
+                // checks if property has houses
                 if(propertyfeatures.getHouse() > 0){
 
                     // messages are generated when propertyAttributes cannot be mortgaged
@@ -161,7 +161,7 @@ public class RaiseMoney {
                     listOfImproved.put(i, propertyfeatures.getName());
                     i++;
                 }
-                // checks if propertyAttributes has hotels
+                // checks if property has hotels
                 else if(propertyfeatures.hasHotel()){
                     System.out.println(STR."\{i}: \{propertyfeatures.getName()} has hotel for \{propertyFinancials
                             .get(propertyfeatures.getName()).getPricePerImprovement() / 2}.");
@@ -171,7 +171,7 @@ public class RaiseMoney {
             }
         }
 
-        System.out.println(STR."\{i}: Return to main Options");
+        System.out.println(STR."\{i}: Return to Main Options");
 
         System.out.println("Select which property you want to sell improvements from or return to main options.");
 
@@ -179,7 +179,7 @@ public class RaiseMoney {
 
         int improvementSelection = Integer.parseInt(userEntry) - 1;
 
-        // if option selected is 0 to i - sell a propertyAttributes
+        // if option selected is 0 to i - sell a property
         if(numberValueCheck.notInRange(userEntry, 0, i)) {
 
             PropertyAttributes selectedPropertyAttributesAttributes = propertyAttributes.get(listOfImproved.get(improvementSelection));
@@ -190,7 +190,7 @@ public class RaiseMoney {
             // sell houses
             if (numberOfHouses > 0) {
 
-                // check if another propertyAttributes of the same color has a hotel that needs to be sold first before houses on this propertyAttributes
+                // check if another property of the same color has a hotel that needs to be sold first before houses on this property
                 for(PropertyAttributes propertyAttributesColor : propertyAttributes.values()){
                     if(!propertyAttributesColor.getName().equals(selectedPropertyAttributesAttributes.getName())
                             && propertyAttributesColor.getColor() == selectedPropertyAttributesAttributes.getColor() && propertyAttributesColor.hasHotel()){

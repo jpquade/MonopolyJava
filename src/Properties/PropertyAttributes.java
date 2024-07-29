@@ -12,11 +12,10 @@ public class PropertyAttributes {
     private int house;
     private boolean hotel;
     private boolean isMortgaged;
-    private int colorCount;
     private boolean monopoly;
     private PlayerToken playerTokenOwner;
 
-    private PropertyAttributes(PropertyType propertyType, String name, PropertyColor color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, int colorCount, boolean monopoly, PlayerToken playerTokenOwner) {
+    private PropertyAttributes(PropertyType propertyType, String name, PropertyColor color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, boolean monopoly, PlayerToken playerTokenOwner) {
         this.propertyType = propertyType;
         this.name = name;
         this.color = color;
@@ -24,7 +23,6 @@ public class PropertyAttributes {
         this.house = house;
         this.hotel = hotel;
         this.isMortgaged = isMortgaged;
-        this.colorCount = colorCount;
         this.monopoly = monopoly;
         this.playerTokenOwner = playerTokenOwner;
     }
@@ -81,14 +79,6 @@ public class PropertyAttributes {
         isMortgaged = mortgaged;
     }
 
-    public int getColorCount() {
-        return colorCount;
-    }
-
-    public void setColorCount(int colorCount) {
-        this.colorCount = colorCount;
-    }
-
     public boolean isMonopoly() {
         return monopoly;
     }
@@ -114,7 +104,6 @@ public class PropertyAttributes {
         private int house;
         private boolean hotel;
         private boolean isMortgaged;
-        private int colorCount;
         private boolean monopoly;
         private PlayerToken playerTokenOwner;
 
@@ -153,11 +142,6 @@ public class PropertyAttributes {
             return this;
         }
 
-        public PropertyBuilder colorCount(int colorCount) {
-            this.colorCount = colorCount;
-            return this;
-        }
-
         public PropertyBuilder monopoly(boolean monopoly) {
             this.monopoly = monopoly;
             return this;
@@ -169,7 +153,7 @@ public class PropertyAttributes {
         }
 
         public PropertyAttributes build() {
-            return new PropertyAttributes(propertyType, name, color, improvementAllowed, house, hotel, isMortgaged, colorCount, monopoly, playerTokenOwner);
+            return new PropertyAttributes(propertyType, name, color, improvementAllowed, house, hotel, isMortgaged, monopoly, playerTokenOwner);
         }
     }
 }

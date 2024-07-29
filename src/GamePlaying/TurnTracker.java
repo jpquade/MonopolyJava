@@ -219,20 +219,27 @@ public class TurnTracker {
             System.out.println(STR."Player \{playerNumber} is the \{playerList.get(index).getToken()}.");
         }
 
+        // enabled while debugging
+        String prop = "Mediterranean Avenue";
+        propertyMerchant.purchaseProperty(playerList.get(0), propertyAttributesMap.get(prop), propertyFinancialsMap.get(prop), colorGroupMap.get(propertyAttributesMap.get(prop).getColor()), propertyAttributesMap);
+
+        prop = "Baltic Avenue";
+        propertyMerchant.purchaseProperty(playerList.get(0), propertyAttributesMap.get(prop), propertyFinancialsMap.get(prop), colorGroupMap.get(propertyAttributesMap.get(prop).getColor()), propertyAttributesMap);
+
+
         System.out.println();
         System.out.println("Shuffling player order...");
 
-        Collections.shuffle(playerList);
+        // disabled while debugging
+        //Collections.shuffle(playerList);
 
         System.out.println();
         System.out.println("########################################################");
         System.out.println("Starting game");
         System.out.println("########################################################");
 
-        // enabled while debugging
-;
-        propertyMerchant.purchaseProperty(playerList.get(0), );  ();playerList.get(0);
-
+        // add code to check for number of players...if there is only one, then continue game is false
+        // and a winner is declared
         boolean continueGame = true;
 
         int currentPlayerIndex = 0;
