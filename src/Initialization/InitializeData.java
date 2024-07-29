@@ -49,8 +49,8 @@ public class InitializeData {
     public InitializeData() {
         initializePropertyAttributes();
         initializePropertyFinancialAttributes();
-        initializeGameBoard();
         initializeColorGroup();
+        initializeGameBoard();
     }
 
     private void initializePropertyAttributes(){
@@ -139,6 +139,21 @@ public class InitializeData {
         ));
     }
 
+    private void initializeColorGroup() {
+        colorGroup = new ArrayList<>(Arrays.asList(
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.BROWN).propertyList(new ArrayList<>(Arrays.asList(mediterraneanAvenue, balticAvenue))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.LIGHTBLUE).propertyList(new ArrayList<>(Arrays.asList(orientalAvenue, vermontAvenue, connecticutAvenue))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.PINK).propertyList(new ArrayList<>(Arrays.asList(stCharlesPlace, statesAvenue, virginiaAvenue))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.ORANGE).propertyList(new ArrayList<>(Arrays.asList(stJamesPlace, tennesseeAvenue, newYorkAvenue))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.RED).propertyList(new ArrayList<>(Arrays.asList(kentuckyAvenue, indianaAvenue, illinoisAvenue))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.YELLOW).propertyList(new ArrayList<>(Arrays.asList(atlanticAvenue, ventnorAvenue, marvinGardens))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.GREEN).propertyList(new ArrayList<>(Arrays.asList(pacificAvenue, northCarolinaAvenue, pennsylvaniaAvenue))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.DARKBLUE).propertyList(new ArrayList<>(Arrays.asList(parkPlace, boardWalk))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.WHITE).propertyList(new ArrayList<>(Arrays.asList(electricCompany, waterWorks))).build(),
+                new ColorGroup.ColorGroupBuilder().color(PropertyColor.BLACK).propertyList(new ArrayList<>(Arrays.asList(readingRailroad, pennsylvaniaRailRoad, bandORailRoad, shortLineRailroad))).build()
+        ));
+    }
+
     private void initializeGameBoard() {
         gameBoard = new ArrayList<>(Arrays.asList(
                 "GO",                      // location 0
@@ -185,21 +200,6 @@ public class InitializeData {
         ));
     }
 
-    private void initializeColorGroup() {
-        colorGroup = new ArrayList<>(Arrays.asList(
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.BROWN).propertyList(new ArrayList<>(Arrays.asList(mediterraneanAvenue, balticAvenue))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.LIGHTBLUE).propertyList(new ArrayList<>(Arrays.asList(orientalAvenue, vermontAvenue, connecticutAvenue))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.PINK).propertyList(new ArrayList<>(Arrays.asList(stCharlesPlace, statesAvenue, virginiaAvenue))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.ORANGE).propertyList(new ArrayList<>(Arrays.asList(stJamesPlace, tennesseeAvenue, newYorkAvenue))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.RED).propertyList(new ArrayList<>(Arrays.asList(kentuckyAvenue, indianaAvenue, illinoisAvenue))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.YELLOW).propertyList(new ArrayList<>(Arrays.asList(atlanticAvenue, ventnorAvenue, marvinGardens))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.GREEN).propertyList(new ArrayList<>(Arrays.asList(pacificAvenue, northCarolinaAvenue, pennsylvaniaAvenue))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.DARKBLUE).propertyList(new ArrayList<>(Arrays.asList(parkPlace, boardWalk))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.WHITE).propertyList(new ArrayList<>(Arrays.asList(electricCompany, waterWorks))).build(),
-            new ColorGroup.ColorGroupBuilder().color(PropertyColor.BLACK).propertyList(new ArrayList<>(Arrays.asList(readingRailroad, pennsylvaniaRailRoad, bandORailRoad, shortLineRailroad))).build()
-        ));
-    }
-
     public ArrayList<PropertyAttributes> getPropertyAttributes() {
         return propertyAttributes;
     }
@@ -214,6 +214,14 @@ public class InitializeData {
 
     public void setPropertyFinancialAttributes(ArrayList<PropertyFinancials> propertyFinancialAttributes) {
         this.propertyFinancialAttributes = propertyFinancialAttributes;
+    }
+
+    public ArrayList<ColorGroup> getColorGroup() {
+        return colorGroup;
+    }
+
+    public void setColorGroup(ArrayList<ColorGroup> colorGroup) {
+        this.colorGroup = colorGroup;
     }
 
     public String propertyToString(){

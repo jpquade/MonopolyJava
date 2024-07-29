@@ -2,11 +2,9 @@ package GamePlaying;
 
 import Data.GameData;
 import Enums.PlayerToken;
+import Enums.PropertyColor;
+import Misc.*;
 import Properties.*;
-import Misc.Dice;
-import Misc.NumberValueCheck;
-import Misc.Player;
-import Misc.RaiseMoney;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,9 +19,11 @@ public class TurnTracker {
     private final ArrayList<String> gameBoard;
     private final LinkedHashMap<String, PropertyAttributes> propertyAttributesMap;
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
+    private final LinkedHashMap<PropertyColor, ColorGroup> colorGroupMap;
     private final Dice dice;
     private final RaiseMoney raiseMoney;
-    NumberValueCheck numberValueCheck;
+    private final NumberValueCheck numberValueCheck;
+    private final PropertyMerchant propertyMerchant;
 
     public TurnTracker() throws FileNotFoundException {
         GameData gameData = new GameData();
@@ -35,9 +35,11 @@ public class TurnTracker {
         gameBoard = gameData.getGameBoard();
         propertyAttributesMap = new LinkedHashMap<>(gameData.getPropertyAttributesMap());
         propertyFinancialsMap = new LinkedHashMap<>(gameData.getPropertyFinancialsMap());
+        colorGroupMap = new LinkedHashMap<>(gameData.getColorGroupMap());
         dice = new Dice();
         raiseMoney = new RaiseMoney();
         numberValueCheck = new NumberValueCheck();
+        propertyMerchant = new PropertyMerchant();
     }
 
     public void sendToJail(Player player){
@@ -226,6 +228,10 @@ public class TurnTracker {
         System.out.println("########################################################");
         System.out.println("Starting game");
         System.out.println("########################################################");
+
+        // enabled while debugging
+;
+        propertyMerchant.purchaseProperty(playerList.get(0), );  ();playerList.get(0);
 
         boolean continueGame = true;
 

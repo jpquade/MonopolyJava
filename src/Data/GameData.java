@@ -10,6 +10,8 @@ import Enums.PlayerToken;
 import Enums.PropertyColor;
 import Enums.PropertyType;
 import Initialization.InitializeData;
+import Misc.PropertyMerchant;
+import Properties.ColorGroup;
 import Properties.PropertyAttributes;
 import Properties.PropertyFinancials;
 
@@ -17,6 +19,7 @@ public class GameData {
     private ArrayList<String> gameBoard;
     private final LinkedHashMap<String, PropertyAttributes> propertyAttributesMap;
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
+    private final LinkedHashMap<PropertyColor, ColorGroup> colorGroupMap;
     InitializeData initializeData;
 
     public GameData() throws FileNotFoundException {
@@ -24,17 +27,23 @@ public class GameData {
         gameBoard = new ArrayList<>();
         propertyAttributesMap = new LinkedHashMap<>();
         propertyFinancialsMap = new LinkedHashMap<>();
+        colorGroupMap = new LinkedHashMap<>();
         initGameBoard();
-        //initAttributePropertyMap(); // disabled while debugging
+        initAttributePropertyMap(); // disabled while debugging
         initPropertyFinancialMap();
-        initTempMap();
+        initColorGroup();
+        //initTempMap();            // enabled for debugging
     }
+
+
 
     private void initGameBoard() {gameBoard = initializeData.getGameBoard();}
 
     private void initAttributePropertyMap() {for (PropertyAttributes propertyAttributes : initializeData.getPropertyAttributes()) propertyAttributesMap.put(propertyAttributes.getName(), propertyAttributes);}
 
     private void initPropertyFinancialMap() {for (PropertyFinancials propertyFinancials : initializeData.getPropertyFinancialAttributes()) propertyFinancialsMap.put(propertyFinancials.getName(), propertyFinancials);}
+
+    private void initColorGroup() {for (ColorGroup colorGroup : initializeData.getColorGroup()) colorGroupMap.put(colorGroup.getColor(), colorGroup);}
 
     public ArrayList<String> getGameBoard() {return gameBoard;}
 
@@ -44,9 +53,12 @@ public class GameData {
         return propertyFinancialsMap;
     }
 
+    public LinkedHashMap<PropertyColor, ColorGroup> getColorGroupMap() { return colorGroupMap;}
+
     // enabled while debugging
     private void initTempMap() throws FileNotFoundException {
         Scanner tempScan = new Scanner(new File("propertyInputs.txt"));
+        PropertyMerchant merchant = new PropertyMerchant();
 
         for(int i = 0; i < 28; i++){
             String propertyType = tempScan.next();
