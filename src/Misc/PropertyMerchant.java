@@ -1,11 +1,13 @@
 package Misc;
 
 import Enums.PlayerToken;
+import GamePlaying.TurnTracker;
 import Properties.ColorGroup;
 import Properties.PropertyAttributes;
 import Properties.PropertyFinancials;
 
 import java.util.LinkedHashMap;
+import java.util.Scanner;
 
 public class PropertyMerchant {
 
@@ -40,11 +42,15 @@ public class PropertyMerchant {
     }
 
     // this method might change. When buying a house I might give them a choice of color group then available properties they can buy houses for
-    public void buildHouse(Player player, PropertyAttributes attributes, PropertyFinancials financials,LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, ColorGroup colorGroup){
+    public void buildHouse(Player player, PropertyAttributes attributes, PropertyFinancials financials,
+                           LinkedHashMap<String, PropertyAttributes> propertyAttributesMap,
+                           ColorGroup colorGroup, Scanner scanner, NumberValueCheck numberValueCheck){
 
         // given list of properties you have monopolies of
         // ie oriental - 4 houses
         //     ventnor - 3 houses
+
+        // and purchase houses from list
 
         if(!canAddHouse(attributes, propertyAttributesMap, colorGroup)){
             System.out.println("Can't buy a house in the current color group at this time.");
@@ -52,9 +58,14 @@ public class PropertyMerchant {
         }
 
         System.out.println("Locations you can build a house:");
-        for(int i = 0; i < colorGroup.getPropertyList().size(); i++){
 
-            int colorSize = colorGroup.getPropertyList().size();
+        int colorSize = colorGroup.getPropertyList().size();
+
+        LinkedHashMap<Integer, String> listOfHouses = new LinkedHashMap<>();
+
+        for(int i = 0; i < colorSize; i++){
+
+            String propertyName = colorGroup.getPropertyList().get(i);
 
             // color group of size 2 with available house spots to build
             if(colorSize == 2){
@@ -62,27 +73,34 @@ public class PropertyMerchant {
             } else{
 
                 // color group of size 3 with available house spots to build
-
-                LinkedHashMap<Integer, String> listOfHouses = new LinkedHashMap<>();
-
-                if(colorSize >= 0 && colorSize <= 2){
-
+                if(colorSize <= 2){
                     // find properties with 0 houses
-                    for(int j = 0; j < colorGroup.getPropertyList().size(); j++){
-
-                    }
+                    if(propertyAttributesMap.get(propertyName).getHouse() == 0) listOfHouses.put(i, propertyName);
                 }
-                else if(colorSize >= 3 && colorSize <= 5){
+                else if(colorSize <= 5){
                     // find properties with 1 houses
+                    if(propertyAttributesMap.get(propertyName).getHouse() == 1) listOfHouses.put(i, propertyName);
                 }
-                else if(colorSize >= 6 && colorSize <= 8){
+                else if(colorSize <= 8){
                     // find properties with 2 houses
+                    if(propertyAttributesMap.get(propertyName).getHouse() == 2) listOfHouses.put(i, propertyName);
                 }
-                else if(colorSize >= 9 && colorSize <= 11){
+                else if(colorSize <= 11){
                     // find properties with 3 houses
+                    if(propertyAttributesMap.get(propertyName).getHouse() == 3) listOfHouses.put(i, propertyName);
                 }
             }
         }
+
+        int listSize = listOfHouses.size();
+
+        System.out.println(STR."\{listSize}: Return to main Options");
+
+        System.out.println("Select which property you want to mortgage or return to main options.");
+
+        String userEntry = numberValueCheck.validEntry(1, listSize - 1, scanner);
+
+        int mortgageSelection = Integer.parseInt(userEntry);
 
         // if player has enough cash to purchase house and meets other requirements to purchase a house
         if(financials.getPricePerImprovement() <= player.getCash()){
@@ -142,7 +160,8 @@ public class PropertyMerchant {
     }
 
     // this method might change. When buying a hotel I might give them a choice of color group then available properties they can buy hotels for
-    public void buildHotel(Player player, PropertyAttributes attributes, PropertyFinancials financials,LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, ColorGroup colorGroup){
+    public void buildHotel(Player player, PropertyAttributes attributes, PropertyFinancials financials,
+                           LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, ColorGroup colorGroup){
 
         // if player has enough cash to purchase house and meets other requirements to purchase a house
         if(financials.getPricePerImprovement() <= player.getCash() && canAddHotel(attributes, propertyAttributesMap, colorGroup)){
@@ -153,8 +172,6 @@ public class PropertyMerchant {
             System.out.println(STR."\{attributes.getName()} now has a hotel");
         }
     }
-
-
 
     private boolean canAddHotel(PropertyAttributes attributes, LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, ColorGroup colorGroup){
 
