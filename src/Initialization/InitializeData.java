@@ -3,6 +3,7 @@ package Initialization;
 import Enums.PlayerToken;
 import Enums.PropertyColor;
 import Enums.PropertyType;
+import Misc.BoardLocation;
 import Properties.ColorGroup;
 import Properties.PropertyAttributes;
 import Properties.PropertyFinancials;
@@ -46,11 +47,15 @@ public class InitializeData {
     private ArrayList<String> gameBoard;
     private ArrayList<ColorGroup> colorGroup;
 
+    private ArrayList<BoardLocation> location = new ArrayList<>();
+
     public InitializeData() {
         initializePropertyAttributes();
         initializePropertyFinancialAttributes();
         initializeColorGroup();
         initializeGameBoard();
+        location = new ArrayList<>();
+        initializeLocation();
     }
 
     private void initializePropertyAttributes(){
@@ -200,6 +205,54 @@ public class InitializeData {
         ));
     }
 
+    private void initializeLocation() {
+        // go
+        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(950,950,950,985,985,985,1020,1020)),
+                                       new ArrayList<>(Arrays.asList(855,885,915,855,885,915,855,885))));
+        // mediterranean avenue
+        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(885,885,885,915,915,915,950,950)),
+                new ArrayList<>(Arrays.asList(855,885,915,955,995,915,955,955))));
+
+        // community chest
+        // baltic avenue
+        // income tax
+        // reading railroad
+        // oriental avenue
+        // chance
+        // vermont avenue
+        // connecticut avenue
+        // just visiting jail
+        // st charles place
+        // electric company
+        // states avenue
+        // virginia avenue
+        // pennsylvania railroad
+        // st james avenue
+        // community chest
+        // tennessee avenue
+        // new york avenue
+        // free parking
+        // kentucky avenue
+        // chance
+        // indiana avenue
+        // illinois avenue
+        // b&o railroad
+        // atlantic avenue
+        // water works
+        // ventnor avenue
+        // marvin gardens
+        // go to jail
+        // pacific avenue
+        // north carolina avenue
+        // community chest
+        // pennsylvania avenue
+        // short line
+        // chance
+        // park place
+        // luxury tax
+        // board walk
+    }
+
     public ArrayList<PropertyAttributes> getPropertyAttributes() {
         return propertyAttributes;
     }
@@ -238,5 +291,9 @@ public class InitializeData {
 
     public void setGameBoard(ArrayList<String> gameBoard) {
         this.gameBoard = gameBoard;
+    }
+
+    public ArrayList<BoardLocation> getLocation() {
+        return location;
     }
 }

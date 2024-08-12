@@ -2,12 +2,12 @@ package Enums;
 
 public enum PlayerToken {
     NONE,
-    DOG,
+    CAR,
     CAT,
-    BATTLESHIP,
-    PENGUIN,
-    RUBBERDUCKY,
-    TOPHAT,
-    RACECAR,
+    DOG,
+    HAT,
+    IRON,
+    SHIP,
+    SHOE,
     THIMBLE;
 }

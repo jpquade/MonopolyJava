@@ -35,8 +35,6 @@ public class GameData {
         //initTempMap();            // enabled for debugging
     }
 
-
-
     private void initGameBoard() {gameBoard = initializeData.getGameBoard();}
 
     private void initAttributePropertyMap() {for (PropertyAttributes propertyAttributes : initializeData.getPropertyAttributes()) propertyAttributesMap.put(propertyAttributes.getName(), propertyAttributes);}
