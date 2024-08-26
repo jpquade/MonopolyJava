@@ -3,6 +3,7 @@ package Data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -20,6 +21,7 @@ public class GameData {
     private final LinkedHashMap<String, PropertyAttributes> propertyAttributesMap;
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     private final LinkedHashMap<PropertyColor, ColorGroup> colorGroupMap;
+    private final HashMap<Integer, String> singlePropertyBoardDataMap;
     InitializeData initializeData;
 
     public GameData() throws FileNotFoundException {
@@ -28,10 +30,12 @@ public class GameData {
         propertyAttributesMap = new LinkedHashMap<>();
         propertyFinancialsMap = new LinkedHashMap<>();
         colorGroupMap = new LinkedHashMap<>();
+        singlePropertyBoardDataMap = new HashMap<>();
         initGameBoard();
         initAttributePropertyMap(); // disabled while debugging
         initPropertyFinancialMap();
         initColorGroup();
+        initSinglePropertyBoardData();
         //initTempMap();            // enabled for debugging
     }
 
@@ -43,6 +47,14 @@ public class GameData {
 
     private void initColorGroup() {for (ColorGroup colorGroup : initializeData.getColorGroup()) colorGroupMap.put(colorGroup.getColor(), colorGroup);}
 
+    private void initSinglePropertyBoardData() {
+        for (int i = 0; i < initializeData.getSinglePropertyAccess().size(); i++) {
+            String SinglePropertyData = initializeData.getSinglePropertyAccess().get(i);
+            singlePropertyBoardDataMap.put(i, SinglePropertyData);
+        }
+
+    }
+
     public ArrayList<String> getGameBoard() {return gameBoard;}
 
     public LinkedHashMap<String, PropertyAttributes> getPropertyAttributesMap() {return propertyAttributesMap;}
@@ -52,6 +64,8 @@ public class GameData {
     }
 
     public LinkedHashMap<PropertyColor, ColorGroup> getColorGroupMap() { return colorGroupMap;}
+
+    public HashMap<Integer, String> getsinglePropertyBoardData() { return singlePropertyBoardDataMap;}
 
     // enabled while debugging
     private void initTempMap() throws FileNotFoundException {

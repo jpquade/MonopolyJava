@@ -3,6 +3,8 @@ package GUI;
 import Initialization.InitializeData;
 import Misc.Dice;
 import Misc.BoardLocation;
+import Properties.PropertyAttributes;
+import Properties.PropertyFinancials;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class BoardGUI extends JFrame{
 
@@ -22,7 +26,8 @@ public class BoardGUI extends JFrame{
     PropertyGUI propertyGUI;
     TokenGUI tokenGUI;
 
-    public BoardGUI(Dice dice) throws IOException {
+    public BoardGUI(Dice dice, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
+                    LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
 
         // left layered pane setup
         JLayeredPane lLayeredPane = new JLayeredPane();
@@ -44,7 +49,7 @@ public class BoardGUI extends JFrame{
         // initialize external GUI classes
         tokenGUI = new TokenGUI(rLayeredPane);
         diceGUI = new DiceGUI(lLayeredPane, dice, tokenGUI, location);
-        propertyGUI = new PropertyGUI(rLayeredPane);
+        propertyGUI = new PropertyGUI(rLayeredPane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
 
         // board setup
         BufferedImage board = ImageIO.read(new File("src/MonopolyImages/monopolyBoard.png"));

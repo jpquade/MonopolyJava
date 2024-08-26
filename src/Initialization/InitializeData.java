@@ -47,7 +47,8 @@ public class InitializeData {
     private ArrayList<String> gameBoard;
     private ArrayList<ColorGroup> colorGroup;
 
-    private ArrayList<BoardLocation> location = new ArrayList<>();
+    private final ArrayList<BoardLocation> location;
+    private ArrayList<String> singlePropertyAccess;
 
     public InitializeData() {
         initializePropertyAttributes();
@@ -56,6 +57,7 @@ public class InitializeData {
         initializeGameBoard();
         location = new ArrayList<>();
         initializeLocation();
+        initializeSinglePropertyAccess();
     }
 
     private void initializePropertyAttributes(){
@@ -398,6 +400,40 @@ public class InitializeData {
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
     }
 
+    public void initializeSinglePropertyAccess(){
+
+        singlePropertyAccess = new ArrayList<>(Arrays.asList(
+                mediterraneanAvenue,
+                balticAvenue,
+                readingRailroad,
+                orientalAvenue,
+                vermontAvenue,
+                connecticutAvenue,
+                stCharlesPlace,
+                electricCompany,
+                statesAvenue,
+                virginiaAvenue,
+                pennsylvaniaRailRoad,
+                stJamesPlace,
+                tennesseeAvenue,
+                newYorkAvenue,
+                kentuckyAvenue,
+                indianaAvenue,
+                illinoisAvenue,
+                bandORailRoad,
+                atlanticAvenue,
+                waterWorks,
+                ventnorAvenue,
+                marvinGardens,
+                pacificAvenue,
+                northCarolinaAvenue,
+                pennsylvaniaAvenue,
+                shortLineRailroad,
+                parkPlace,
+                boardWalk
+                ));
+    }
+
     public ArrayList<PropertyAttributes> getPropertyAttributes() {
         return propertyAttributes;
     }
@@ -422,20 +458,16 @@ public class InitializeData {
         this.colorGroup = colorGroup;
     }
 
-    public String propertyToString(){
-        return propertyAttributes.toString();
-    }
-
-    public String propertyFinancialToString(){
-        return propertyFinancialAttributes.toString();
-    }
-
     public ArrayList<String> getGameBoard() {
         return gameBoard;
     }
 
     public void setGameBoard(ArrayList<String> gameBoard) {
         this.gameBoard = gameBoard;
+    }
+
+    public ArrayList<String> getSinglePropertyAccess() {
+        return singlePropertyAccess;
     }
 
     public ArrayList<BoardLocation> getLocation() {
