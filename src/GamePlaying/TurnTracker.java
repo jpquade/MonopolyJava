@@ -211,7 +211,7 @@ public class TurnTracker {
 
             //System.out.println(playerNum + playerToken + boardLocation + cash + inJail + doubleDiceCount + getOutOfJailFreeCount + timeInJail);
             playerList.add(new Player(Integer.parseInt(playerNum), PlayerToken.valueOf(playerToken), Integer.parseInt(boardLocation),Integer.parseInt(cash),
-                    Boolean.parseBoolean(inJail), Integer.parseInt(doubleDiceCount), Integer.parseInt(getOutOfJailFreeCount),Integer.parseInt(timeInJail)));
+                    Boolean.parseBoolean(inJail), Integer.parseInt(doubleDiceCount), Integer.parseInt(getOutOfJailFreeCount),0,0,Integer.parseInt(timeInJail)));
 
             tokenList.remove(tokenNumber);
 
@@ -334,7 +334,6 @@ public class TurnTracker {
             }
 
             testIndex++;
-
         }
     }
 }

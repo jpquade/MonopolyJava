@@ -79,7 +79,7 @@ public class PropertyGUI {
         JLayeredPane propertyPane = new JLayeredPane();
         propertyPane.add(singlePropertyDisplayLabel, JLayeredPane.DEFAULT_LAYER);
         propertyPane.setBounds(400,250,propertyScaleW,propertyScaleH);
-        rLayeredPane.add(propertyPane);
+        rLayeredPane.add(propertyPane, JLayeredPane.MODAL_LAYER);
 
         // create empty label template for adding large property view
         for(int i = 0; i < allLargePropertyViewSize; i++){
@@ -89,46 +89,46 @@ public class PropertyGUI {
                 largePropertyLabelList.add(new JLabel(new ImageIcon(electricCompanyImage.getScaledInstance(propertyScaleW,propertyScaleH, Image.SCALE_SMOOTH))));
                 largePropertyLabelList.get(electricCompanyLabelIndex).setVisible(false);
                 largePropertyLabelList.get(electricCompanyLabelIndex).setBounds(xLargePropertyPaneList.get(i), yLargePropertyPaneList.get(i), propertyScaleW, propertyScaleH);
-                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.PALETTE_LAYER);
+                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.MODAL_LAYER);
             }
             else if(i == waterWorksLabelIndex){
                 BufferedImage waterWorksImage = ImageIO.read(new File("src/MonopolyImages/WaterWorks.png"));
                 largePropertyLabelList.add(new JLabel(new ImageIcon(waterWorksImage.getScaledInstance(propertyScaleW,propertyScaleH, Image.SCALE_SMOOTH))));
                 largePropertyLabelList.get(waterWorksLabelIndex).setVisible(false);
                 largePropertyLabelList.get(waterWorksLabelIndex).setBounds(xLargePropertyPaneList.get(i), yLargePropertyPaneList.get(i), propertyScaleW, propertyScaleH);
-                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.PALETTE_LAYER);
+                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.MODAL_LAYER);
             }
             else if(i == readingRailRoadLabelIndex){
                 BufferedImage readingRRImage = ImageIO.read(new File("src/MonopolyImages/ReadingRR.jpg"));
                 largePropertyLabelList.add(new JLabel(new ImageIcon(readingRRImage.getScaledInstance(propertyScaleW,propertyScaleH, Image.SCALE_SMOOTH))));
                 largePropertyLabelList.get(readingRailRoadLabelIndex).setVisible(false);
                 largePropertyLabelList.get(readingRailRoadLabelIndex).setBounds(xLargePropertyPaneList.get(i), yLargePropertyPaneList.get(i), propertyScaleW, propertyScaleH);
-                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.PALETTE_LAYER);
+                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.MODAL_LAYER);
             }
             else if(i == pennsylvaniaRailRoadLabelIndex){
                 BufferedImage pennsylvaniaRRImage = ImageIO.read(new File("src/MonopolyImages/PennsylvaniaRR.jpg"));
                 largePropertyLabelList.add(new JLabel(new ImageIcon(pennsylvaniaRRImage.getScaledInstance(propertyScaleW,propertyScaleH, Image.SCALE_SMOOTH))));
                 largePropertyLabelList.get(pennsylvaniaRailRoadLabelIndex).setVisible(false);
                 largePropertyLabelList.get(pennsylvaniaRailRoadLabelIndex).setBounds(xLargePropertyPaneList.get(i), yLargePropertyPaneList.get(i), propertyScaleW, propertyScaleH);
-                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.PALETTE_LAYER);
+                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.MODAL_LAYER);
             }
             else if(i == bAndORailRoadLabelIndex){
                 BufferedImage bAndORRImage = ImageIO.read(new File("src/MonopolyImages/BandORR.jpg"));
                 largePropertyLabelList.add(new JLabel(new ImageIcon(bAndORRImage.getScaledInstance(propertyScaleW,propertyScaleH, Image.SCALE_SMOOTH))));
                 largePropertyLabelList.get(bAndORailRoadLabelIndex).setVisible(false);
                 largePropertyLabelList.get(bAndORailRoadLabelIndex).setBounds(xLargePropertyPaneList.get(i), yLargePropertyPaneList.get(i), propertyScaleW, propertyScaleH);
-                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.PALETTE_LAYER);
+                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.MODAL_LAYER);
             }
             else if(i == shortLineRailRoadLabelIndex){
                 BufferedImage shortLineRRImage = ImageIO.read(new File("src/MonopolyImages/ShortLineRR.jpg"));
                 largePropertyLabelList.add(new JLabel(new ImageIcon(shortLineRRImage.getScaledInstance(propertyScaleW,propertyScaleH, Image.SCALE_SMOOTH))));
                 largePropertyLabelList.get(shortLineRailRoadLabelIndex).setVisible(false);
                 largePropertyLabelList.get(shortLineRailRoadLabelIndex).setBounds(xLargePropertyPaneList.get(i), yLargePropertyPaneList.get(i), propertyScaleW, propertyScaleH);
-                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.PALETTE_LAYER);
+                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.MODAL_LAYER);
             }
             else{
                 largePropertyLabelList.add(new JLabel());
-                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.PALETTE_LAYER);
+                propertyPane.add(largePropertyLabelList.get(i), JLayeredPane.MODAL_LAYER);
             }
         }
 
@@ -171,7 +171,7 @@ public class PropertyGUI {
             }
         });
 
-        rLayeredPane.add(overLayButton, JLayeredPane.POPUP_LAYER);
+        rLayeredPane.add(overLayButton, JLayeredPane.DRAG_LAYER);
 
         // creates a button for each property to click and get large display of the information
         for(int i = 0; i < xPropButtonList.size(); i++){
@@ -333,7 +333,7 @@ public class PropertyGUI {
                     System.out.println("Element: " + index);
                 }
             });
-            rLayeredPane.add(propButton, JLayeredPane.MODAL_LAYER);
+            rLayeredPane.add(propButton, JLayeredPane.POPUP_LAYER);
         }
     }
 }

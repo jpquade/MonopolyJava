@@ -23,6 +23,7 @@ public class DiceGUI{
     ArrayList<JLabel> diceLabelRight;
 
     int locationIncrement;
+    int tokenIncrement;
 
     public DiceGUI(JLayeredPane lLayeredPane, Dice dice, TokenGUI tokenGUI, ArrayList<BoardLocation> location) throws IOException {
 
@@ -31,6 +32,8 @@ public class DiceGUI{
         int rightX = 170;
         int diceY = 30;
         locationIncrement = 0;
+        tokenIncrement = 1;
+
         diceImage = new ArrayList<>();
         diceImageSrc = new ArrayList<>(Arrays.asList("src/MonopolyImages/dice-1.512x512.png", "src/MonopolyImages/dice-2.512x512.png",
                 "src/MonopolyImages/dice-3.512x512.png", "src/MonopolyImages/dice-4.512x512.png", "src/MonopolyImages/dice-5.512x512.png", "src/MonopolyImages/dice-6.512x512.png"));
@@ -103,13 +106,16 @@ public class DiceGUI{
 
                 PlayerToken[] tokenList = PlayerToken.values();
 
-                for (int i = 1; i < 9; i++){
+                //for (int i = 1; i < 9; i++){
 
-                    tokenGUI.moveToken(tokenList[i],locationIncrement, location);
+                    tokenGUI.moveToken(tokenList[tokenIncrement],locationIncrement, location);
+                    if(tokenIncrement == 8){
+                        locationIncrement++;
+                        tokenIncrement = 0;
+                    }
 
-
-                }
-                locationIncrement++;
+                //}
+                tokenIncrement++;
 
             }
         });

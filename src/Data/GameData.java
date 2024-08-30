@@ -2,27 +2,30 @@ package Data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Scanner;
+import java.util.*;
 
 import Enums.PlayerToken;
 import Enums.PropertyColor;
 import Enums.PropertyType;
 import Initialization.InitializeData;
+import Misc.BoardLocation;
 import Misc.PropertyMerchant;
 import Properties.ColorGroup;
 import Properties.PropertyAttributes;
 import Properties.PropertyFinancials;
 
 public class GameData {
+    InitializeData initializeData;
     private ArrayList<String> gameBoard;
     private final LinkedHashMap<String, PropertyAttributes> propertyAttributesMap;
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     private final LinkedHashMap<PropertyColor, ColorGroup> colorGroupMap;
+
+    private final ArrayList<BoardLocation> location;
     private final HashMap<Integer, String> singlePropertyBoardDataMap;
-    InitializeData initializeData;
+
+    private final LinkedList<String> chanceCards;
+    private final LinkedList<String> communityChestCards;
 
     public GameData() throws FileNotFoundException {
         initializeData = new InitializeData();
@@ -30,7 +33,10 @@ public class GameData {
         propertyAttributesMap = new LinkedHashMap<>();
         propertyFinancialsMap = new LinkedHashMap<>();
         colorGroupMap = new LinkedHashMap<>();
+        location = initializeData.getLocation();
         singlePropertyBoardDataMap = new HashMap<>();
+        chanceCards = initializeData.getChanceCards();
+        communityChestCards = initializeData.getCommunityChestCards();
         initGameBoard();
         initAttributePropertyMap(); // disabled while debugging
         initPropertyFinancialMap();
@@ -65,7 +71,15 @@ public class GameData {
 
     public LinkedHashMap<PropertyColor, ColorGroup> getColorGroupMap() { return colorGroupMap;}
 
-    public HashMap<Integer, String> getsinglePropertyBoardData() { return singlePropertyBoardDataMap;}
+    public ArrayList<BoardLocation> getLocation() {
+        return location;
+    }
+
+    public HashMap<Integer, String> getSinglePropertyBoardData() { return singlePropertyBoardDataMap;}
+
+    public LinkedList<String> getChanceCards() { return chanceCards; }
+
+    public LinkedList<String> getCommunityChestCards() { return communityChestCards; }
 
     // enabled while debugging
     private void initTempMap() throws FileNotFoundException {

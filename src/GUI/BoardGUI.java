@@ -1,6 +1,6 @@
 package GUI;
 
-import Initialization.InitializeData;
+import Data.GameData;
 import Misc.Dice;
 import Misc.BoardLocation;
 import Properties.PropertyAttributes;
@@ -18,13 +18,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class BoardGUI extends JFrame{
-
-    InitializeData initializeData = new InitializeData();
-    ArrayList<BoardLocation> location = initializeData.getLocation();
+    GameData gameData = new GameData();
+    ArrayList<BoardLocation> location = gameData.getLocation();
 
     DiceGUI diceGUI;
     PropertyGUI propertyGUI;
     TokenGUI tokenGUI;
+    DrawCardGUI drawCardGUI;
 
     public BoardGUI(Dice dice, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
                     LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
@@ -40,16 +40,13 @@ public class BoardGUI extends JFrame{
         rLayeredPane.setBounds(500,0, 1200, 1000);
         rLayeredPane.setOpaque(true);
 
-//        // overProperyOverLay layered pane setup
-//        JLayeredPane overProperyOverLay = new JLayeredPane();
-//        overProperyOverLay.setBounds(0,0, 1700, 1000);
-//        overProperyOverLay.setBackground(Color.BLACK);
-//        overProperyOverLay.setOpaque(true);
-
         // initialize external GUI classes
         tokenGUI = new TokenGUI(rLayeredPane);
         diceGUI = new DiceGUI(lLayeredPane, dice, tokenGUI, location);
         propertyGUI = new PropertyGUI(rLayeredPane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
+        drawCardGUI = new DrawCardGUI(gameData.getChanceCards(), gameData.getCommunityChestCards(), rLayeredPane);
+
+        //drawCardGUI.guiSetup(rLayeredPane);
 
         // board setup
         BufferedImage board = ImageIO.read(new File("src/MonopolyImages/monopolyBoard.png"));
@@ -57,6 +54,22 @@ public class BoardGUI extends JFrame{
         mBoard.setBounds(0,0, 1200, 950);
         mBoard.setVisible(true);
         rLayeredPane.add(mBoard, JLayeredPane.DEFAULT_LAYER);
+
+        // back of chance card image
+        int chanceSize = 230;
+        BufferedImage rotateChanceCard = ImageIO.read(new File("src/MonopolyImages/ChanceCardBack45.png"));
+        JLabel rotateChanceLabel = new JLabel(new ImageIcon(rotateChanceCard.getScaledInstance(chanceSize,chanceSize, Image.SCALE_DEFAULT)));
+        rotateChanceLabel.setBounds(706,573, chanceSize, chanceSize);
+        rotateChanceLabel.setVisible(true);
+        rLayeredPane.add(rotateChanceLabel, JLayeredPane.PALETTE_LAYER);
+
+        // back of community chest card image
+        int communityChestSize = 240;
+        BufferedImage rotateCommunityChestCard = ImageIO.read(new File("src/MonopolyImages/CommunityChestCardBack45.png"));
+        JLabel rotateCommunityChestCardLabel = new JLabel(new ImageIcon(rotateCommunityChestCard.getScaledInstance(communityChestSize,communityChestSize, Image.SCALE_DEFAULT)));
+        rotateCommunityChestCardLabel.setBounds(265,149, communityChestSize, communityChestSize);
+        rotateCommunityChestCardLabel.setVisible(true);
+        rLayeredPane.add(rotateCommunityChestCardLabel, JLayeredPane.PALETTE_LAYER);
 
         this.setIconImage(board);
         this.setTitle("Java Monopoly");

@@ -1,12 +1,9 @@
 import Data.GameData;
 import GUI.BoardGUI;
 import Misc.Dice;
-import Properties.PropertyAttributes;
-import Properties.PropertyFinancials;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class App {
@@ -20,7 +17,7 @@ public class App {
         //dogMovement.put(0, new ArrayList<>(Arrays.asList(0, 1)));
 
         Dice dice = new Dice();
-        BoardGUI boardGUI = new BoardGUI(dice, gameData.getPropertyFinancialsMap(),gameData.getsinglePropertyBoardData(), gameData.getPropertyAttributesMap());
+        BoardGUI boardGUI = new BoardGUI(dice, gameData.getPropertyFinancialsMap(),gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap());
 
     }
 }

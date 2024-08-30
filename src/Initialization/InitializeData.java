@@ -10,6 +10,7 @@ import Properties.PropertyFinancials;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class InitializeData {
 
@@ -50,6 +51,9 @@ public class InitializeData {
     private final ArrayList<BoardLocation> location;
     private ArrayList<String> singlePropertyAccess;
 
+    private final LinkedList<String> chanceCards;
+    private final LinkedList<String> communityChestCards;
+
     public InitializeData() {
         initializePropertyAttributes();
         initializePropertyFinancialAttributes();
@@ -58,6 +62,10 @@ public class InitializeData {
         location = new ArrayList<>();
         initializeLocation();
         initializeSinglePropertyAccess();
+        chanceCards = new LinkedList<>();
+        communityChestCards = new LinkedList<>();
+        initializeChanceCards();
+        initializeCommunityChestCards();
     }
 
     private void initializePropertyAttributes(){
@@ -434,6 +442,43 @@ public class InitializeData {
                 ));
     }
 
+    public void initializeChanceCards(){
+        chanceCards.add("Chance_Advance_To_Boardwalk");
+        chanceCards.add("Chance_Advance_To_Go");
+        chanceCards.add("Chance_ATIA");
+        chanceCards.add("Chance_ATSCP");
+        chanceCards.add("Chance_ATTNR");
+        chanceCards.add("Chance_ATTNU");
+        chanceCards.add("Chance_BPYD");
+        chanceCards.add("Chance_GB3S");
+        chanceCards.add("Chance_GOOJF");
+        chanceCards.add("Chance_GTJ");
+        chanceCards.add("Chance_MGR");
+        chanceCards.add("Chance_PPT");
+        chanceCards.add("Chance_TAROTR");
+        chanceCards.add("Chance_YBALM");
+        chanceCards.add("Chance_YHBAECOTB");
+    }
+
+    private void initializeCommunityChestCards(){
+        communityChestCards.add("Community_Chest_Advance_to_Go");
+        communityChestCards.add("Community_Chest_BEIYF");
+        communityChestCards.add("Community_Chest_DF");
+        communityChestCards.add("Community_Chest_FSOS");
+        communityChestCards.add("Community_Chest_GOO");
+        communityChestCards.add("Community_Chest_GOOJF");
+        communityChestCards.add("Community_Chest_GTJ");
+        communityChestCards.add("Community_Chest_ITR");
+        communityChestCards.add("Community_Chest_LIM");
+        communityChestCards.add("Community_Chest_PH");
+        communityChestCards.add("Community_Chest_PST");
+        communityChestCards.add("Community_Chest_RFS");
+        communityChestCards.add("Community_Chest_XFM");
+        communityChestCards.add("Community_Chest_YAAFSR");
+        communityChestCards.add("Community_Chest_YHWSPIABC");
+        communityChestCards.add("Community_Chest_YI");
+    }
+
     public ArrayList<PropertyAttributes> getPropertyAttributes() {
         return propertyAttributes;
     }
@@ -473,4 +518,8 @@ public class InitializeData {
     public ArrayList<BoardLocation> getLocation() {
         return location;
     }
+
+    public LinkedList<String> getChanceCards(){ return chanceCards;}
+
+    public LinkedList<String> getCommunityChestCards(){ return communityChestCards;}
 }

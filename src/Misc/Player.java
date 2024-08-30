@@ -11,9 +11,13 @@ public class Player {
     private boolean inJail;
     private int doubleDiceCount;
     private int getOutOfJailFreeCount;
+    private int chanceGetOutOfJailFreeCount;
+    private int ccGetOutOfJailFreeCount;
     private int timeInJail;
 
-    public Player(int playerNumber, PlayerToken playerToken, int boardLocation, int cash, boolean inJail, int doubleDiceCount, int getOutOfJailFreeCount, int timeInJail) {
+    public Player(int playerNumber, PlayerToken playerToken, int boardLocation, int cash, boolean inJail,
+                  int doubleDiceCount, int getOutOfJailFreeCount, int chanceGetOutOfJailFreeCount,
+                  int ccGetOutOfJailFreeCount,int timeInJail) {
         this.playerNumber = playerNumber;
         this.playerToken = playerToken;
         this.boardLocation = boardLocation;
@@ -21,6 +25,8 @@ public class Player {
         this.inJail = inJail;
         this.doubleDiceCount = doubleDiceCount;
         this.getOutOfJailFreeCount = getOutOfJailFreeCount;
+        this.chanceGetOutOfJailFreeCount = chanceGetOutOfJailFreeCount;
+        this.ccGetOutOfJailFreeCount = ccGetOutOfJailFreeCount;
         this.timeInJail = timeInJail;
     }
 
@@ -64,21 +70,15 @@ public class Player {
 
     public void setGetOutOfJailFreeCount(int getOutOfJailFreeCount) {this.getOutOfJailFreeCount = getOutOfJailFreeCount;}
 
+    public int getChanceGetOutOfJailFreeCount() { return chanceGetOutOfJailFreeCount; }
+
+    public void setChanceGetOutOfJailFreeCount(int chanceGetOutOfJailFreeCount) { this.chanceGetOutOfJailFreeCount = chanceGetOutOfJailFreeCount; }
+
+    public int getCcGetOutOfJailFreeCount(){ return ccGetOutOfJailFreeCount; }
+
+    public void setCcGetOutOfJailFreeCount(int ccGetOutOfJailFreeCount) { this.ccGetOutOfJailFreeCount = ccGetOutOfJailFreeCount; }
+
     public int getTimeInJail() {return timeInJail;}
 
     public void setTimeInJail(int timeInJail) {this.timeInJail = timeInJail;}
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "playerNumber=" + playerNumber +
-                ", token=" + playerToken +
-                ", boardLocation=" + boardLocation +
-                ", cash=" + cash +
-                ", inJail=" + inJail +
-                ", doubleDiceCount=" + doubleDiceCount +
-                ", getOutOfJailFreeCount=" + getOutOfJailFreeCount +
-                ", timeInJail=" + timeInJail +
-                '}';
-    }
 }
