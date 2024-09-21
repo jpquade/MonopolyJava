@@ -132,45 +132,10 @@ public class PropertyGUI {
             }
         }
 
-        JButton overLayButton = new JButton();
-        overLayButton.setBounds(0,0, 1200, 950);
-        overLayButton.setOpaque(false);
-        overLayButton.setContentAreaFilled(false);
-        overLayButton.setBorderPainted(false);
-        overLayButton.setVisible(false);
-        overLayButton.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                overLayButton.setVisible(false);
-                singlePropertyDisplayLabel.setVisible(false);
+        // invisible clickable button for making property card disappear
+        InvisibleOverLayButtonGUI overLayButton = new InvisibleOverLayButtonGUI(singlePropertyDisplayLabel, largePropertyLabelList);
 
-                // large property view text set to invisible
-                for(int i  = 0; i < allLargePropertyViewSize; i++){
-                    largePropertyLabelList.get(i).setVisible(false);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
+        // add overLayButton to the right pane
         rLayeredPane.add(overLayButton, JLayeredPane.DRAG_LAYER);
 
         // creates a button for each property to click and get large display of the information

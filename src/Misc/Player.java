@@ -14,10 +14,13 @@ public class Player {
     private int chanceGetOutOfJailFreeCount;
     private int ccGetOutOfJailFreeCount;
     private int timeInJail;
+    private int totalHouses;
+    private int totalHotels;
+    private boolean bankrupt;
 
     public Player(int playerNumber, PlayerToken playerToken, int boardLocation, int cash, boolean inJail,
                   int doubleDiceCount, int getOutOfJailFreeCount, int chanceGetOutOfJailFreeCount,
-                  int ccGetOutOfJailFreeCount,int timeInJail) {
+                  int ccGetOutOfJailFreeCount,int timeInJail, int totalHouses, int totalHotels, boolean bankrupt) {
         this.playerNumber = playerNumber;
         this.playerToken = playerToken;
         this.boardLocation = boardLocation;
@@ -28,6 +31,9 @@ public class Player {
         this.chanceGetOutOfJailFreeCount = chanceGetOutOfJailFreeCount;
         this.ccGetOutOfJailFreeCount = ccGetOutOfJailFreeCount;
         this.timeInJail = timeInJail;
+        this.totalHouses = totalHouses;
+        this.totalHotels = totalHotels;
+        this.bankrupt = bankrupt;
     }
 
     public int getPlayerNumber() { return playerNumber;}
@@ -81,4 +87,36 @@ public class Player {
     public int getTimeInJail() {return timeInJail;}
 
     public void setTimeInJail(int timeInJail) {this.timeInJail = timeInJail;}
+
+    public int getTotalHouses() {
+        return totalHouses;
+    }
+
+    public void setTotalHouses(int totalHouses) {
+        this.totalHouses = totalHouses;
+    }
+
+    public int getTotalHotels() {
+        return totalHotels;
+    }
+
+    public void setTotalHotels(int totalHotels) {
+        this.totalHotels = totalHotels;
+    }
+
+    public PlayerToken getPlayerToken() {
+        return playerToken;
+    }
+
+    public void setPlayerToken(PlayerToken playerToken) {
+        this.playerToken = playerToken;
+    }
+
+    public boolean isBankrupt() {
+        return bankrupt;
+    }
+
+    public void setBankrupt(boolean bankrupt) {
+        this.bankrupt = bankrupt;
+    }
 }
