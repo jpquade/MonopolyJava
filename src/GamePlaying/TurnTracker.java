@@ -24,6 +24,7 @@ public class TurnTracker {
     private final RaiseMoney raiseMoney;
     private final NumberValueCheck numberValueCheck;
     private final PropertyMerchant propertyMerchant;
+    private int currentPlayerIndex;
 
     public TurnTracker() throws FileNotFoundException {
         GameData gameData = new GameData();
@@ -40,12 +41,17 @@ public class TurnTracker {
         raiseMoney = new RaiseMoney();
         numberValueCheck = new NumberValueCheck();
         propertyMerchant = new PropertyMerchant();
+        currentPlayerIndex = 0;
     }
 
     public void sendToJail(Player player){
         player.setBoardLocation(40);
         player.setInJail(true);
         player.setDoubleDiceCount(0);
+    }
+
+    public Player currentPlayer(){
+        return playerList.get(currentPlayerIndex);
     }
 
     private boolean isInJail(String entry, Player player){
@@ -243,8 +249,6 @@ public class TurnTracker {
         // and a winner is declared
         boolean continueGame = true;
 
-        int currentPlayerIndex = 0;
-
         // temporary
         int testIndex = 0;
         // start game
@@ -336,5 +340,9 @@ public class TurnTracker {
 
             testIndex++;
         }
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
     }
 }

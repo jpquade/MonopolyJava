@@ -18,6 +18,7 @@ public class App {
 
         Dice dice = new Dice();
         BoardGUI boardGUI = new BoardGUI(dice, gameData.getPropertyFinancialsMap(),gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap());
+        //boardGUI.drawCardGUI.drawACard();
 
     }
 }

@@ -35,8 +35,9 @@ public class DiceGUI{
         tokenIncrement = 1;
 
         diceImage = new ArrayList<>();
-        diceImageSrc = new ArrayList<>(Arrays.asList("src/MonopolyImages/dice-1.512x512.png", "src/MonopolyImages/dice-2.512x512.png",
-                "src/MonopolyImages/dice-3.512x512.png", "src/MonopolyImages/dice-4.512x512.png", "src/MonopolyImages/dice-5.512x512.png", "src/MonopolyImages/dice-6.512x512.png"));
+        diceImageSrc = new ArrayList<>(Arrays.asList("src/MonopolyImages/DiceList/dice-1.512x512.png", "src/MonopolyImages/DiceList/dice-2.512x512.png",
+                "src/MonopolyImages/DiceList/dice-3.512x512.png", "src/MonopolyImages/DiceList/dice-4.512x512.png",
+                "src/MonopolyImages/DiceList/dice-5.512x512.png", "src/MonopolyImages/DiceList/dice-6.512x512.png"));
         diceLabelLeft = new ArrayList<>();
         diceLabelRight = new ArrayList<>();
 

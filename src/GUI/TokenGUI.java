@@ -23,9 +23,9 @@ public class TokenGUI {
 
         tokenSize = 40;
         tokenImage = new ArrayList<>();
-        tokenImageSrc = new ArrayList<>(Arrays.asList("src/MonopolyImages/car.png", "src/MonopolyImages/cat.png",
-                "src/MonopolyImages/dog.png", "src/MonopolyImages/hat.png", "src/MonopolyImages/iron.png", "src/MonopolyImages/ship.png",
-                "src/MonopolyImages/shoe.png", "src/MonopolyImages/thimble.png"));
+        tokenImageSrc = new ArrayList<>(Arrays.asList("src/MonopolyImages/Tokens/car.png", "src/MonopolyImages/Tokens/cat.png",
+                "src/MonopolyImages/Tokens/dog.png", "src/MonopolyImages/Tokens/hat.png", "src/MonopolyImages/Tokens/iron.png",
+                "src/MonopolyImages/Tokens/ship.png", "src/MonopolyImages/Tokens/shoe.png", "src/MonopolyImages/Tokens/thimble.png"));
         tokenLabel = new ArrayList<>();
 
         for(int i = 0; i < 8; i++){

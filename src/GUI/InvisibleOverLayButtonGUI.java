@@ -17,14 +17,14 @@ public class InvisibleOverLayButtonGUI extends JButton {
         setMouseListener(label, labelList, this);
     }
 
-    public InvisibleOverLayButtonGUI(JLabel label){
+    public InvisibleOverLayButtonGUI(JLayeredPane pane, ArrayList<JLabel> labelList){
         this.setBounds(0,0, 1200, 950);
         this.setOpaque(false);
         this.setContentAreaFilled(false);
         this.setBorderPainted(false);
         this.setVisible(false);
 
-        setMouseListener(label, this);
+        setMouseListener(pane, labelList, this);
     }
 
     private void setMouseListener(JLabel label, ArrayList<JLabel> labelList, InvisibleOverLayButtonGUI currentButton){
@@ -63,13 +63,18 @@ public class InvisibleOverLayButtonGUI extends JButton {
             });
     }
 
-    private void setMouseListener(JLabel label, InvisibleOverLayButtonGUI currentButton){
+    private void setMouseListener(JLayeredPane pane, ArrayList<JLabel> labelList, InvisibleOverLayButtonGUI currentButton){
 
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 currentButton.setVisible(false);
-                label.setVisible(false);
+                pane.setVisible(false);
+
+                // large property view text set to invisible
+                for (JLabel jLabel : labelList) {
+                    jLabel.setVisible(false);
+                }
             }
 
             @Override

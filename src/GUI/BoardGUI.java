@@ -24,7 +24,7 @@ public class BoardGUI extends JFrame{
     DiceGUI diceGUI;
     PropertyGUI propertyGUI;
     TokenGUI tokenGUI;
-    DrawCardGUI drawCardGUI;
+    public DrawCardGUI drawCardGUI;
 
     public BoardGUI(Dice dice, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
                     LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
@@ -44,7 +44,7 @@ public class BoardGUI extends JFrame{
         tokenGUI = new TokenGUI(rLayeredPane);
         diceGUI = new DiceGUI(lLayeredPane, dice, tokenGUI, location);
         propertyGUI = new PropertyGUI(rLayeredPane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
-        drawCardGUI = new DrawCardGUI(gameData.getChanceCards(), gameData.getCommunityChestCards(), rLayeredPane);
+        drawCardGUI = new DrawCardGUI(rLayeredPane);
 
         //drawCardGUI.guiSetup(rLayeredPane);
 
