@@ -1,4 +1,4 @@
-package main.Misc;
+package main.Functions;
 
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
@@ -7,11 +7,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-public class RaiseMoney {
+public class PurchaseProcessor {
+
+    // Ways to raise money
+    // 1. Mortgage Property
+    // 2. Sell Improvements
+    // 3. Sell Property
 
 
 
-    public RaiseMoney(){}
+    public PurchaseProcessor(){}
 
     // different ways to raise money
     public void raiseMoneyOptions(Player player, LinkedHashMap<String, PropertyAttributes> propertyAttributes, NumberValueCheck numberValueCheck,

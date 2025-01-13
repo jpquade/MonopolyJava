@@ -1,8 +1,9 @@
 package main.GUI;
 
+import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
-import main.Misc.BoardLocation;
-import main.Misc.Dice;
+import main.LocationFunctions.TokenBoardLocation;
+import main.Functions.Dice;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,23 +26,28 @@ public class DiceGUI{
     int locationIncrement;
     int tokenIncrement;
 
-    public DiceGUI(JLayeredPane lLayeredPane, Dice dice, TokenGUI tokenGUI, ArrayList<BoardLocation> location) throws IOException {
+    public DiceGUI(JLayeredPane lLayeredPane, Dice dice, TokenGUI tokenGUI, ArrayList<TokenBoardLocation> location) throws IOException {
 
         int diceSize = 30;
         int leftX = 135;
         int rightX = 170;
         int diceY = 30;
+        int diceFaces = 6;  // 6 sided dice
         locationIncrement = 0;
         tokenIncrement = 1;
 
         diceImage = new ArrayList<>();
-        diceImageSrc = new ArrayList<>(Arrays.asList("src/main/MonopolyImages/DiceList/dice-1.512x512.png", "src/main/MonopolyImages/DiceList/dice-2.512x512.png",
-                "src/main/MonopolyImages/DiceList/dice-3.512x512.png", "src/main/MonopolyImages/DiceList/dice-4.512x512.png",
-                "src/main/MonopolyImages/DiceList/dice-5.512x512.png", "src/main/MonopolyImages/DiceList/dice-6.512x512.png"));
+        diceImageSrc = new ArrayList<>(Arrays.asList(
+                "src/main/MonopolyImages/DiceList/dice-1.512x512.png",
+                "src/main/MonopolyImages/DiceList/dice-2.512x512.png",
+                "src/main/MonopolyImages/DiceList/dice-3.512x512.png",
+                "src/main/MonopolyImages/DiceList/dice-4.512x512.png",
+                "src/main/MonopolyImages/DiceList/dice-5.512x512.png",
+                "src/main/MonopolyImages/DiceList/dice-6.512x512.png"));
         diceLabelLeft = new ArrayList<>();
         diceLabelRight = new ArrayList<>();
 
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < diceFaces; i++){
 
             diceImage.add(ImageIO.read(new File(diceImageSrc.get(i))));
 
@@ -70,7 +76,7 @@ public class DiceGUI{
             public void actionPerformed(ActionEvent e) {
                 dice.roll();
 
-                for(int i = 0; i < 6; i++){
+                for(int i = 0; i < diceFaces; i++){
                     diceLabelLeft.get(i).setVisible(false);
                     diceLabelRight.get(i).setVisible(false);
                 }
@@ -105,19 +111,17 @@ public class DiceGUI{
                         break;
                 }
 
+                // todo - remove this section after testing it increments tokens by one to each property
+                // increments a token location by one every time the dice is rolled
                 PlayerToken[] tokenList = PlayerToken.values();
 
-                //for (int i = 1; i < 9; i++){
-
-                    tokenGUI.moveToken(tokenList[tokenIncrement],locationIncrement, location);
-                    if(tokenIncrement == 8){
-                        locationIncrement++;
-                        tokenIncrement = 0;
-                    }
-
-                //}
+                //tokenGUI.moveToken(tokenList[tokenIncrement],locationIncrement, location);
+                tokenGUI.moveToken(tokenList[tokenIncrement], BoardSpaceElement.values()[locationIncrement]);
+                if(tokenIncrement == 8){
+                    locationIncrement++;
+                    tokenIncrement = 0;
+                }
                 tokenIncrement++;
-
             }
         });
     }

@@ -1,4 +1,4 @@
-package main.Misc;
+package main.Functions;
 
 import main.Enums.PlayerToken;
 import main.Properties.ColorGroup;

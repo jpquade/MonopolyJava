@@ -1,7 +1,8 @@
-package main.Misc;
+package main.Functions;
 
 import java.util.Scanner;
 
+// set of tools to check if a string is a valid number and if it is in a range
 public class NumberValueCheck {
 
     public NumberValueCheck(){}

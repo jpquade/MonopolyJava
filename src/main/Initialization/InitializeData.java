@@ -3,7 +3,7 @@ package main.Initialization;
 import main.Enums.PlayerToken;
 import main.Enums.PropertyColor;
 import main.Enums.PropertyType;
-import main.Misc.BoardLocation;
+import main.LocationFunctions.TokenBoardLocation;
 import main.Properties.ColorGroup;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
@@ -48,7 +48,7 @@ public class InitializeData {
     private ArrayList<String> gameBoard;
     private ArrayList<ColorGroup> colorGroup;
 
-    private final ArrayList<BoardLocation> location;
+    private final ArrayList<TokenBoardLocation> location;
     private ArrayList<String> singlePropertyAccess;
 
     private final LinkedList<String> chanceCards;
@@ -215,6 +215,7 @@ public class InitializeData {
         ));
     }
 
+    // position on GUI board is determined by the x and y values in the BoardLocation object
     private void initializeLocation() {
         int xFirstThree = 0;
         int xSecondThree = 0;
@@ -224,187 +225,187 @@ public class InitializeData {
         int YAll = 0;
 
         // go
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // mediterranean avenue
         xFirstThree  -= 85;
         xSecondThree -= 80;
         xLastTwo     -= 95;
 
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // community chest
         xFirstThree  -= 85;
         xSecondThree -= 85;
         xLastTwo     -= 85;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // baltic avenue
         xFirstThree  -= 75;
         xSecondThree -= 75;
         xLastTwo     -= 75;
 
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // income tax
         xFirstThree  -= 75;
         xSecondThree -= 75;
         xLastTwo     -= 75;
 
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // reading railroad
         xFirstThree  -= 85;
         xSecondThree -= 75;
         xLastTwo     -= 75;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // oriental avenue
         xFirstThree  -= 80;
         xSecondThree -= 80;
         xLastTwo     -= 85;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // chance
         xFirstThree  -= 80;
         xSecondThree -= 80;
         xLastTwo     -= 85;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // vermont avenue
         xFirstThree  -= 80;
         xSecondThree -= 80;
         xLastTwo     -= 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // connecticut avenue
         xFirstThree  -= 75;
         xSecondThree -= 80;
         xLastTwo     -= 75;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // just visiting jail
         xSecondThree -= 120;
         xLastTwo     -= 75;
         yFirstThree  -= 45;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree - 145, 985 + xFirstThree - 145, 985 + xFirstThree - 110, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo - 30, 1020 + xLastTwo)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree - 145, 985 + xFirstThree - 145, 985 + xFirstThree - 110, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo - 30, 1020 + xLastTwo)), // x values
                                        new ArrayList<>(Arrays.asList(855 + 45,885 + 40,915,855 - 35,885 + yFirstThree,915 + yFirstThree,845 + 65,885 + 20)))); // y values
         // st charles place
         XAll -= 100;
         YAll -= 120;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                                        new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // electric company
         YAll -= 75;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // states avenue
         YAll -= 85;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // virginia avenue
         YAll -= 75;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // pennsylvania railroad
         YAll -= 75;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // st james avenue
         YAll -= 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // community chest
         YAll -= 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // tennessee avenue
         YAll -= 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // new york avenue
         YAll -= 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // free parking
         YAll -= 100;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // kentucky avenue
         XAll += 100;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // chance
         XAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // indiana avenue
         XAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // illinois avenue
         XAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // b&o railroad
         XAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // atlantic avenue
         XAll += 70;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // water works
         XAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // ventnor avenue
         XAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // marvin gardens
         XAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // go to jail
         XAll += 110;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // pacific avenue
         YAll += 105;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // north carolina avenue
         YAll += 70;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // community chest
         YAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // pennsylvania avenue
         YAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // short line
         YAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // chance
         YAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // park place
         YAll += 75;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // luxury tax
         YAll += 75;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
         // board walk
         YAll += 80;
-        location.add(new BoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
+        location.add(new TokenBoardLocation(new ArrayList<>(Arrays.asList(256 + XAll, 265 + XAll, 265 + XAll, 240 + XAll, 240 + XAll, 240 + XAll, 290 + XAll, 290 + XAll)), // x values
                 new ArrayList<>(Arrays.asList(855 + YAll + 10,885 + YAll,915 + YAll,855 + YAll + 10,885 + YAll,915 + YAll,845 + YAll + 10,885 + YAll)))); // y values
     }
 
@@ -515,7 +516,7 @@ public class InitializeData {
         return singlePropertyAccess;
     }
 
-    public ArrayList<BoardLocation> getLocation() {
+    public ArrayList<TokenBoardLocation> getLocation() {
         return location;
     }
 

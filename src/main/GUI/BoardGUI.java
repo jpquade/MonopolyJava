@@ -1,8 +1,11 @@
 package main.GUI;
 
 import main.Data.GameData;
-import main.Misc.Dice;
-import main.Misc.BoardLocation;
+import main.Enums.PlayerToken;
+import main.Functions.Dice;
+import main.Functions.PlayerList;
+import main.LocationFunctions.LocationProcessor;
+import main.LocationFunctions.TokenBoardLocation;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
 
@@ -19,16 +22,26 @@ import java.util.LinkedHashMap;
 
 public class BoardGUI extends JFrame{
     GameData gameData = new GameData();
-    ArrayList<BoardLocation> location = gameData.getLocation();
+    ArrayList<TokenBoardLocation> location = gameData.getLocation();
 
     public DrawCardGUI drawCardGUI;
-    public JLayeredPane rLayeredPane;
+    public JLayeredPane lLayeredPane; // used for dice
+    public JLayeredPane rLayeredPane; // used for board/property
+
+    public JLabel carMoney;
+    JLabel catMoney;
+    JLabel dogMoney;
+    JLabel hatMoney;
+    JLabel ironMoney;
+    JLabel shipMoney;
+    JLabel shoeMoney;
+    JLabel thimbleMoney;
 
     public BoardGUI(Dice dice, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
-                    LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
+                    LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, PlayerList playerList, LocationProcessor locationProcessor) throws IOException {
 
         // left layered pane setup
-        JLayeredPane lLayeredPane = new JLayeredPane();
+        lLayeredPane = new JLayeredPane();
         lLayeredPane.setBackground(Color.WHITE);
         lLayeredPane.setBounds(0,0, 500, 1000);
         lLayeredPane.setOpaque(true);
@@ -39,7 +52,7 @@ public class BoardGUI extends JFrame{
         rLayeredPane.setOpaque(true);
 
         // initialize external main.GUI classes
-        TokenGUI tokenGUI = new TokenGUI(rLayeredPane);
+        TokenGUI tokenGUI = new TokenGUI(rLayeredPane, locationProcessor);
         DiceGUI diceGUI = new DiceGUI(lLayeredPane, dice, tokenGUI, location);
         PropertyGUI propertyGUI = new PropertyGUI(rLayeredPane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
         drawCardGUI = new DrawCardGUI(rLayeredPane);
@@ -68,6 +81,9 @@ public class BoardGUI extends JFrame{
         rotateCommunityChestCardLabel.setBounds(265,149, communityChestSize, communityChestSize);
         rotateCommunityChestCardLabel.setVisible(true);
         rLayeredPane.add(rotateCommunityChestCardLabel, JLayeredPane.PALETTE_LAYER);
+
+        // money panel tracking
+        moneyTable(playerList);
 
         // board adjustments and setup
         this.setIconImage(board);
@@ -110,5 +126,97 @@ public class BoardGUI extends JFrame{
 
             }
         });
+    }
+
+    // money panel tracking
+    public void moneyTable(PlayerList playerList){
+        // money panel tracking settings
+        JPanel moneyPanel = new JPanel();
+        moneyPanel.setBounds(270, 700, 450, 100);
+        //moneyPanel.setBackground();
+        moneyPanel.setOpaque(false);
+        moneyPanel.setLayout(new GridLayout(2, 8));
+        //moneyPanel.setBorder(BorderFactory);
+        //moneyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        moneyPanel.setVisible(true);
+        moneyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        rLayeredPane.add(moneyPanel, JLayeredPane.PALETTE_LAYER);
+
+        JLabel car = new JLabel(STR."\{PlayerToken.CAR} $");
+        JLabel cat = new JLabel(STR."\{PlayerToken.CAT} $");
+        JLabel dog = new JLabel(STR."\{PlayerToken.DOG} $");
+        JLabel hat = new JLabel(STR."\{PlayerToken.HAT} $");
+        JLabel iron = new JLabel(STR."\{PlayerToken.IRON} $");
+        JLabel ship = new JLabel(STR."\{PlayerToken.SHIP} $");
+        JLabel shoe = new JLabel(STR."\{PlayerToken.SHOE} $");
+        JLabel thimble = new JLabel(STR."\{PlayerToken.THIMBLE} $");
+        thimble.setFont(new Font("Arial", Font.BOLD, 10));
+
+        if(playerList.playerExists(PlayerToken.CAR)){
+            carMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.CAR).getCash()));
+        } else{
+            carMoney = new JLabel("NA");
+        }
+
+        if(playerList.playerExists(PlayerToken.CAT)){
+            catMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.CAT).getCash()));
+        } else{
+            catMoney = new JLabel("NA");
+        }
+
+        if(playerList.playerExists(PlayerToken.DOG)){
+            dogMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.DOG).getCash()));
+        } else{
+            dogMoney = new JLabel("NA");
+        }
+
+        if(playerList.playerExists(PlayerToken.HAT)){
+            hatMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.HAT).getCash()));
+        } else{
+            hatMoney = new JLabel("NA");
+        }
+
+        if(playerList.playerExists(PlayerToken.IRON)){
+            ironMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.IRON).getCash()));
+        } else{
+            ironMoney = new JLabel("NA");
+        }
+
+        if(playerList.playerExists(PlayerToken.SHIP)){
+            shipMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.SHIP).getCash()));
+        } else{
+            shipMoney = new JLabel("NA");
+        }
+
+        if(playerList.playerExists(PlayerToken.SHOE)){
+            shoeMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.SHOE).getCash()));
+        } else{
+            shoeMoney = new JLabel("NA");
+        }
+
+        if(playerList.playerExists(PlayerToken.THIMBLE)){
+            thimbleMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.THIMBLE).getCash()));
+        } else{
+            thimbleMoney = new JLabel("NA");
+        }
+
+        moneyPanel.add(car);
+        moneyPanel.add(carMoney);
+        moneyPanel.add(cat);
+        moneyPanel.add(catMoney);
+        moneyPanel.add(dog);
+        moneyPanel.add(dogMoney);
+        moneyPanel.add(hat);
+        moneyPanel.add(hatMoney);
+        moneyPanel.add(iron);
+        moneyPanel.add(ironMoney);
+        moneyPanel.add(ship);
+        moneyPanel.add(shipMoney);
+        moneyPanel.add(shoe);
+        moneyPanel.add(shoeMoney);
+        moneyPanel.add(thimble);
+        moneyPanel.add(thimbleMoney);
+
+        System.out.println(STR."Money Panel Components - \{moneyPanel.getComponentCount()}");
     }
 }

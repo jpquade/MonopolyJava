@@ -1,4 +1,4 @@
-package main.Misc;
+package main.LocationFunctions;
 
 import main.Enums.PlayerToken;
 
@@ -7,33 +7,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-public class BoardLocation {
-
+public class TokenBoardLocation {
 
     private final ArrayList<Integer> xList;
     private final ArrayList<Integer> yList;
     private final PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
     private final HashMap<PlayerToken, Integer> hashMap = new HashMap<>();
 
-    public BoardLocation(ArrayList<Integer> xList, ArrayList<Integer> yList) {
+    public TokenBoardLocation(ArrayList<Integer> xList, ArrayList<Integer> yList) {
         this.xList = xList;
         this.yList = yList;
-        initializePriorityQueue();
-    }
-
-    private void initializePriorityQueue(){
-        for(int i = 0 ; i < 8; i++){
+        for (int i = 0; i < xList.size(); i++){
             priorityQueue.offer(i);
         }
     }
 
-    // adds token prioritizing the lower index numbers for insertion
+    // tokens are prioritized in the lower index numbers for insertion
     public ArrayList<Integer> addToken(PlayerToken token){
         hashMap.put(token, priorityQueue.poll());
-        int xCoor = xList.get(hashMap.get(token));
-        int yCoor = yList.get(hashMap.get(token));
+        int xCoordinate = xList.get(hashMap.get(token));
+        int yCoordinate = yList.get(hashMap.get(token));
 
-        return new ArrayList<>(Arrays.asList(xCoor, yCoor));
+        return new ArrayList<>(Arrays.asList(xCoordinate, yCoordinate));
     }
 
     public void removeToken(PlayerToken token){

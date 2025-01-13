@@ -1,7 +1,7 @@
 package main.Properties;
 
 import main.Enums.PropertyColor;
-import main.Misc.Player;
+import main.Functions.Player;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -1,9 +1,10 @@
-package main.GamePlaying;
+package main.GameProcessor;
 
 import main.Data.GameData;
+import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
 import main.Enums.PropertyColor;
-import main.Misc.*;
+import main.Functions.*;
 import main.Properties.*;
 
 import java.io.File;
@@ -21,7 +22,7 @@ public class TurnTracker {
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     private final LinkedHashMap<PropertyColor, ColorGroup> colorGroupMap;
     private final Dice dice;
-    private final RaiseMoney raiseMoney;
+    private final PurchaseProcessor purchaseProcessor;
     private final NumberValueCheck numberValueCheck;
     private final PropertyMerchant propertyMerchant;
     private int currentPlayerIndex;
@@ -38,14 +39,14 @@ public class TurnTracker {
         propertyFinancialsMap = new LinkedHashMap<>(gameData.getPropertyFinancialsMap());
         colorGroupMap = new LinkedHashMap<>(gameData.getColorGroupMap());
         dice = new Dice();
-        raiseMoney = new RaiseMoney();
+        purchaseProcessor = new PurchaseProcessor();
         numberValueCheck = new NumberValueCheck();
         propertyMerchant = new PropertyMerchant();
         currentPlayerIndex = 0;
     }
 
     public void sendToJail(Player player){
-        player.setBoardLocation(40);
+        player.setBoardLocation(BoardSpaceElement.JAIL);
         player.setInJail(true);
         player.setDoubleDiceCount(0);
     }
@@ -114,7 +115,7 @@ public class TurnTracker {
                     System.out.println("Insufficient funds, raise money");
                     System.out.println();
 
-                    raiseMoney.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
+                    purchaseProcessor.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
                             propertyFinancialsMap, playerList, jailScan);
 
                 }
@@ -152,7 +153,7 @@ public class TurnTracker {
                         System.out.println("Return to main options has been disabled until you raise enough funds.");
                         System.out.println();
 
-                        raiseMoney.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
+                        purchaseProcessor.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
                                 propertyFinancialsMap, playerList, jailScan);
                     }
 
@@ -216,7 +217,7 @@ public class TurnTracker {
             String timeInJail = tempScan.nextLine().trim();
 
             //System.out.println(playerNum + playerToken + boardLocation + cash + inJail + doubleDiceCount + getOutOfJailFreeCount + timeInJail);
-            playerList.add(new Player(Integer.parseInt(playerNum), PlayerToken.valueOf(playerToken), Integer.parseInt(boardLocation),Integer.parseInt(cash),
+            playerList.add(new Player(Integer.parseInt(playerNum), PlayerToken.valueOf(playerToken), Integer.parseInt(cash),
                     Boolean.parseBoolean(inJail), Integer.parseInt(doubleDiceCount), Integer.parseInt(getOutOfJailFreeCount),
                     0,0,Integer.parseInt(timeInJail),0,0, false));
 
@@ -281,7 +282,7 @@ public class TurnTracker {
                 // this block will not execute if dice rolled and still in jail
                 if(!player.isInJail()){
                     player.setTimeInJail(0);
-                    player.setBoardLocation(10);
+                    player.setBoardLocation(BoardSpaceElement.JUST_VISITING_JAIL);
                 }
             } else{
                 // not in jail roll dice
@@ -308,12 +309,12 @@ public class TurnTracker {
             }
 
             // recording starting location
-            int startLocation = player.getBoardLocation();
-            String currentNamedLocation = gameBoard.get(player.getBoardLocation());
+            int startLocation = player.getBoardLocation().ordinal();
+            String currentNamedLocation = gameBoard.get(player.getBoardLocation().ordinal());
 
             // player moves to a new location if not in jail
             if(!player.isInJail()){
-                int locationTotal = player.getBoardLocation() + dice.getDiceOne() + dice.getDiceTwo();
+                int locationTotal = player.getBoardLocation().ordinal() + dice.getDiceOne() + dice.getDiceTwo();
 
                 // disabled while debugging
                 //int locationTotal = player.getBoardLocation() + 1;
@@ -323,19 +324,19 @@ public class TurnTracker {
                     locationTotal = locationTotal % 39;
                 }
 
-                player.setBoardLocation(locationTotal);
+                player.setBoardLocation(BoardSpaceElement.values()[locationTotal]);
                 System.out.println(STR."\{player.getToken()} will move \{dice.getDiceOne() + dice.getDiceTwo()} spaces.");
             }
 
             System.out.println(STR."Started on. Index: \{startLocation} - \{currentNamedLocation}");
 
-            int finalLocation = player.getBoardLocation();
+            int finalLocation = player.getBoardLocation().ordinal();
 
             // added a condition for displaying alternate message if player doesn't move i.e. being in jail
             if(startLocation != finalLocation){
-                System.out.println(STR."Moved to.   Index: \{finalLocation} - \{gameBoard.get(player.getBoardLocation())}");
+                System.out.println(STR."Moved to.   Index: \{finalLocation} - \{gameBoard.get(player.getBoardLocation().ordinal())}");
             } else {
-                System.out.println(STR."Stayed on.  Index: \{finalLocation} - \{gameBoard.get(player.getBoardLocation())}");
+                System.out.println(STR."Stayed on.  Index: \{finalLocation} - \{gameBoard.get(player.getBoardLocation().ordinal())}");
             }
 
             testIndex++;

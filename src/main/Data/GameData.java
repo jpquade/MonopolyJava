@@ -8,8 +8,8 @@ import main.Enums.PlayerToken;
 import main.Enums.PropertyColor;
 import main.Enums.PropertyType;
 import main.Initialization.InitializeData;
-import main.Misc.BoardLocation;
-import main.Misc.PropertyMerchant;
+import main.LocationFunctions.TokenBoardLocation;
+import main.Functions.PropertyMerchant;
 import main.Properties.ColorGroup;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
@@ -21,7 +21,7 @@ public class GameData {
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     private final LinkedHashMap<PropertyColor, ColorGroup> colorGroupMap;
 
-    private final ArrayList<BoardLocation> location;
+    private final ArrayList<TokenBoardLocation> location;
     private final HashMap<Integer, String> singlePropertyBoardDataMap;
 
     private final LinkedList<String> chanceCards;
@@ -71,7 +71,7 @@ public class GameData {
 
     public LinkedHashMap<PropertyColor, ColorGroup> getColorGroupMap() { return colorGroupMap;}
 
-    public ArrayList<BoardLocation> getLocation() {
+    public ArrayList<TokenBoardLocation> getLocation() {
         return location;
     }
 

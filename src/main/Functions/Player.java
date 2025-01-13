@@ -1,12 +1,13 @@
-package main.Misc;
+package main.Functions;
 
+import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
 
 public class Player {
 
     private int playerNumber;
     private PlayerToken playerToken;
-    private int boardLocation;
+    private BoardSpaceElement boardLocation;
     private int cash;
     private boolean inJail;
     private int doubleDiceCount;
@@ -18,12 +19,12 @@ public class Player {
     private int totalHotels;
     private boolean bankrupt;
 
-    public Player(int playerNumber, PlayerToken playerToken, int boardLocation, int cash, boolean inJail,
+    public Player(int playerNumber, PlayerToken playerToken, int cash, boolean inJail,
                   int doubleDiceCount, int getOutOfJailFreeCount, int chanceGetOutOfJailFreeCount,
                   int ccGetOutOfJailFreeCount,int timeInJail, int totalHouses, int totalHotels, boolean bankrupt) {
         this.playerNumber = playerNumber;
         this.playerToken = playerToken;
-        this.boardLocation = boardLocation;
+        boardLocation = BoardSpaceElement.GO;
         this.cash = cash;
         this.inJail = inJail;
         this.doubleDiceCount = doubleDiceCount;
@@ -34,6 +35,25 @@ public class Player {
         this.totalHouses = totalHouses;
         this.totalHotels = totalHotels;
         this.bankrupt = bankrupt;
+    }
+//    public Player(PlayerToken playerToken){
+//        this.playerToken = playerToken;
+//    }
+
+    public Player() {
+        playerNumber = 0;
+        playerToken = null;
+        boardLocation = BoardSpaceElement.GO;
+        cash = 0;
+        inJail = false;
+        doubleDiceCount = 0;
+        getOutOfJailFreeCount = 0;
+        chanceGetOutOfJailFreeCount = 0;
+        ccGetOutOfJailFreeCount = 0;
+        timeInJail = 0;
+        totalHouses = 0;
+        totalHotels = 0;
+        bankrupt = false;
     }
 
     public int getPlayerNumber() { return playerNumber;}
@@ -48,11 +68,11 @@ public class Player {
         this.playerToken = playerToken;
     }
 
-    public int getBoardLocation() {
+    public BoardSpaceElement getBoardLocation() {
         return boardLocation;
     }
 
-    public void setBoardLocation(int boardLocation) {
+    public void setBoardLocation(BoardSpaceElement boardLocation) {
         this.boardLocation = boardLocation;
     }
 

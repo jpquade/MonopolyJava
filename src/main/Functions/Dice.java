@@ -1,4 +1,4 @@
-package main.Misc;
+package main.Functions;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -6,19 +6,25 @@ public class Dice {
 
     private int diceOne;
     private int diceTwo;
+    private final int diceMin;
+    private final int diceMax;
+    private final int diceOffSetInclusive;
 
     public Dice(){
         diceOne = 0;
         diceTwo = 0;
+        diceMin = 1;
+        diceMax = 6;
+        diceOffSetInclusive = 1;
     }
 
     public void roll(){
         System.out.println("Rolling dice...");
 
         // sets dice to random number between 1 and 6 inclusive
-        diceOne = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+        diceOne = ThreadLocalRandom.current().nextInt(diceMin, diceMax + diceOffSetInclusive);
 
-        diceTwo = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+        diceTwo = ThreadLocalRandom.current().nextInt(diceMin, diceMax + diceOffSetInclusive);
 
 //        enabled while debugging
 //        diceOne = 2;
@@ -32,15 +38,7 @@ public class Dice {
         return diceOne;
     }
 
-    public void setDiceOne(int diceOne) {
-        this.diceOne = diceOne;
-    }
-
     public int getDiceTwo() {
         return diceTwo;
-    }
-
-    public void setDiceTwo(int diceTwo) {
-        this.diceTwo = diceTwo;
     }
 }
