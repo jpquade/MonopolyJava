@@ -31,15 +31,7 @@ public class TokenBoardLocation {
         return new ArrayList<>(Arrays.asList(xCoordinate, yCoordinate));
     }
 
-    public void removeToken(PlayerToken token){
-        priorityQueue.offer(hashMap.get(token));
-    }
-
-    public ArrayList<Integer> getXList() {
-        return xList;
-    }
-
-    public ArrayList<Integer> getYList() {
-        return yList;
+    public void removeToken(PlayerToken playerToken){
+        priorityQueue.offer(hashMap.get(playerToken));
     }
 }

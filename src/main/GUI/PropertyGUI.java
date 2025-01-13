@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 
 public class PropertyGUI {
 
-    public PropertyGUI(JLayeredPane rLayeredPane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer,
+    public PropertyGUI(JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer,
             String> singlePropertyBoardData,LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
 
         // property buttons and positions
@@ -79,7 +79,7 @@ public class PropertyGUI {
         JLayeredPane propertyPane = new JLayeredPane();
         propertyPane.add(singlePropertyDisplayLabel, JLayeredPane.DEFAULT_LAYER);
         propertyPane.setBounds(400,250,propertyScaleW,propertyScaleH);
-        rLayeredPane.add(propertyPane, JLayeredPane.MODAL_LAYER);
+        boardSidePane.add(propertyPane, JLayeredPane.MODAL_LAYER);
 
         // create empty label template for adding large property view
         for(int i = 0; i < allLargePropertyViewSize; i++){
@@ -136,7 +136,7 @@ public class PropertyGUI {
         InvisibleOverLayButtonGUI overLayButton = new InvisibleOverLayButtonGUI(singlePropertyDisplayLabel, largePropertyLabelList);
 
         // add overLayButton to the right pane
-        rLayeredPane.add(overLayButton, JLayeredPane.DRAG_LAYER);
+        boardSidePane.add(overLayButton, JLayeredPane.DRAG_LAYER);
 
         // creates a button for each property to click and get large display of the information
         for(int i = 0; i < xPropButtonList.size(); i++){
@@ -298,7 +298,7 @@ public class PropertyGUI {
                     System.out.println("Element: " + index);
                 }
             });
-            rLayeredPane.add(propButton, JLayeredPane.POPUP_LAYER);
+            boardSidePane.add(propButton, JLayeredPane.POPUP_LAYER);
         }
     }
 }

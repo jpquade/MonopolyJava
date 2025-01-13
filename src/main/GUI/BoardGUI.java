@@ -26,7 +26,8 @@ public class BoardGUI extends JFrame{
 
     public DrawCardGUI drawCardGUI;
     public JLayeredPane lLayeredPane; // used for dice
-    public JLayeredPane rLayeredPane; // used for board/property
+    private JLayeredPane boardSidePane; // used for board
+    private TokenGUI tokenGUI;
 
     public JLabel carMoney;
     JLabel catMoney;
@@ -37,8 +38,9 @@ public class BoardGUI extends JFrame{
     JLabel shoeMoney;
     JLabel thimbleMoney;
 
-    public BoardGUI(Dice dice, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
+    public BoardGUI(Dice dice, TokenGUI tokenGUI, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
                     LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, PlayerList playerList, LocationProcessor locationProcessor) throws IOException {
+        this.tokenGUI = tokenGUI;
 
         // left layered pane setup
         lLayeredPane = new JLayeredPane();
@@ -47,24 +49,23 @@ public class BoardGUI extends JFrame{
         lLayeredPane.setOpaque(true);
 
         // right layered pane setup
-        rLayeredPane = new JLayeredPane();
-        rLayeredPane.setBounds(500,0, 1200, 1000);
-        rLayeredPane.setOpaque(true);
+        this.boardSidePane = boardSidePane;
+        boardSidePane.setBounds(500,0, 1200, 1000);
+        boardSidePane.setOpaque(true);
 
         // initialize external main.GUI classes
-        TokenGUI tokenGUI = new TokenGUI(rLayeredPane, locationProcessor);
-        DiceGUI diceGUI = new DiceGUI(lLayeredPane, dice, tokenGUI, location);
-        PropertyGUI propertyGUI = new PropertyGUI(rLayeredPane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
-        drawCardGUI = new DrawCardGUI(rLayeredPane);
+        DiceGUI diceGUI = new DiceGUI(playerList, lLayeredPane, dice, locationProcessor);
+        PropertyGUI propertyGUI = new PropertyGUI(boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
+        drawCardGUI = new DrawCardGUI(boardSidePane);
 
-        //drawCardGUI.guiSetup(rLayeredPane);
+        //drawCardGUI.guiSetup(boardSidePane);
 
         // board setup
         BufferedImage board = ImageIO.read(new File("src/main/MonopolyImages/monopolyBoard.png"));
         JLabel mBoard = new JLabel(new ImageIcon(board.getScaledInstance(950,950, Image.SCALE_DEFAULT)));
         mBoard.setBounds(0,0, 1200, 950);
         mBoard.setVisible(true);
-        rLayeredPane.add(mBoard, JLayeredPane.DEFAULT_LAYER);
+        boardSidePane.add(mBoard, JLayeredPane.DEFAULT_LAYER);
 
         // back of chance card image
         int chanceSize = 230;
@@ -72,7 +73,7 @@ public class BoardGUI extends JFrame{
         JLabel rotateChanceLabel = new JLabel(new ImageIcon(rotateChanceCard.getScaledInstance(chanceSize,chanceSize, Image.SCALE_DEFAULT)));
         rotateChanceLabel.setBounds(706,573, chanceSize, chanceSize);
         rotateChanceLabel.setVisible(true);
-        rLayeredPane.add(rotateChanceLabel, JLayeredPane.PALETTE_LAYER);
+        boardSidePane.add(rotateChanceLabel, JLayeredPane.PALETTE_LAYER);
 
         // back of community chest card image
         int communityChestSize = 240;
@@ -80,7 +81,7 @@ public class BoardGUI extends JFrame{
         JLabel rotateCommunityChestCardLabel = new JLabel(new ImageIcon(rotateCommunityChestCard.getScaledInstance(communityChestSize,communityChestSize, Image.SCALE_DEFAULT)));
         rotateCommunityChestCardLabel.setBounds(265,149, communityChestSize, communityChestSize);
         rotateCommunityChestCardLabel.setVisible(true);
-        rLayeredPane.add(rotateCommunityChestCardLabel, JLayeredPane.PALETTE_LAYER);
+        boardSidePane.add(rotateCommunityChestCardLabel, JLayeredPane.PALETTE_LAYER);
 
         // money panel tracking
         moneyTable(playerList);
@@ -92,12 +93,12 @@ public class BoardGUI extends JFrame{
         this.setLayout(null);
         //this.add(overProperyOverLay);
         this.add(lLayeredPane);
-        this.add(rLayeredPane);
+        this.add(boardSidePane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // keep at end
         this.setVisible(true); // keep at end
 
         // temporary mouse location listener
-        rLayeredPane.addMouseListener(new MouseListener() {
+        boardSidePane.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
@@ -140,7 +141,7 @@ public class BoardGUI extends JFrame{
         //moneyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         moneyPanel.setVisible(true);
         moneyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        rLayeredPane.add(moneyPanel, JLayeredPane.PALETTE_LAYER);
+        boardSidePane.add(moneyPanel, JLayeredPane.PALETTE_LAYER);
 
         JLabel car = new JLabel(STR."\{PlayerToken.CAR} $");
         JLabel cat = new JLabel(STR."\{PlayerToken.CAT} $");
@@ -152,49 +153,49 @@ public class BoardGUI extends JFrame{
         JLabel thimble = new JLabel(STR."\{PlayerToken.THIMBLE} $");
         thimble.setFont(new Font("Arial", Font.BOLD, 10));
 
-        if(playerList.playerExists(PlayerToken.CAR)){
+        if(playerList.ifPlayerExists(PlayerToken.CAR)){
             carMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.CAR).getCash()));
         } else{
             carMoney = new JLabel("NA");
         }
 
-        if(playerList.playerExists(PlayerToken.CAT)){
+        if(playerList.ifPlayerExists(PlayerToken.CAT)){
             catMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.CAT).getCash()));
         } else{
             catMoney = new JLabel("NA");
         }
 
-        if(playerList.playerExists(PlayerToken.DOG)){
+        if(playerList.ifPlayerExists(PlayerToken.DOG)){
             dogMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.DOG).getCash()));
         } else{
             dogMoney = new JLabel("NA");
         }
 
-        if(playerList.playerExists(PlayerToken.HAT)){
+        if(playerList.ifPlayerExists(PlayerToken.HAT)){
             hatMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.HAT).getCash()));
         } else{
             hatMoney = new JLabel("NA");
         }
 
-        if(playerList.playerExists(PlayerToken.IRON)){
+        if(playerList.ifPlayerExists(PlayerToken.IRON)){
             ironMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.IRON).getCash()));
         } else{
             ironMoney = new JLabel("NA");
         }
 
-        if(playerList.playerExists(PlayerToken.SHIP)){
+        if(playerList.ifPlayerExists(PlayerToken.SHIP)){
             shipMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.SHIP).getCash()));
         } else{
             shipMoney = new JLabel("NA");
         }
 
-        if(playerList.playerExists(PlayerToken.SHOE)){
+        if(playerList.ifPlayerExists(PlayerToken.SHOE)){
             shoeMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.SHOE).getCash()));
         } else{
             shoeMoney = new JLabel("NA");
         }
 
-        if(playerList.playerExists(PlayerToken.THIMBLE)){
+        if(playerList.ifPlayerExists(PlayerToken.THIMBLE)){
             thimbleMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.THIMBLE).getCash()));
         } else{
             thimbleMoney = new JLabel("NA");

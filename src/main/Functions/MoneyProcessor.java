@@ -7,20 +7,34 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-public class PurchaseProcessor {
+public class MoneyProcessor {
 
     // Ways to raise money
     // 1. Mortgage Property
     // 2. Sell Improvements
     // 3. Sell Property
 
+    PlayerList playerList;
 
 
-    public PurchaseProcessor(){}
+    public MoneyProcessor(PlayerList playerList){
+        this.playerList = playerList;
+    }
+
+    public void pay(int cost){
+        if(playerList.getActivePlayer().getCash() - cost >= 0){
+            playerList.getActivePlayer().setCash(playerList.getActivePlayer().getCash() - cost);
+        }
+        else{
+            System.out.println("Not enough cash");
+
+
+        }
+    }
 
     // different ways to raise money
     public void raiseMoneyOptions(Player player, LinkedHashMap<String, PropertyAttributes> propertyAttributes, NumberValueCheck numberValueCheck,
-                                  LinkedHashMap<String, PropertyFinancials> propertyFinancials, ArrayList<Player> playerList, Scanner scanner){
+                                  LinkedHashMap<String, PropertyFinancials> propertyFinancials, ArrayList<Player> players, Scanner scanner){
 
         System.out.println("1. Mortgage Property");
         System.out.println("2. Sell Improvements");
@@ -36,7 +50,7 @@ public class PurchaseProcessor {
                 sellImprovements(player, propertyAttributes, numberValueCheck, propertyFinancials, scanner);
                 break;
             case 3: // sell propertyAttributes
-                sellProperty(player, playerList, numberValueCheck, propertyAttributes, propertyFinancials, scanner);
+                sellProperty(player, players, numberValueCheck, propertyAttributes, propertyFinancials, scanner);
                 break;
         }
     }

@@ -14,6 +14,7 @@ import java.util.*;
 public class TurnTracker {
 
     private int numberOfPlayers;
+    private final PlayerList players;
     private final ArrayList<Player> playerList;
     private final ArrayList<String> tokenList;
     private final Scanner scanner;
@@ -22,12 +23,13 @@ public class TurnTracker {
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
     private final LinkedHashMap<PropertyColor, ColorGroup> colorGroupMap;
     private final Dice dice;
-    private final PurchaseProcessor purchaseProcessor;
+    private final MoneyProcessor moneyProcessor;
     private final NumberValueCheck numberValueCheck;
     private final PropertyMerchant propertyMerchant;
     private int currentPlayerIndex;
 
     public TurnTracker() throws FileNotFoundException {
+        this.players = new PlayerList();
         GameData gameData = new GameData();
         numberOfPlayers = 0;
         playerList = new ArrayList<>();
@@ -39,7 +41,7 @@ public class TurnTracker {
         propertyFinancialsMap = new LinkedHashMap<>(gameData.getPropertyFinancialsMap());
         colorGroupMap = new LinkedHashMap<>(gameData.getColorGroupMap());
         dice = new Dice();
-        purchaseProcessor = new PurchaseProcessor();
+        moneyProcessor = new MoneyProcessor(players);
         numberValueCheck = new NumberValueCheck();
         propertyMerchant = new PropertyMerchant();
         currentPlayerIndex = 0;
@@ -115,7 +117,7 @@ public class TurnTracker {
                     System.out.println("Insufficient funds, raise money");
                     System.out.println();
 
-                    purchaseProcessor.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
+                    moneyProcessor.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
                             propertyFinancialsMap, playerList, jailScan);
 
                 }
@@ -153,7 +155,7 @@ public class TurnTracker {
                         System.out.println("Return to main options has been disabled until you raise enough funds.");
                         System.out.println();
 
-                        purchaseProcessor.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
+                        moneyProcessor.raiseMoneyOptions(player, propertyAttributesMap, numberValueCheck,
                                 propertyFinancialsMap, playerList, jailScan);
                     }
 

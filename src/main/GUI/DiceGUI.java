@@ -2,6 +2,9 @@ package main.GUI;
 
 import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
+import main.Functions.Player;
+import main.Functions.PlayerList;
+import main.LocationFunctions.LocationProcessor;
 import main.LocationFunctions.TokenBoardLocation;
 import main.Functions.Dice;
 
@@ -18,22 +21,22 @@ import java.util.Arrays;
 
 public class DiceGUI{
 
-    ArrayList<BufferedImage> diceImage;
-    ArrayList<String> diceImageSrc;
-    ArrayList<JLabel> diceLabelLeft;
-    ArrayList<JLabel> diceLabelRight;
+    private final ArrayList<BufferedImage> diceImage;
+    private final ArrayList<String> diceImageSrc;
+    private final ArrayList<JLabel> diceLabelLeft;
+    private final ArrayList<JLabel> diceLabelRight;
 
-    int locationIncrement;
-    int tokenIncrement;
+    private int locationIncrement;
+    private int tokenIncrement;
 
-    public DiceGUI(JLayeredPane lLayeredPane, Dice dice, TokenGUI tokenGUI, ArrayList<TokenBoardLocation> location) throws IOException {
+    public DiceGUI(PlayerList playerList, JLayeredPane lLayeredPane, Dice dice, LocationProcessor locationProcessor) throws IOException {
 
         int diceSize = 30;
         int leftX = 135;
         int rightX = 170;
         int diceY = 30;
         int diceFaces = 6;  // 6 sided dice
-        locationIncrement = 0;
+        locationIncrement = 1;
         tokenIncrement = 1;
 
         diceImage = new ArrayList<>();
@@ -115,12 +118,17 @@ public class DiceGUI{
                 // increments a token location by one every time the dice is rolled
                 PlayerToken[] tokenList = PlayerToken.values();
 
+                if(locationIncrement == 40){
+                    locationIncrement = 0;
+                }
+
                 //tokenGUI.moveToken(tokenList[tokenIncrement],locationIncrement, location);
-                tokenGUI.moveToken(tokenList[tokenIncrement], BoardSpaceElement.values()[locationIncrement]);
-                if(tokenIncrement == 8){
+                locationProcessor.movePlayer(playerList, tokenList[tokenIncrement], BoardSpaceElement.values()[locationIncrement]);
+                if(tokenIncrement == 3){
                     locationIncrement++;
                     tokenIncrement = 0;
                 }
+
                 tokenIncrement++;
             }
         });
