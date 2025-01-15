@@ -2,11 +2,9 @@ package main;
 
 import main.Data.GameData;
 import main.Enums.PlayerToken;
-import main.GUI.BoardGUI;
-import main.GUI.DrawCardGUI;
+import main.GUI.*;
 import main.Functions.Dice;
 import main.Functions.PlayerList;
-import main.GUI.TokenGUI;
 import main.LocationFunctions.LocationProcessor;
 
 import javax.swing.*;
@@ -20,7 +18,7 @@ public class App {
 //        turnTracker.turnProgression();
 
         GameData gameData = new GameData();
-        LinkedHashMap<Integer, ArrayList<Integer>> dogMovement  = new LinkedHashMap<>();
+        //LinkedHashMap<Integer, ArrayList<Integer>> dogMovement  = new LinkedHashMap<>();
         //ArrayList<ArrayList> locationTracker = new ArrayList<>();
 
         //dogMovement.put(0, new ArrayList<>(Arrays.asList(0, 1)));
@@ -28,13 +26,18 @@ public class App {
         Dice dice = new Dice();
         PlayerList playerList = new PlayerList();
         JLayeredPane boardSidePane = new JLayeredPane();
+        InformationPane informationPane = new InformationPane();
+        //JLayeredPane informationSidePane = new JLayeredPane();
         TokenGUI tokenGUI = new TokenGUI(boardSidePane);
+        TransactionHistoryGUI transactionHistoryGUI = new TransactionHistoryGUI();
+
+        informationPane.add(transactionHistoryGUI.getHistoryPanel());
         playerList.createPlayer(PlayerToken.CAR);
         playerList.createPlayer(PlayerToken.CAT);
         playerList.createPlayer(PlayerToken.DOG);
         tokenGUI.startingPosition(playerList);
         LocationProcessor locationProcessor = new LocationProcessor(tokenGUI);
-        BoardGUI boardGUI = new BoardGUI(dice, tokenGUI, boardSidePane, gameData.getPropertyFinancialsMap(), gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap(), playerList, locationProcessor);
+        GameGUI gameGUI = new GameGUI(dice,informationPane , boardSidePane, gameData.getPropertyFinancialsMap(), gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap(), playerList, locationProcessor, transactionHistoryGUI);
         DrawCardGUI drawCardGUI = new DrawCardGUI(boardSidePane);
         //System.out.println(drawCardGUI.drawAChanceCard().toString());
         //System.out.println(drawCardGUI.drawACommunityChestCard().toString());

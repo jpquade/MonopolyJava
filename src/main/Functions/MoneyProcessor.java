@@ -22,13 +22,15 @@ public class MoneyProcessor {
     }
 
     public void pay(int cost){
+
+        // display button to pay
         if(playerList.getActivePlayer().getCash() - cost >= 0){
             playerList.getActivePlayer().setCash(playerList.getActivePlayer().getCash() - cost);
         }
         else{
+            // display buttons to raise money
             System.out.println("Not enough cash");
-
-
+            // todo - create menu to raise money
         }
     }
 

@@ -29,7 +29,7 @@ public class DiceGUI{
     private int locationIncrement;
     private int tokenIncrement;
 
-    public DiceGUI(PlayerList playerList, JLayeredPane lLayeredPane, Dice dice, LocationProcessor locationProcessor) throws IOException {
+    public DiceGUI(PlayerList playerList, InformationPane lLayeredPane, Dice dice, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
 
         int diceSize = 30;
         int leftX = 135;
@@ -57,12 +57,14 @@ public class DiceGUI{
             diceLabelLeft.add(new JLabel(new ImageIcon(diceImage.get(i).getScaledInstance(diceSize,diceSize, Image.SCALE_DEFAULT))));
             diceLabelLeft.get(i).setBounds(leftX,diceY,diceSize,diceSize);
             diceLabelLeft.get(i).setVisible(false);
-            lLayeredPane.add(diceLabelLeft.get(i), JLayeredPane.PALETTE_LAYER);
+            //lLayeredPane.add(diceLabelLeft.get(i), JLayeredPane.PALETTE_LAYER);
+            lLayeredPane.add(diceLabelLeft.get(i));
 
             diceLabelRight.add(new JLabel(new ImageIcon(diceImage.get(i).getScaledInstance(diceSize,diceSize, Image.SCALE_DEFAULT))));
             diceLabelRight.get(i).setBounds(rightX,diceY,diceSize,diceSize);
             diceLabelRight.get(i).setVisible(false);
-            lLayeredPane.add(diceLabelRight.get(i), JLayeredPane.PALETTE_LAYER);
+            //lLayeredPane.add(diceLabelRight.get(i), JLayeredPane.PALETTE_LAYER);
+            lLayeredPane.add(diceLabelRight.get(i));
 
         }
 
@@ -72,7 +74,8 @@ public class DiceGUI{
         rollButton.setText("Roll Dice");
         rollButton.setFocusable(false);
 
-        lLayeredPane.add(rollButton, JLayeredPane.PALETTE_LAYER);
+        //lLayeredPane.add(rollButton, JLayeredPane.PALETTE_LAYER);
+        lLayeredPane.add(rollButton);
 
         rollButton.addActionListener(new ActionListener() {
             @Override
@@ -130,6 +133,8 @@ public class DiceGUI{
                 }
 
                 tokenIncrement++;
+
+                transactionHistoryGUI.addTransaction(Integer.toString(tokenIncrement));
             }
         });
     }
