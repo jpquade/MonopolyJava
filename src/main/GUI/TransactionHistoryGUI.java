@@ -36,11 +36,31 @@ public class TransactionHistoryGUI {
         }
         historyPanel.add(new JLabel("<html><u>Transaction History</u></html>"));
 
-        for(int i = MAX_HISTORY - 1; i >= 0; i--){
+//        for(int i = MAX_HISTORY - 1; i >= 0; i--){
+//            historyPanel.add(historyLabelArrayList.get(i));
+//        }
+        for(int i = 0; i < MAX_HISTORY; i++){
             historyPanel.add(historyLabelArrayList.get(i));
         }
+
     }
 
+//    public void addTransaction(String transaction){
+//        if(historyLinkedList.size() == MAX_HISTORY){
+//            System.out.println(STR."Removed from transaction history - \{historyLinkedList.poll()}");
+//        }
+//        // add the transaction to the linked list
+//        historyLinkedList.offer(transaction);
+//
+//        for(int i = 0; i < historyLinkedList.size(); i++){
+//           //istoryLabelArrayList.get(i).setText(historyLinkedList.get(i));
+//
+//            // reverse the entry of the linked list into the arraylist
+//            historyLabelArrayList.get(i).setText(historyLinkedList.get(historyLinkedList.size() - i - 1));
+//        }
+//    }
+
+    // transactions added to the top of the list
     public void addTransaction(String transaction){
         if(historyLinkedList.size() == MAX_HISTORY){
             System.out.println(STR."Removed from transaction history - \{historyLinkedList.poll()}");
@@ -48,11 +68,21 @@ public class TransactionHistoryGUI {
         // add the transaction to the linked list
         historyLinkedList.offer(transaction);
 
+        // transactions start at the top and move down in a FIFO manner
         for(int i = 0; i < historyLinkedList.size(); i++){
            //istoryLabelArrayList.get(i).setText(historyLinkedList.get(i));
 
             // reverse the entry of the linked list into the arraylist
-            historyLabelArrayList.get(i).setText(historyLinkedList.get(historyLinkedList.size() - i - 1));
+            if(i == 0){
+                historyLabelArrayList.get(i).setText(historyLinkedList.get(historyLinkedList.size() - i - 1));
+                historyLabelArrayList.get(i).setForeground(Color.BLACK);
+            }
+            else{
+                historyLabelArrayList.get(i).setText(historyLinkedList.get(historyLinkedList.size() - i - 1));
+                historyLabelArrayList.get(i).setForeground(Color.LIGHT_GRAY);
+            }
+            //historyLabelArrayList.get(i).setText(historyLinkedList.get(historyLinkedList.size() - i - 1));
+            //historyLabelArrayList.get(i).setText(historyLinkedList.get(i));
         }
     }
 

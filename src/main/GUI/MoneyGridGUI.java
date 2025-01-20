@@ -31,6 +31,7 @@ public class MoneyGridGUI {
         moneyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         boardSidePane.add(moneyPanel, JLayeredPane.PALETTE_LAYER);
 
+
         JLabel car = new JLabel(STR."\{PlayerToken.CAR} $");
         JLabel cat = new JLabel(STR."\{PlayerToken.CAT} $");
         JLabel dog = new JLabel(STR."\{PlayerToken.DOG} $");
@@ -41,53 +42,126 @@ public class MoneyGridGUI {
         JLabel thimble = new JLabel(STR."\{PlayerToken.THIMBLE} $");
         thimble.setFont(new Font("Arial", Font.BOLD, 10));
 
+//        carMoney = new JLabel();
+//        catMoney = new JLabel();
+//        dogMoney = new JLabel();
+//        hatMoney = new JLabel();
+//        ironMoney = new JLabel();
+//        shipMoney = new JLabel();
+//        shoeMoney = new JLabel();
+//        thimbleMoney = new JLabel();
+
+
+
         if(playerList.ifPlayerExists(PlayerToken.CAR)){
             carMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.CAR).getCash()));
         } else{
-            carMoney = new JLabel("NA");
+            car.setVisible(false);
+            carMoney = new JLabel();
+            carMoney.setVisible(false);
         }
-
         if(playerList.ifPlayerExists(PlayerToken.CAT)){
             catMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.CAT).getCash()));
         } else{
-            catMoney = new JLabel("NA");
+            cat.setVisible(false);
+            catMoney = new JLabel();
+            catMoney.setVisible(false);
         }
-
         if(playerList.ifPlayerExists(PlayerToken.DOG)){
             dogMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.DOG).getCash()));
         } else{
-            dogMoney = new JLabel("NA");
+            dog.setVisible(false);
+            dogMoney = new JLabel();
+            dogMoney.setVisible(false);
         }
-
         if(playerList.ifPlayerExists(PlayerToken.HAT)){
             hatMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.HAT).getCash()));
         } else{
-            hatMoney = new JLabel("NA");
+            hat.setVisible(false);
+            hatMoney = new JLabel();
+            hatMoney.setVisible(false);
         }
-
         if(playerList.ifPlayerExists(PlayerToken.IRON)){
             ironMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.IRON).getCash()));
         } else{
-            ironMoney = new JLabel("NA");
+            iron.setVisible(false);
+            ironMoney = new JLabel();
+            ironMoney.setVisible(false);
         }
-
         if(playerList.ifPlayerExists(PlayerToken.SHIP)){
             shipMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.SHIP).getCash()));
         } else{
-            shipMoney = new JLabel("NA");
+            ship.setVisible(false);
+            shipMoney = new JLabel();
+            shipMoney.setVisible(false);
         }
-
         if(playerList.ifPlayerExists(PlayerToken.SHOE)){
             shoeMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.SHOE).getCash()));
         } else{
-            shoeMoney = new JLabel("NA");
+            shoe.setVisible(false);
+            shoeMoney = new JLabel();
+            shoeMoney.setVisible(false);
         }
-
         if(playerList.ifPlayerExists(PlayerToken.THIMBLE)){
             thimbleMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.THIMBLE).getCash()));
         } else{
-            thimbleMoney = new JLabel("NA");
+            thimble.setVisible(false);
+            thimbleMoney = new JLabel();
+            thimbleMoney.setVisible(false);
         }
+
+
+
+
+
+
+
+
+
+//        if(playerList.ifPlayerExists(PlayerToken.CAR)) {
+//            carMoney.setText(Integer.toString(playerList.getPlayer(PlayerToken.CAR).getCash()));
+//            moneyPanel.add(car);
+//            moneyPanel.add(carMoney);
+//        }
+//        if(playerList.ifPlayerExists(PlayerToken.CAT)) {
+//            catMoney.setText(Integer.toString(playerList.getPlayer(PlayerToken.CAT).getCash()));
+//            moneyPanel.add(cat);
+//            moneyPanel.add(catMoney);
+//        }
+//        if(playerList.ifPlayerExists(PlayerToken.DOG)) {
+//            dogMoney.setText(Integer.toString(playerList.getPlayer(PlayerToken.DOG).getCash()));
+//            moneyPanel.add(dog);
+//            moneyPanel.add(dogMoney);
+//        }
+//        if(playerList.ifPlayerExists(PlayerToken.HAT)) {
+//            hatMoney.setText(Integer.toString(playerList.getPlayer(PlayerToken.HAT).getCash()));
+//            moneyPanel.add(hat);
+//            moneyPanel.add(hatMoney);
+//        }
+//        if(playerList.ifPlayerExists(PlayerToken.IRON)) {
+//            ironMoney.setText(Integer.toString(playerList.getPlayer(PlayerToken.IRON).getCash()));
+//            moneyPanel.add(iron);
+//            moneyPanel.add(ironMoney);
+//        }
+//        if(playerList.ifPlayerExists(PlayerToken.SHIP)) {
+//            shipMoney.setText(Integer.toString(playerList.getPlayer(PlayerToken.SHIP).getCash()));
+//            moneyPanel.add(ship);
+//            moneyPanel.add(shipMoney);
+//        }
+//        if(playerList.ifPlayerExists(PlayerToken.SHOE)) {
+//            shoeMoney.setText(Integer.toString(playerList.getPlayer(PlayerToken.SHOE).getCash()));
+//            moneyPanel.add(shoe);
+//            moneyPanel.add(shoeMoney);
+//        }
+//        if(playerList.ifPlayerExists(PlayerToken.THIMBLE)) {
+//            thimbleMoney.setText(Integer.toString(playerList.getPlayer(PlayerToken.THIMBLE).getCash()));
+//            moneyPanel.add(thimble);
+//            moneyPanel.add(thimbleMoney);
+//        }
+//
+
+
+
 
         moneyPanel.add(car);
         moneyPanel.add(carMoney);

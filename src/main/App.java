@@ -2,6 +2,7 @@ package main;
 
 import main.Data.GameData;
 import main.Enums.PlayerToken;
+import main.Functions.MoneyProcessor;
 import main.GUI.*;
 import main.Functions.Dice;
 import main.Functions.PlayerList;
@@ -27,10 +28,12 @@ public class App {
         PlayerList playerList = new PlayerList();
         JLayeredPane boardSidePane = new JLayeredPane();
         InformationPane informationPane = new InformationPane();
+        MoneyProcessor moneyProcessor = new MoneyProcessor(playerList);
         //JLayeredPane informationSidePane = new JLayeredPane();
         TokenGUI tokenGUI = new TokenGUI(boardSidePane);
+        SelectionBoxButtonGUI selectionBoxButtonGUI = new SelectionBoxButtonGUI();
         TransactionHistoryGUI transactionHistoryGUI = new TransactionHistoryGUI();
-
+        informationPane.add(selectionBoxButtonGUI.getSelectionBoxButtonPanel());
         informationPane.add(transactionHistoryGUI.getHistoryPanel());
         playerList.createPlayer(PlayerToken.CAR);
         playerList.createPlayer(PlayerToken.CAT);
@@ -39,6 +42,8 @@ public class App {
         LocationProcessor locationProcessor = new LocationProcessor(tokenGUI);
         GameGUI gameGUI = new GameGUI(dice,informationPane , boardSidePane, gameData.getPropertyFinancialsMap(), gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap(), playerList, locationProcessor, transactionHistoryGUI);
         DrawCardGUI drawCardGUI = new DrawCardGUI(boardSidePane);
+
+        selectionBoxButtonGUI.getPaymentOptions(true, true, true, true, 10,moneyProcessor);
         //System.out.println(drawCardGUI.drawAChanceCard().toString());
         //System.out.println(drawCardGUI.drawACommunityChestCard().toString());
 
