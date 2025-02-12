@@ -3,13 +3,8 @@ package main.LocationFunctions;
 import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
 import main.Functions.Player;
-import main.Functions.PlayerList;
-import main.GUI.DiceGUI;
+import main.Functions.PlayerProcessor;
 import main.GUI.TokenGUI;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 
 public class LocationProcessor {
 
@@ -34,8 +29,8 @@ public class LocationProcessor {
     }
 
     // move player token to location
-    public void movePlayer(PlayerList playerList, PlayerToken playerToken, BoardSpaceElement boardSpaceElement){
-        tokenGui.moveToken(playerList,playerToken, boardSpaceElement);
-        playerList.getPlayer(playerToken).setBoardLocation(boardSpaceElement);
+    public void movePlayer(PlayerProcessor playerProcessor, PlayerToken playerToken, BoardSpaceElement boardSpaceElement){
+        tokenGui.moveToken(playerProcessor,playerToken, boardSpaceElement);
+        playerProcessor.getPlayer(playerToken).setBoardLocation(boardSpaceElement);
     }
 }

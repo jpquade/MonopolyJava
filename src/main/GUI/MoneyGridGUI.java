@@ -2,7 +2,7 @@ package main.GUI;
 
 import main.Enums.PlayerToken;
 import main.Functions.Player;
-import main.Functions.PlayerList;
+import main.Functions.PlayerProcessor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class MoneyGridGUI {
     public JLabel thimbleMoney;
 
     // money panel tracking
-    public MoneyGridGUI(PlayerList playerList, JLayeredPane boardSidePane){
+    public MoneyGridGUI(PlayerProcessor playerProcessor, JLayeredPane boardSidePane){
         // money panel tracking settings
         JPanel moneyPanel = new JPanel();
         moneyPanel.setBounds(270, 700, 450, 100);
@@ -32,14 +32,14 @@ public class MoneyGridGUI {
         boardSidePane.add(moneyPanel, JLayeredPane.PALETTE_LAYER);
 
 
-        JLabel car = new JLabel(STR."\{PlayerToken.CAR} $");
-        JLabel cat = new JLabel(STR."\{PlayerToken.CAT} $");
-        JLabel dog = new JLabel(STR."\{PlayerToken.DOG} $");
-        JLabel hat = new JLabel(STR."\{PlayerToken.HAT} $");
-        JLabel iron = new JLabel(STR."\{PlayerToken.IRON} $");
-        JLabel ship = new JLabel(STR."\{PlayerToken.SHIP} $");
-        JLabel shoe = new JLabel(STR."\{PlayerToken.SHOE} $");
-        JLabel thimble = new JLabel(STR."\{PlayerToken.THIMBLE} $");
+        JLabel car = new JLabel(PlayerToken.CAR + "$");
+        JLabel cat = new JLabel(PlayerToken.CAT + "$");
+        JLabel dog = new JLabel(PlayerToken.DOG + "$");
+        JLabel hat = new JLabel(PlayerToken.HAT + "$");
+        JLabel iron = new JLabel(PlayerToken.IRON + "$");
+        JLabel ship = new JLabel(PlayerToken.SHIP + "$");
+        JLabel shoe = new JLabel(PlayerToken.SHOE + "$");
+        JLabel thimble = new JLabel(PlayerToken.THIMBLE + "$");
         thimble.setFont(new Font("Arial", Font.BOLD, 10));
 
 //        carMoney = new JLabel();
@@ -53,57 +53,57 @@ public class MoneyGridGUI {
 
 
 
-        if(playerList.ifPlayerExists(PlayerToken.CAR)){
-            carMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.CAR).getCash()));
+        if(playerProcessor.ifPlayerExists(PlayerToken.CAR)){
+            carMoney = new JLabel(Integer.toString(playerProcessor.getPlayer(PlayerToken.CAR).getCash()));
         } else{
             car.setVisible(false);
             carMoney = new JLabel();
             carMoney.setVisible(false);
         }
-        if(playerList.ifPlayerExists(PlayerToken.CAT)){
-            catMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.CAT).getCash()));
+        if(playerProcessor.ifPlayerExists(PlayerToken.CAT)){
+            catMoney = new JLabel(Integer.toString(playerProcessor.getPlayer(PlayerToken.CAT).getCash()));
         } else{
             cat.setVisible(false);
             catMoney = new JLabel();
             catMoney.setVisible(false);
         }
-        if(playerList.ifPlayerExists(PlayerToken.DOG)){
-            dogMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.DOG).getCash()));
+        if(playerProcessor.ifPlayerExists(PlayerToken.DOG)){
+            dogMoney = new JLabel(Integer.toString(playerProcessor.getPlayer(PlayerToken.DOG).getCash()));
         } else{
             dog.setVisible(false);
             dogMoney = new JLabel();
             dogMoney.setVisible(false);
         }
-        if(playerList.ifPlayerExists(PlayerToken.HAT)){
-            hatMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.HAT).getCash()));
+        if(playerProcessor.ifPlayerExists(PlayerToken.HAT)){
+            hatMoney = new JLabel(Integer.toString(playerProcessor.getPlayer(PlayerToken.HAT).getCash()));
         } else{
             hat.setVisible(false);
             hatMoney = new JLabel();
             hatMoney.setVisible(false);
         }
-        if(playerList.ifPlayerExists(PlayerToken.IRON)){
-            ironMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.IRON).getCash()));
+        if(playerProcessor.ifPlayerExists(PlayerToken.IRON)){
+            ironMoney = new JLabel(Integer.toString(playerProcessor.getPlayer(PlayerToken.IRON).getCash()));
         } else{
             iron.setVisible(false);
             ironMoney = new JLabel();
             ironMoney.setVisible(false);
         }
-        if(playerList.ifPlayerExists(PlayerToken.SHIP)){
-            shipMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.SHIP).getCash()));
+        if(playerProcessor.ifPlayerExists(PlayerToken.SHIP)){
+            shipMoney = new JLabel(Integer.toString(playerProcessor.getPlayer(PlayerToken.SHIP).getCash()));
         } else{
             ship.setVisible(false);
             shipMoney = new JLabel();
             shipMoney.setVisible(false);
         }
-        if(playerList.ifPlayerExists(PlayerToken.SHOE)){
-            shoeMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.SHOE).getCash()));
+        if(playerProcessor.ifPlayerExists(PlayerToken.SHOE)){
+            shoeMoney = new JLabel(Integer.toString(playerProcessor.getPlayer(PlayerToken.SHOE).getCash()));
         } else{
             shoe.setVisible(false);
             shoeMoney = new JLabel();
             shoeMoney.setVisible(false);
         }
-        if(playerList.ifPlayerExists(PlayerToken.THIMBLE)){
-            thimbleMoney = new JLabel(Integer.toString(playerList.getPlayer(PlayerToken.THIMBLE).getCash()));
+        if(playerProcessor.ifPlayerExists(PlayerToken.THIMBLE)){
+            thimbleMoney = new JLabel(Integer.toString(playerProcessor.getPlayer(PlayerToken.THIMBLE).getCash()));
         } else{
             thimble.setVisible(false);
             thimbleMoney = new JLabel();
@@ -180,7 +180,7 @@ public class MoneyGridGUI {
         moneyPanel.add(thimble);
         moneyPanel.add(thimbleMoney);
 
-        System.out.println(STR."Money Panel Components - \{moneyPanel.getComponentCount()}");
+        System.out.println("Money Panel Components - " + moneyPanel.getComponentCount());
     }
 
     public void updateGrid(Player player){

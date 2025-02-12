@@ -8,7 +8,7 @@ public class PropertyFinancials {
     private int pricePerImprovement;
     private int rentOneHouse;
     private int rentTwoHouse;
-    private  int rentThreeHouse;
+    private int rentThreeHouse;
     private int rentFourHouse;
     private int rentHotel;
     private int mortgageAmount;
@@ -125,63 +125,63 @@ public class PropertyFinancials {
 
     public static class PropertyFinancialBuilder{
 
-        String name;
-        int price;
-        int rent;
-        int pricePerImprovement;
-        int rentOneHouse;
-        int rentTwoHouse;
-        int rentThreeHouse;
-        int rentFourHouse;
-        int rentHotel;
-        int mortgageCost;
+            String name;
+            int price;
+            int rent;
+            int pricePerImprovement;
+            int rentOneHouse;
+            int rentTwoHouse;
+            int rentThreeHouse;
+            int rentFourHouse;
+            int rentHotel;
+            int mortgageCost;
 
-        public PropertyFinancialBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder name(String name) {
+                this.name = name;
+                return this;
+            }
 
-        public PropertyFinancialBuilder price(int price) {
-            this.price = price;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder price(int price) {
+                this.price = price;
+                return this;
+            }
 
-        public PropertyFinancialBuilder rent(int rent) {
-            this.rent = rent;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder rent(int rent) {
+                this.rent = rent;
+                return this;
+            }
 
-        public PropertyFinancialBuilder pricePerImprovement(int pricePerImprovement) {
-            this.pricePerImprovement = pricePerImprovement;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder pricePerImprovement(int pricePerImprovement) {
+                this.pricePerImprovement = pricePerImprovement;
+                return this;
+            }
 
-        public PropertyFinancialBuilder rentOneHouse(int rentOneHouse) {
-            this.rentOneHouse = rentOneHouse;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder rentOneHouse(int rentOneHouse) {
+                this.rentOneHouse = rentOneHouse;
+                return this;
+            }
 
-        public PropertyFinancialBuilder rentTwoHouse(int rentTwoHouse) {
-            this.rentTwoHouse = rentTwoHouse;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder rentTwoHouse(int rentTwoHouse) {
+                this.rentTwoHouse = rentTwoHouse;
+                return this;
+            }
 
-        public PropertyFinancialBuilder rentThreeHouse(int rentThreeHouse) {
-            this.rentThreeHouse = rentThreeHouse;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder rentThreeHouse(int rentThreeHouse) {
+                this.rentThreeHouse = rentThreeHouse;
+                return this;
+            }
 
-        public PropertyFinancialBuilder rentFourHouse(int rentFourHouse) {
-            this.rentFourHouse = rentFourHouse;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder rentFourHouse(int rentFourHouse) {
+                this.rentFourHouse = rentFourHouse;
+                return this;
+            }
 
-        public PropertyFinancialBuilder rentHotel(int rentHotel) {
-            this.rentHotel = rentHotel;
-            return this;
-        }
+            public PropertyFinancials.PropertyFinancialBuilder rentHotel(int rentHotel) {
+                this.rentHotel = rentHotel;
+                return this;
+            }
 
-        public PropertyFinancialBuilder mortgageCost(int mortgageCost) {
+            public PropertyFinancialBuilder mortgageCost(int mortgageCost) {
             this.mortgageCost = mortgageCost;
             return this;
         }

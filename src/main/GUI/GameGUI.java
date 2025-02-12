@@ -2,7 +2,7 @@ package main.GUI;
 
 import main.Data.GameData;
 import main.Functions.Dice;
-import main.Functions.PlayerList;
+import main.Functions.PlayerProcessor;
 import main.LocationFunctions.LocationProcessor;
 import main.LocationFunctions.TokenBoardLocation;
 import main.Properties.PropertyAttributes;
@@ -29,8 +29,8 @@ public class GameGUI extends JFrame{
     //private TokenGUI tokenGUI;
     public MoneyGridGUI moneyGridGUI;
 
-    public GameGUI(Dice dice,InformationPane informationPane,JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
-                   LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, PlayerList playerList, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
+    public GameGUI(Dice dice, InformationPane informationPane, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
+                   LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, PlayerProcessor playerProcessor, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
         //this.tokenGUI = tokenGUI;
 
         // left layered pane setup
@@ -45,7 +45,7 @@ public class GameGUI extends JFrame{
         boardSidePane.setOpaque(true);
 
         // initialize external main.GUI classes
-        DiceGUI diceGUI = new DiceGUI(playerList, informationPane, dice, locationProcessor, transactionHistoryGUI);
+        DiceGUI diceGUI = new DiceGUI(playerProcessor, informationPane, dice, locationProcessor, transactionHistoryGUI);
         PropertyGUI propertyGUI = new PropertyGUI(boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
         drawCardGUI = new DrawCardGUI(boardSidePane);
 
@@ -76,7 +76,7 @@ public class GameGUI extends JFrame{
 
         // money panel tracking
         //moneyTable(playerList);
-        moneyGridGUI =  new MoneyGridGUI(playerList, boardSidePane);
+        moneyGridGUI =  new MoneyGridGUI(playerProcessor, boardSidePane);
 
         // board adjustments and setup
         this.setIconImage(board);
@@ -96,7 +96,7 @@ public class GameGUI extends JFrame{
                 int x = e.getX();
                 int y = e.getY();
 
-                System.out.println(STR."X:\{x} Y:\{y}");
+                System.out.println("X:" + x + "Y:" + y);
             }
 
             @Override

@@ -1,10 +1,10 @@
 package main.Initialization;
 
 import main.Enums.PlayerToken;
-import main.Enums.PropertyColor;
+import main.Enums.PropertyGroup;
 import main.Enums.PropertyType;
 import main.LocationFunctions.TokenBoardLocation;
-import main.Properties.ColorGroup;
+import main.Properties.PropertyGroupProcessor;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
 
@@ -46,7 +46,7 @@ public class InitializeData {
     private ArrayList<PropertyAttributes> propertyAttributes;
     private ArrayList<PropertyFinancials> propertyFinancialAttributes;
     private ArrayList<String> gameBoard;
-    private ArrayList<ColorGroup> colorGroup;
+    private ArrayList<PropertyGroupProcessor> propertyGroupProcessor;
 
     private final ArrayList<TokenBoardLocation> location;
     private ArrayList<String> singlePropertyAccess;
@@ -71,43 +71,43 @@ public class InitializeData {
     private void initializePropertyAttributes(){
 
         propertyAttributes = new ArrayList<>(Arrays.asList(
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(mediterraneanAvenue) .color(PropertyColor.BROWN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(balticAvenue)        .color(PropertyColor.BROWN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(mediterraneanAvenue) .color(PropertyGroup.BROWN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(balticAvenue)        .color(PropertyGroup.BROWN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(orientalAvenue)      .color(PropertyColor.LIGHTBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(vermontAvenue)       .color(PropertyColor.LIGHTBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(connecticutAvenue)   .color(PropertyColor.LIGHTBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(orientalAvenue)      .color(PropertyGroup.LIGHTBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(vermontAvenue)       .color(PropertyGroup.LIGHTBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(connecticutAvenue)   .color(PropertyGroup.LIGHTBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(stCharlesPlace)      .color(PropertyColor.PINK).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(statesAvenue)        .color(PropertyColor.PINK).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(virginiaAvenue)      .color(PropertyColor.PINK).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(stCharlesPlace)      .color(PropertyGroup.PINK).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(statesAvenue)        .color(PropertyGroup.PINK).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(virginiaAvenue)      .color(PropertyGroup.PINK).improvementAllowed(true).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(stJamesPlace)        .color(PropertyColor.ORANGE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(tennesseeAvenue)     .color(PropertyColor.ORANGE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(newYorkAvenue)       .color(PropertyColor.ORANGE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(stJamesPlace)        .color(PropertyGroup.ORANGE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(tennesseeAvenue)     .color(PropertyGroup.ORANGE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(newYorkAvenue)       .color(PropertyGroup.ORANGE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(kentuckyAvenue)      .color(PropertyColor.RED).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(indianaAvenue)       .color(PropertyColor.RED).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(illinoisAvenue)      .color(PropertyColor.RED).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(kentuckyAvenue)      .color(PropertyGroup.RED).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(indianaAvenue)       .color(PropertyGroup.RED).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(illinoisAvenue)      .color(PropertyGroup.RED).improvementAllowed(true).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(atlanticAvenue)      .color(PropertyColor.YELLOW).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(ventnorAvenue)       .color(PropertyColor.YELLOW).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(marvinGardens)       .color(PropertyColor.YELLOW).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(atlanticAvenue)      .color(PropertyGroup.YELLOW).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(ventnorAvenue)       .color(PropertyGroup.YELLOW).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(marvinGardens)       .color(PropertyGroup.YELLOW).improvementAllowed(true).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(pacificAvenue)       .color(PropertyColor.GREEN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(northCarolinaAvenue) .color(PropertyColor.GREEN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(pennsylvaniaAvenue)  .color(PropertyColor.GREEN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(pacificAvenue)       .color(PropertyGroup.GREEN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(northCarolinaAvenue) .color(PropertyGroup.GREEN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(pennsylvaniaAvenue)  .color(PropertyGroup.GREEN).improvementAllowed(true).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(parkPlace)           .color(PropertyColor.DARKBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(boardWalk)           .color(PropertyColor.DARKBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(parkPlace)           .color(PropertyGroup.DARKBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.STANDARD).name(boardWalk)           .color(PropertyGroup.DARKBLUE).improvementAllowed(true).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.UTILITY).name(electricCompany)      .color(PropertyColor.WHITE).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.UTILITY).name(waterWorks)           .color(PropertyColor.WHITE).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.UTILITY).name(electricCompany)      .color(PropertyGroup.UTILITY).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.UTILITY).name(waterWorks)           .color(PropertyGroup.UTILITY).owner(PlayerToken.NONE).build(),
 
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.RAILROAD).name(readingRailroad)     .color(PropertyColor.BLACK).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.RAILROAD).name(pennsylvaniaRailRoad).color(PropertyColor.BLACK).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.RAILROAD).name(bandORailRoad)       .color(PropertyColor.BLACK).owner(PlayerToken.NONE).build(),
-                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.RAILROAD).name(shortLineRailroad)   .color(PropertyColor.BLACK).owner(PlayerToken.NONE).build()
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.RAILROAD).name(readingRailroad)     .color(PropertyGroup.RAILROAD).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.RAILROAD).name(pennsylvaniaRailRoad).color(PropertyGroup.RAILROAD).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.RAILROAD).name(bandORailRoad)       .color(PropertyGroup.RAILROAD).owner(PlayerToken.NONE).build(),
+                new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.RAILROAD).name(shortLineRailroad)   .color(PropertyGroup.RAILROAD).owner(PlayerToken.NONE).build()
         ));
     }
 
@@ -155,17 +155,17 @@ public class InitializeData {
     }
 
     private void initializeColorGroup() {
-        colorGroup = new ArrayList<>(Arrays.asList(
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.BROWN).propertyList(new ArrayList<>(Arrays.asList(mediterraneanAvenue, balticAvenue))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.LIGHTBLUE).propertyList(new ArrayList<>(Arrays.asList(orientalAvenue, vermontAvenue, connecticutAvenue))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.PINK).propertyList(new ArrayList<>(Arrays.asList(stCharlesPlace, statesAvenue, virginiaAvenue))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.ORANGE).propertyList(new ArrayList<>(Arrays.asList(stJamesPlace, tennesseeAvenue, newYorkAvenue))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.RED).propertyList(new ArrayList<>(Arrays.asList(kentuckyAvenue, indianaAvenue, illinoisAvenue))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.YELLOW).propertyList(new ArrayList<>(Arrays.asList(atlanticAvenue, ventnorAvenue, marvinGardens))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.GREEN).propertyList(new ArrayList<>(Arrays.asList(pacificAvenue, northCarolinaAvenue, pennsylvaniaAvenue))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.DARKBLUE).propertyList(new ArrayList<>(Arrays.asList(parkPlace, boardWalk))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.WHITE).propertyList(new ArrayList<>(Arrays.asList(electricCompany, waterWorks))).build(),
-                new ColorGroup.ColorGroupBuilder().color(PropertyColor.BLACK).propertyList(new ArrayList<>(Arrays.asList(readingRailroad, pennsylvaniaRailRoad, bandORailRoad, shortLineRailroad))).build()
+        propertyGroupProcessor = new ArrayList<>(Arrays.asList(
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.BROWN).propertyList(new ArrayList<>(Arrays.asList(mediterraneanAvenue, balticAvenue))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.LIGHTBLUE).propertyList(new ArrayList<>(Arrays.asList(orientalAvenue, vermontAvenue, connecticutAvenue))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.PINK).propertyList(new ArrayList<>(Arrays.asList(stCharlesPlace, statesAvenue, virginiaAvenue))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.ORANGE).propertyList(new ArrayList<>(Arrays.asList(stJamesPlace, tennesseeAvenue, newYorkAvenue))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.RED).propertyList(new ArrayList<>(Arrays.asList(kentuckyAvenue, indianaAvenue, illinoisAvenue))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.YELLOW).propertyList(new ArrayList<>(Arrays.asList(atlanticAvenue, ventnorAvenue, marvinGardens))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.GREEN).propertyList(new ArrayList<>(Arrays.asList(pacificAvenue, northCarolinaAvenue, pennsylvaniaAvenue))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.DARKBLUE).propertyList(new ArrayList<>(Arrays.asList(parkPlace, boardWalk))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.UTILITY).propertyList(new ArrayList<>(Arrays.asList(electricCompany, waterWorks))).build(),
+                new PropertyGroupProcessor.ColorGroupBuilder().color(PropertyGroup.RAILROAD).propertyList(new ArrayList<>(Arrays.asList(readingRailroad, pennsylvaniaRailRoad, bandORailRoad, shortLineRailroad))).build()
         ));
     }
 
@@ -496,12 +496,12 @@ public class InitializeData {
         this.propertyFinancialAttributes = propertyFinancialAttributes;
     }
 
-    public ArrayList<ColorGroup> getColorGroup() {
-        return colorGroup;
+    public ArrayList<PropertyGroupProcessor> getColorGroup() {
+        return propertyGroupProcessor;
     }
 
-    public void setColorGroup(ArrayList<ColorGroup> colorGroup) {
-        this.colorGroup = colorGroup;
+    public void setColorGroup(ArrayList<PropertyGroupProcessor> propertyGroupProcessor) {
+        this.propertyGroupProcessor = propertyGroupProcessor;
     }
 
     public ArrayList<String> getGameBoard() {

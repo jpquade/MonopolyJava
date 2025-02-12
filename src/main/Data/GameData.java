@@ -5,12 +5,12 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 import main.Enums.PlayerToken;
-import main.Enums.PropertyColor;
+import main.Enums.PropertyGroup;
 import main.Enums.PropertyType;
 import main.Initialization.InitializeData;
 import main.LocationFunctions.TokenBoardLocation;
 import main.Functions.PropertyMerchant;
-import main.Properties.ColorGroup;
+import main.Properties.PropertyGroupProcessor;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
 
@@ -19,7 +19,7 @@ public class GameData {
     private ArrayList<String> gameBoard;
     private final LinkedHashMap<String, PropertyAttributes> propertyAttributesMap;
     private final LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap;
-    private final LinkedHashMap<PropertyColor, ColorGroup> colorGroupMap;
+    private final LinkedHashMap<PropertyGroup, PropertyGroupProcessor> colorGroupMap;
 
     private final ArrayList<TokenBoardLocation> location;
     private final HashMap<Integer, String> singlePropertyBoardDataMap;
@@ -51,7 +51,7 @@ public class GameData {
 
     private void initPropertyFinancialMap() {for (PropertyFinancials propertyFinancials : initializeData.getPropertyFinancialAttributes()) propertyFinancialsMap.put(propertyFinancials.getName(), propertyFinancials);}
 
-    private void initColorGroup() {for (ColorGroup colorGroup : initializeData.getColorGroup()) colorGroupMap.put(colorGroup.getColor(), colorGroup);}
+    private void initColorGroup() {for (PropertyGroupProcessor propertyGroupProcessor : initializeData.getColorGroup()) colorGroupMap.put(propertyGroupProcessor.getColor(), propertyGroupProcessor);}
 
     private void initSinglePropertyBoardData() {
         for (int i = 0; i < initializeData.getSinglePropertyAccess().size(); i++) {
@@ -69,7 +69,7 @@ public class GameData {
         return propertyFinancialsMap;
     }
 
-    public LinkedHashMap<PropertyColor, ColorGroup> getColorGroupMap() { return colorGroupMap;}
+    public LinkedHashMap<PropertyGroup, PropertyGroupProcessor> getColorGroupMap() { return colorGroupMap;}
 
     public ArrayList<TokenBoardLocation> getLocation() {
         return location;
@@ -114,7 +114,7 @@ public class GameData {
             //System.out.println(STR."Property Type: \{propertyType} Color: \{color} Can Mortgage: \{canMortgage} Owner: \{owner} Property Name: \{propertyName}");
             propertyAttributesMap.put(propertyName,
                     new PropertyAttributes.PropertyBuilder().propertyType(PropertyType.valueOf(propertyType)).name(propertyName)
-                            .color(PropertyColor.valueOf(color)).improvementAllowed(true).owner(PlayerToken.valueOf(owner))
+                            .color(PropertyGroup.valueOf(color)).improvementAllowed(true).owner(PlayerToken.valueOf(owner))
                             .house(houseCount).hotel(hasHotel).build());
 
         }

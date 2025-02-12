@@ -1,6 +1,6 @@
 package main.GUI;
 
-import main.Enums.PropertyColor;
+import main.Enums.PropertyGroup;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
 
@@ -230,41 +230,41 @@ public class PropertyGUI {
                                 largePropertyLabel.setOpaque(true);
                                 largePropertyLabel.setBounds(xLargePropertyPaneList.get(j), yLargePropertyPaneList.get(j), 305, 70);
                                 switch(propertyAttributes.getColor()){
-                                    case PropertyColor.BROWN:
+                                    case PropertyGroup.BROWN:
                                         largePropertyLabel.setBackground(new java.awt.Color(121,65,54));
                                         largePropertyLabelList.get(9).setForeground(Color.WHITE);
                                         break;
-                                    case PropertyColor.LIGHTBLUE:
+                                    case PropertyGroup.LIGHTBLUE:
                                         largePropertyLabel.setBackground(new java.awt.Color(171,232,241));
                                         largePropertyLabelList.get(9).setForeground(Color.BLACK);
                                         break;
-                                    case PropertyColor.PINK:
+                                    case PropertyGroup.PINK:
                                         largePropertyLabel.setBackground(new java.awt.Color(227,57,194));
                                         largePropertyLabelList.get(9).setForeground(Color.BLACK);
                                         break;
-                                    case PropertyColor.ORANGE:
+                                    case PropertyGroup.ORANGE:
                                         largePropertyLabel.setBackground(new java.awt.Color(250,182,46));
                                         largePropertyLabelList.get(9).setForeground(Color.BLACK);
                                         break;
-                                    case PropertyColor.RED:
+                                    case PropertyGroup.RED:
                                         largePropertyLabel.setBackground(new java.awt.Color(250,70,46));
                                         largePropertyLabelList.get(9).setForeground(Color.BLACK);
                                         break;
-                                    case PropertyColor.YELLOW:
+                                    case PropertyGroup.YELLOW:
                                         largePropertyLabel.setBackground(new java.awt.Color(247,250,51));
                                         largePropertyLabelList.get(9).setForeground(Color.BLACK);
                                         break;
-                                    case PropertyColor.GREEN:
+                                    case PropertyGroup.GREEN:
                                         largePropertyLabel.setBackground(new java.awt.Color(14,109,45));
                                         largePropertyLabelList.get(9).setForeground(Color.WHITE);
                                         break;
-                                    case PropertyColor.DARKBLUE:
+                                    case PropertyGroup.DARKBLUE:
                                         largePropertyLabel.setBackground(new java.awt.Color(59,54,218));
                                         largePropertyLabelList.get(9).setForeground(Color.WHITE);
                                         break;
-                                    case PropertyColor.WHITE:
+                                    case PropertyGroup.UTILITY:
                                         break;
-                                    case PropertyColor.BLACK:
+                                    case PropertyGroup.RAILROAD:
                                         break;
                                 }
                             }
@@ -300,5 +300,9 @@ public class PropertyGUI {
             });
             boardSidePane.add(propButton, JLayeredPane.POPUP_LAYER);
         }
+    }
+
+    public void highLightProperty(){
+
     }
 }

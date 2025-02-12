@@ -3,7 +3,7 @@ package main.GUI;
 import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
 import main.Functions.Player;
-import main.Functions.PlayerList;
+import main.Functions.PlayerProcessor;
 import main.LocationFunctions.TokenBoardLocation;
 
 import javax.imageio.ImageIO;
@@ -92,17 +92,17 @@ public class TokenGUI {
         }
     }
 
-    public void moveToken(PlayerList playerList, PlayerToken playerToken, BoardSpaceElement boardSpaceElement){
+    public void moveToken(PlayerProcessor playerProcessor, PlayerToken playerToken, BoardSpaceElement boardSpaceElement){
 
         // remove player from its current location
-        locationHashMap.get(playerList.getPlayer(playerToken).getBoardLocation()).removeToken(playerToken);
+        locationHashMap.get(playerProcessor.getPlayer(playerToken).getBoardLocation()).removeToken(playerToken);
 
         // add player to new location
         addTokenToBoardSpaceLocation(playerToken, boardSpaceElement);
     }
 
-    public void startingPosition(PlayerList playerList){
-        for(Player player : playerList.getMapOfPlayers().values()){
+    public void startingPosition(PlayerProcessor playerProcessor){
+        for(Player player : playerProcessor.getMapOfPlayers().values()){
             addTokenToBoardSpaceLocation(player.getPlayerToken(), player.getBoardLocation());
         }
     }
@@ -130,7 +130,7 @@ public class TokenGUI {
         xSecondThree -= 85;
         xLastTwo     -= 85;
 
-        locationHashMap.put(BoardSpaceElement.COMMUNITY_CHEST, new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        locationHashMap.put(BoardSpaceElement.COMMUNITY_CHEST1, new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                 new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // baltic avenue
         xFirstThree  -= 75;
@@ -165,7 +165,7 @@ public class TokenGUI {
         xSecondThree -= 80;
         xLastTwo     -= 85;
 
-        locationHashMap.put(BoardSpaceElement.CHANCE, new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
+        locationHashMap.put(BoardSpaceElement.CHANCE1, new TokenBoardLocation(new ArrayList<>(Arrays.asList(985 + xFirstThree, 985 + xFirstThree, 985 + xFirstThree, 950 + xSecondThree, 950 + xSecondThree, 950 + xSecondThree, 1020 + xLastTwo, 1020 + xLastTwo)), // x values
                 new ArrayList<>(Arrays.asList(855,885,915,855,885,915,845,885)))); // y values
         // vermont avenue
         xFirstThree  -= 80;

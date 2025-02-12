@@ -19,14 +19,10 @@ public class TransactionHistoryGUI {
         historyPanel = new JPanel();
         historyPanel.setBounds(20, 850, 450, 100);
         historyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        //moneyPanel.setBackground();
         historyPanel.setOpaque(false);
-        historyPanel.setLayout(new GridLayout(7, 1));
-        //moneyPanel.setBorder(BorderFactory);
-        //moneyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        historyPanel.setLayout(new GridLayout(0, 1));
         historyPanel.setVisible(true);
-        historyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+        historyPanel.add(new JLabel("<html><u>Transaction History</u></html>"));
 
         historyLinkedList = new LinkedList<>();
         historyLabelArrayList = new ArrayList<>();
@@ -34,7 +30,7 @@ public class TransactionHistoryGUI {
             historyLabelArrayList.add(new JLabel());
             //historyPanel.add(transactionHistoryLabel.get(i));
         }
-        historyPanel.add(new JLabel("<html><u>Transaction History</u></html>"));
+
 
 //        for(int i = MAX_HISTORY - 1; i >= 0; i--){
 //            historyPanel.add(historyLabelArrayList.get(i));
@@ -63,7 +59,7 @@ public class TransactionHistoryGUI {
     // transactions added to the top of the list
     public void addTransaction(String transaction){
         if(historyLinkedList.size() == MAX_HISTORY){
-            System.out.println(STR."Removed from transaction history - \{historyLinkedList.poll()}");
+            System.out.println("Removed from transaction history - " + historyLinkedList.poll());
         }
         // add the transaction to the linked list
         historyLinkedList.offer(transaction);

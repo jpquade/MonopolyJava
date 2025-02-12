@@ -1,13 +1,13 @@
 package main.Properties;
 
 import main.Enums.PlayerToken;
-import main.Enums.PropertyColor;
+import main.Enums.PropertyGroup;
 import main.Enums.PropertyType;
 
 public class PropertyAttributes {
     private PropertyType propertyType;
     private String name;
-    private PropertyColor color;
+    private PropertyGroup color;
     private boolean improvementAllowed;
     private int house;
     private boolean hotel;
@@ -15,7 +15,7 @@ public class PropertyAttributes {
     private boolean monopoly;
     private PlayerToken playerTokenOwner;
 
-    private PropertyAttributes(PropertyType propertyType, String name, PropertyColor color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, boolean monopoly, PlayerToken playerTokenOwner) {
+    private PropertyAttributes(PropertyType propertyType, String name, PropertyGroup color, boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, boolean monopoly, PlayerToken playerTokenOwner) {
         this.propertyType = propertyType;
         this.name = name;
         this.color = color;
@@ -43,9 +43,9 @@ public class PropertyAttributes {
         this.name = name;
     }
 
-    public PropertyColor getColor() {return color;}
+    public PropertyGroup getColor() {return color;}
 
-    public void setColor(PropertyColor color) {
+    public void setColor(PropertyGroup color) {
         this.color = color;
     }
 
@@ -99,7 +99,7 @@ public class PropertyAttributes {
 
         private PropertyType propertyType;
         private String name;
-        private PropertyColor color;
+        private PropertyGroup color;
         private boolean improvementAllowed;
         private int house;
         private boolean hotel;
@@ -117,7 +117,7 @@ public class PropertyAttributes {
             return this;
         }
 
-        public PropertyBuilder color(PropertyColor color) {
+        public PropertyBuilder color(PropertyGroup color) {
             this.color = color;
             return this;
         }

@@ -2,10 +2,8 @@ package main.GUI;
 
 import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
-import main.Functions.Player;
-import main.Functions.PlayerList;
+import main.Functions.PlayerProcessor;
 import main.LocationFunctions.LocationProcessor;
-import main.LocationFunctions.TokenBoardLocation;
 import main.Functions.Dice;
 
 import javax.imageio.ImageIO;
@@ -29,7 +27,7 @@ public class DiceGUI{
     private int locationIncrement;
     private int tokenIncrement;
 
-    public DiceGUI(PlayerList playerList, InformationPane lLayeredPane, Dice dice, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
+    public DiceGUI(PlayerProcessor playerProcessor, InformationPane lLayeredPane, Dice dice, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
 
         int diceSize = 30;
         int leftX = 135;
@@ -126,7 +124,7 @@ public class DiceGUI{
                 }
 
                 //tokenGUI.moveToken(tokenList[tokenIncrement],locationIncrement, location);
-                locationProcessor.movePlayer(playerList, tokenList[tokenIncrement], BoardSpaceElement.values()[locationIncrement]);
+                locationProcessor.movePlayer(playerProcessor, tokenList[tokenIncrement], BoardSpaceElement.values()[locationIncrement]);
                 if(tokenIncrement == 3){
                     locationIncrement++;
                     tokenIncrement = 0;

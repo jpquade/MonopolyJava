@@ -70,8 +70,8 @@ public class DrawCardGUI {
         for (Chance card : Chance.values()) {
             // creates a path to the chance card image
             String cardString = card.toString();
-            String chancePartialPath = STR."ChanceList/Chance_\{cardString}";
-            String s = STR."src/main/MonopolyImages/\{chancePartialPath}.png";
+            String chancePartialPath = "ChanceList/Chance_" + cardString;
+            String s = "src/main/MonopolyImages/" + chancePartialPath + ".png";
             BufferedImage image = ImageIO.read(new File(s));
 
             // creates a label for the chance card image
@@ -96,8 +96,8 @@ public class DrawCardGUI {
         for (CommunityChest card : CommunityChest.values()) {
             // creates a path to the chance card image
             String cardString = card.toString();
-            String communityChestPartialPath = STR."CommunityChestList/Community_Chest_\{cardString}";
-            String s = STR."src/main/MonopolyImages/\{communityChestPartialPath}.png";
+            String communityChestPartialPath = "CommunityChestList/Community_Chest_" + cardString;
+            String s = "src/main/MonopolyImages/" + communityChestPartialPath + ".png";
             BufferedImage image = ImageIO.read(new File(s));
 
             // creates a label for the chance card image

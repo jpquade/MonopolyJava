@@ -1,6 +1,7 @@
 package main.Enums;
 
 public enum PropertyNames {
+
     MEDITERRANEAN_AVENUE,
     BALTIC_AVENUE,
     ORIENTAL_AVENUE,
@@ -21,7 +22,6 @@ public enum PropertyNames {
     PACIFIC_AVENUE,
     NORTH_CAROLINA_AVENUE,
     PENNSYLVANIA_AVENUE,
-
     PARK_PLACE,
     BOARDWALK,
 
@@ -31,5 +31,8 @@ public enum PropertyNames {
     READING_RAILROAD,
     PENNSYLVANIA_RAILROAD,
     B_AND_O_RAILROAD,
-    SHORT_LINE_RAILROAD,
+    SHORT_LINE_RAILROAD;
+
+
+
 }

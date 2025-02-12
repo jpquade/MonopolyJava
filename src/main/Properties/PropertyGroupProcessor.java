@@ -1,20 +1,57 @@
 package main.Properties;
 
-import main.Enums.PropertyColor;
+import main.Enums.PlayerToken;
+import main.Enums.PropertyGroup;
+import main.Enums.PropertyNames;
 import main.Functions.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class ColorGroup {
+public class PropertyGroupProcessor {
 
-    private PropertyColor color;
+    private PropertyGroup color;
     private boolean isMonopoly;
     private ArrayList<String> propertyList;
     private LinkedHashMap<Integer, String> houseStockOrder;
     private LinkedHashMap<Integer, String> hotelStockOrder;
 
-    private ColorGroup(PropertyColor color, boolean isMonopoly, ArrayList<String> propertyList) {
+    private HashMap<PropertyNames, PlayerToken> propertyOwnerMap = new HashMap<>();
+    private HashMap<PropertyGroup, HashMap<PropertyNames,PlayerToken>> propertyGroupMap = new HashMap<>();
+
+    private boolean brownMonopoly;
+    private boolean lightBlueMonopoly;
+    private boolean pinkMonopoly;
+    private boolean orangeMonopoly;
+    private boolean redMonopoly;
+    private boolean yellowMonopoly;
+    private boolean greenMonopoly;
+    private boolean darkBlueMonopoly;
+
+    private PropertyGroupProcessor(PropertyGroup color, boolean isMonopoly, ArrayList<String> propertyList) {
+        propertyOwnerMap = new HashMap<>();
+        propertyGroupMap = new HashMap<>();
+
+
+        for(PropertyNames propertyName : PropertyNames.values()){
+            propertyOwnerMap.put(propertyName, PlayerToken.NONE);
+        }
+
+
+
+
+
+        brownMonopoly = false;
+        lightBlueMonopoly = false;
+        pinkMonopoly = false;
+        orangeMonopoly = false;
+        redMonopoly = false;
+        yellowMonopoly = false;
+        greenMonopoly = false;
+        darkBlueMonopoly = false;
+
+
         this.color = color;
         this.isMonopoly = isMonopoly;
         this.propertyList = propertyList;
@@ -154,7 +191,7 @@ public class ColorGroup {
 //        }
 //    }
 
-    public PropertyColor getColor() {
+    public PropertyGroup getColor() {
         return color;
     }
 
@@ -176,12 +213,12 @@ public class ColorGroup {
 
     public static class ColorGroupBuilder {
 
-        private PropertyColor color;
+        private PropertyGroup color;
         private boolean isMonopoly;
         private ArrayList<String> propertyList;
         private LinkedHashMap<Integer, String> houseStock;
 
-        public ColorGroupBuilder color(PropertyColor color) {
+        public ColorGroupBuilder color(PropertyGroup color) {
             this.color = color;
             return this;
         }
@@ -196,8 +233,8 @@ public class ColorGroup {
             return this;
         }
 
-        public ColorGroup build() {
-            return new ColorGroup(color, isMonopoly, propertyList);
+        public PropertyGroupProcessor build() {
+            return new PropertyGroupProcessor(color, isMonopoly, propertyList);
         }
     }
 }

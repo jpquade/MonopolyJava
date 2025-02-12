@@ -3,12 +3,12 @@ package main.Enums;
 public enum BoardSpaceElement {
     GO,                     // location 0
     MEDITERRANEAN_AVENUE,   // location 1
-    COMMUNITY_CHEST,        // location 2
+    COMMUNITY_CHEST1,       // location 2
     BALTIC_AVENUE,          // location 3
     INCOME_TAX,             // location 4
     READING_RAILROAD,       // location 5
     ORIENTAL_AVENUE,        // location 6
-    CHANCE,                 // location 7
+    CHANCE1,                // location 7
     VERMONT_AVENUE,         // location 8
     CONNECTICUT_AVENUE,     // location 9
     JUST_VISITING_JAIL,     // location 10
