@@ -94,7 +94,8 @@ public class SelectionBoxButtonGUI {
     // TODO - Work on this one first
     // player trades property with another player
     private void tradePropertyButton() {
-        // TODO - add logic
+
+        // TODO - make properties sellable with cash only
 
         buttonList.get(buttonTempIndex).setText("Trade properties");
         buttonList.get(buttonTempIndex).setVisible(true);

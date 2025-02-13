@@ -4,6 +4,7 @@ import main.Data.GameData;
 import main.Enums.PlayerToken;
 import main.Enums.TransactionType;
 import main.Functions.MoneyProcessor;
+import main.Functions.PropertyProcessor;
 import main.GUI.*;
 import main.Functions.Dice;
 import main.Functions.PlayerProcessor;
@@ -24,6 +25,7 @@ public class App {
         //dogMovement.put(0, new ArrayList<>(Arrays.asList(0, 1)));
 
         Dice dice = new Dice();
+        PropertyProcessor propertyProcessor = new PropertyProcessor();
         PlayerProcessor playerProcessor = new PlayerProcessor();
         JLayeredPane boardSidePane = new JLayeredPane();
         InformationPane informationPane = new InformationPane();
@@ -47,7 +49,7 @@ public class App {
         playerProcessor.getPlayer(PlayerToken.DOG).setCash(1500);
         tokenGUI.startingPosition(playerProcessor);
         LocationProcessor locationProcessor = new LocationProcessor(tokenGUI);
-        GameGUI gameGUI = new GameGUI(dice,informationPane , boardSidePane, gameData.getPropertyFinancialsMap(), gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap(), playerProcessor, locationProcessor, transactionHistoryGUI);
+        GameGUI gameGUI = new GameGUI(propertyProcessor, dice,informationPane , boardSidePane, gameData.getPropertyFinancialsMap(), gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap(), playerProcessor, locationProcessor, transactionHistoryGUI);
         DrawCardGUI drawCardGUI = new DrawCardGUI(boardSidePane);
 
         selectionBoxButtonGUI.paymentOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE);

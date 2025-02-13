@@ -12,7 +12,7 @@ public class Property {
     private final PropertyType propertyType;
     private final PropertyGroup color;
     private boolean improvementAllowed;
-    private int house;
+    private int houseCount;
     private boolean hotel;
     private boolean isMortgaged;
     private boolean monopoly;
@@ -29,14 +29,14 @@ public class Property {
     private int mortgageAmount;
 
     public Property(PropertyNames propertyName, PropertyType propertyType, PropertyGroup propertyGroup,
-                    boolean improvementAllowed, int house, boolean hotel, boolean isMortgaged, boolean monopoly,
+                    boolean improvementAllowed, int houseCount, boolean hotel, boolean isMortgaged, boolean monopoly,
                     PlayerToken playerTokenOwner, int price, int rent, int pricePerImprovement, int rentOneHouse,
                     int rentTwoHouse, int rentThreeHouse, int rentFourHouse, int rentHotel, int mortgageAmount) {
         this.propertyName = propertyName;
         this.propertyType = propertyType;
         this.color = propertyGroup;
         this.improvementAllowed = improvementAllowed;
-        this.house = house;
+        this.houseCount = houseCount;
         this.hotel = hotel;
         this.isMortgaged = isMortgaged;
         this.monopoly = monopoly;
@@ -72,15 +72,15 @@ public class Property {
         this.improvementAllowed = improvementAllowed;
     }
 
-    public int getHouse() {
-        return house;
+    public int getHouseCount() {
+        return houseCount;
     }
 
-    public void setHouse(int house) {
-        this.house = house;
+    public void setHouseCount(int houseCount) {
+        this.houseCount = houseCount;
     }
 
-    public boolean isHotel() {
+    public boolean hotelExists() {
         return hotel;
     }
 

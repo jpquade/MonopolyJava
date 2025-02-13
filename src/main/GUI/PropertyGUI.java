@@ -1,6 +1,10 @@
 package main.GUI;
 
+import main.Enums.PlayerToken;
 import main.Enums.PropertyGroup;
+import main.Functions.PlayerProcessor;
+import main.Functions.PropertyProcessor;
+import main.Properties.Property;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
 
@@ -21,10 +25,14 @@ import java.util.LinkedHashMap;
 
 public class PropertyGUI {
 
-    public PropertyGUI(JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer,
-            String> singlePropertyBoardData,LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
+    private final PropertyProcessor propertyProcessor;
 
-        // property buttons and positions
+    public PropertyGUI(PropertyProcessor propertyProcessor, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer,
+            String> singlePropertyBoardData, LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
+
+        this.propertyProcessor = propertyProcessor;
+
+        // property invisible buttons and positions
         ArrayList<JButton> propertyButtonsList = new ArrayList<>();
         ArrayList<Integer> xPropButtonList = new ArrayList<>(Arrays.asList(875,718,562,483,327,249,128,128,128,128,128,128,128,128,249,405,483,561,639,717,796,874,953,953,953,953,953,953));
         ArrayList<Integer> yPropButtonList = new ArrayList<>(Arrays.asList(826,826,826,826,826,826,749,671,593,515,437,359,202,124,3,3,3,3,3,3,3,3,123,202,358,436,593,749));
@@ -292,6 +300,7 @@ public class PropertyGUI {
                 }
             });
 
+            // prints to console the property clicked
             propButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -302,7 +311,11 @@ public class PropertyGUI {
         }
     }
 
-    public void highLightProperty(){
+    public void highLightProperty(PlayerToken playerToken){
+        ArrayList<Property> ownedProperties;
+
+        ownedProperties = propertyProcessor.findOwnedProperties(playerToken);
+
 
     }
 }

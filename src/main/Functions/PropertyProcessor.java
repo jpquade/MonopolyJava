@@ -6,6 +6,7 @@ import main.Enums.PropertyNames;
 import main.Enums.PropertyType;
 import main.Properties.Property;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PropertyProcessor {
@@ -21,7 +22,20 @@ public class PropertyProcessor {
         return propertyMap.get(propertyNames);
     }
 
+    public ArrayList<Property> findOwnedProperties(PlayerToken playerToken) {
+        ArrayList<Property> ownedProperties = new ArrayList<>();
+        for (Property property : propertyMap.values()) {
+            if (property.getPlayerTokenOwner() == playerToken) {
+                ownedProperties.add(property);
+            }
+        }
 
+        return ownedProperties;
+    }
+
+    public void findSellableProperties(ArrayList<Property> ownedProperties){
+        ownedProperties.removeIf(property -> property.getHouseCount() > 0 || property.hotelExists() || property.isMortgaged());
+    }
 
     private void initializePropertyMap() {
         // Brown Properties

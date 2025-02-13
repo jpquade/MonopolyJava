@@ -3,6 +3,7 @@ package main.GUI;
 import main.Data.GameData;
 import main.Functions.Dice;
 import main.Functions.PlayerProcessor;
+import main.Functions.PropertyProcessor;
 import main.LocationFunctions.LocationProcessor;
 import main.LocationFunctions.TokenBoardLocation;
 import main.Properties.PropertyAttributes;
@@ -29,7 +30,7 @@ public class GameGUI extends JFrame{
     //private TokenGUI tokenGUI;
     public MoneyGridGUI moneyGridGUI;
 
-    public GameGUI(Dice dice, InformationPane informationPane, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
+    public GameGUI(PropertyProcessor propertyProcessor ,Dice dice, InformationPane informationPane, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
                    LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, PlayerProcessor playerProcessor, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
         //this.tokenGUI = tokenGUI;
 
@@ -46,7 +47,7 @@ public class GameGUI extends JFrame{
 
         // initialize external main.GUI classes
         DiceGUI diceGUI = new DiceGUI(playerProcessor, informationPane, dice, locationProcessor, transactionHistoryGUI);
-        PropertyGUI propertyGUI = new PropertyGUI(boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
+        PropertyGUI propertyGUI = new PropertyGUI(propertyProcessor,boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
         drawCardGUI = new DrawCardGUI(boardSidePane);
 
         //drawCardGUI.guiSetup(boardSidePane);
