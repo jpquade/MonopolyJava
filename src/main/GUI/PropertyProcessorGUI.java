@@ -1,9 +1,8 @@
 package main.GUI;
 
-import main.Enums.BoardPropertyTileOrder;
+import main.Enums.PropertyTileOrder;
 import main.Enums.PlayerToken;
 import main.Enums.PropertyGroup;
-import main.Enums.PropertyNames;
 import main.Functions.PropertyProcessor;
 import main.Properties.Property;
 import main.Properties.PropertyAttributes;
@@ -33,8 +32,8 @@ public class PropertyProcessorGUI {
     private final ArrayList<JLabel> largePropertyLabelList;
     final int boardPropertyTileElementCount;
 
-    private final HashMap<BoardPropertyTileOrder, JButton> propertyButtonsMap;
-    private final HashMap<BoardPropertyTileOrder, PropertyCoordinates> propertyBoardLocationsMap;
+    private final HashMap<PropertyTileOrder, JButton> propertyButtonsMap;
+    private final HashMap<PropertyTileOrder, PropertyCoordinates> propertyBoardLocationsMap;
 
     public PropertyProcessorGUI(PropertyProcessor propertyProcessor, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer,
             String> singlePropertyBoardData, LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
@@ -140,7 +139,7 @@ public class PropertyProcessorGUI {
         ArrayList<Integer> xPropButtonList = new ArrayList<>(Arrays.asList(875,718,562,483,327,249,128,128,128,128,128,128,128,128,249,405,483,561,639,717,796,874,953,953,953,953,953,953));
         ArrayList<Integer> yPropButtonList = new ArrayList<>(Arrays.asList(826,826,826,826,826,826,749,671,593,515,437,359,202,124,3,3,3,3,3,3,3,3,123,202,358,436,593,749));
 
-        for(BoardPropertyTileOrder propertyName: BoardPropertyTileOrder.values()){
+        for(PropertyTileOrder propertyName: PropertyTileOrder.values()){
             propertyBoardLocationsMap.put(propertyName, new PropertyCoordinates(xPropButtonList.get(propertyName.getValue()), yPropButtonList.get(propertyName.getValue())));
         }
 
@@ -153,23 +152,14 @@ public class PropertyProcessorGUI {
 
         // utility label index and index location according to property only list
         int electricCompanyLabelIndex = 13;              // label list index
-        int electricCompanyShortBoardIndex = 7;          // order of property on board index
-
         int waterWorksLabelIndex = 14;                   // label list index
-        int waterWorksLabelShortBoardIndex = 19;         // order of property on board index
 
         // RR label index and index location according to property only list
         int readingRailRoadLabelIndex = 15;              // label list index
-        int readingRailRoadShortBoardIndex = 2;          // order of property on board index
-
         int pennsylvaniaRailRoadLabelIndex = 16;         // label list index
-        int pennsylvaniaRailRoadShortBoardIndex = 10;    // order of property on board index
-
         int bAndORailRoadLabelIndex = 17;                // label list index
-        int bAndORailRoadShortBoardIndex = 17;           // order of property on board index
-
         int shortLineRailRoadLabelIndex = 18;            // label list index
-        int shortLineRailRoadLabelShortBoardIndex = 25;  // order of property on board index
+
 
         // invisible clickable board size button for making large property card view disappear
         InvisibleOverLayButtonGUI overLayButton = new InvisibleOverLayButtonGUI(singlePropertyDisplayLabel, largePropertyLabelList);
@@ -178,36 +168,28 @@ public class PropertyProcessorGUI {
         boardSidePane.add(overLayButton, JLayeredPane.DRAG_LAYER);
 
         // creates a button for each property to click and get large display of the information
-        //for(PropertyNames propertyName : PropertyNames.values()){
+        for(PropertyTileOrder propertyTileName : PropertyTileOrder.values()){
 
-        for(BoardPropertyTileOrder propertyName : BoardPropertyTileOrder.values()){
+            int propertyTileIndex = propertyTileName.getValue();
 
-            int i = propertyName.getValue();
+            Property property = propertyProcessor.getProperty(propertyProcessor.convertBoardPropertyTileOrderToPopertyNames(propertyTileName));
 
-            // single singlePropertyBoardData has a different order than the property names data
-            //PropertyFinancials propertyFinancials = propertyFinancialsMap.get(singlePropertyBoardData.get(i));
-            //PropertyAttributes propertyAttributes = propertyAttributesMap.get(singlePropertyBoardData.get(i));
-            Property propertyFinancials = propertyProcessor.getProperty(propertyName);
-            Property propertyAttributes = propertyProcessor.getProperty(propertyName);
+            propertyButtonsMap.put(propertyTileName, new JButton());
 
+            JButton propButton = propertyButtonsMap.get(propertyTileName);
+            int xCoordinate = propertyBoardLocationsMap.get(propertyTileName).x();
+            int yCoordinate = propertyBoardLocationsMap.get(propertyTileName).y();
 
-            //propertyButtonsMap.put(PropertyNames.values()[i], new JButton());
-            propertyButtonsMap.put(propertyName, new JButton());
-
-            JButton propButton = propertyButtonsMap.get(propertyName);
-            int xCoordinate = propertyBoardLocationsMap.get(propertyName).x();
-            int yCoordinate = propertyBoardLocationsMap.get(propertyName).y();
-
-            if(i <= 5) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyWidth, boardSpacePropertyHeight);       // bottom side of board
-            else if(i <= 13) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyHeight, boardSpacePropertyWidth); // left side of board
-            else if(i <= 21) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyWidth, boardSpacePropertyHeight); // top side of board
+            if(propertyTileIndex <= 5) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyWidth, boardSpacePropertyHeight);       // bottom side of board
+            else if(propertyTileIndex <= 13) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyHeight, boardSpacePropertyWidth); // left side of board
+            else if(propertyTileIndex <= 21) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyWidth, boardSpacePropertyHeight); // top side of board
             else propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyHeight, boardSpacePropertyWidth);             // right side of board
 
-            // make the property buttons clear but still functional
-            propButton.setFocusable(false);
-            propButton.setOpaque(false);
-            propButton.setContentAreaFilled(false);
-            propButton.setBorderPainted(false);
+            // make the property buttons clear color but still functional
+            //propButton.setFocusable(false);
+            //propButton.setOpaque(false);
+            propButton.setContentAreaFilled(false); // makes the button clear color
+            propButton.setBorderPainted(false);     // removes the border color
 
             propButton.addMouseListener(new MouseListener() {
                 @Override
@@ -215,12 +197,13 @@ public class PropertyProcessorGUI {
 
                     overLayButton.setVisible(true);
 
-                    if(i == electricCompanyShortBoardIndex)              largePropertyLabelList.get(electricCompanyLabelIndex).setVisible(true);
-                    else if (i == waterWorksLabelShortBoardIndex)        largePropertyLabelList.get(waterWorksLabelIndex).setVisible(true);
-                    else if (i == readingRailRoadShortBoardIndex)        largePropertyLabelList.get(readingRailRoadLabelIndex).setVisible(true);
-                    else if (i == pennsylvaniaRailRoadShortBoardIndex)   largePropertyLabelList.get(pennsylvaniaRailRoadLabelIndex).setVisible(true);
-                    else if (i == bAndORailRoadShortBoardIndex)          largePropertyLabelList.get(bAndORailRoadLabelIndex).setVisible(true);
-                    else if (i == shortLineRailRoadLabelShortBoardIndex) largePropertyLabelList.get(shortLineRailRoadLabelIndex).setVisible(true);
+                    //if(propertyTileIndex == electricCompanyShortBoardIndex)              largePropertyLabelList.get(electricCompanyLabelIndex).setVisible(true);
+                    if(propertyTileName == PropertyTileOrder.ELECTRIC_COMPANY)              largePropertyLabelList.get(electricCompanyLabelIndex).setVisible(true);
+                    else if (propertyTileName == PropertyTileOrder.WATER_WORKS)        largePropertyLabelList.get(waterWorksLabelIndex).setVisible(true);
+                    else if (propertyTileName == PropertyTileOrder.READING_RAILROAD)        largePropertyLabelList.get(readingRailRoadLabelIndex).setVisible(true);
+                    else if (propertyTileName == PropertyTileOrder.PENNSYLVANIA_RAILROAD)   largePropertyLabelList.get(pennsylvaniaRailRoadLabelIndex).setVisible(true);
+                    else if (propertyTileName == PropertyTileOrder.B_AND_O_RAILROAD)          largePropertyLabelList.get(bAndORailRoadLabelIndex).setVisible(true);
+                    else if (propertyTileName == PropertyTileOrder.SHORT_LINE_RAILROAD) largePropertyLabelList.get(shortLineRailRoadLabelIndex).setVisible(true);
                     else {
 
                         // sets all large property display elements to visible
@@ -235,9 +218,9 @@ public class PropertyProcessorGUI {
                     }
 
                     // display text for standard property cards other than RR's and utilities
-                    if(i != electricCompanyShortBoardIndex && i != waterWorksLabelShortBoardIndex &&
-                            i != readingRailRoadShortBoardIndex && i != pennsylvaniaRailRoadShortBoardIndex &&
-                            i != bAndORailRoadShortBoardIndex && i != shortLineRailRoadLabelShortBoardIndex){
+                    if(propertyTileName != PropertyTileOrder.ELECTRIC_COMPANY && propertyTileName != PropertyTileOrder.WATER_WORKS &&
+                            propertyTileName != PropertyTileOrder.READING_RAILROAD && propertyTileName != PropertyTileOrder.PENNSYLVANIA_RAILROAD &&
+                            propertyTileName != PropertyTileOrder.B_AND_O_RAILROAD && propertyTileName != PropertyTileOrder.SHORT_LINE_RAILROAD){
                         for(int j = 0; j < boardPropertyTileElementCount; j++) {
 
                             JLabel largePropertyLabel = largePropertyLabelList.get(j);
@@ -254,36 +237,36 @@ public class PropertyProcessorGUI {
                                         "                With 4 Houses</html>");
                                 largePropertyLabel.setFont(largePropertyLabel.getFont().deriveFont(17.0F));
                             }
-                            else if (j == 1) largePropertyLabel.setText("$  " + propertyFinancials.getRentOneHouse());
-                            else if (j == 2) largePropertyLabel.setText(Integer.toString(propertyFinancials.getRentTwoHouse()));
-                            else if (j == 3) largePropertyLabel.setText(Integer.toString(propertyFinancials.getRentThreeHouse()));
-                            else if (j == 4) largePropertyLabel.setText(Integer.toString(propertyFinancials.getRentFourHouse()));
+                            else if (j == 1) largePropertyLabel.setText("$  " + property.getRentOneHouse());
+                            else if (j == 2) largePropertyLabel.setText(Integer.toString(property.getRentTwoHouse()));
+                            else if (j == 3) largePropertyLabel.setText(Integer.toString(property.getRentThreeHouse()));
+                            else if (j == 4) largePropertyLabel.setText(Integer.toString(property.getRentFourHouse()));
                             else if (j == 5) {
-                                largePropertyLabel.setText("With HOTEL $" + propertyFinancials.getRentHotel());
+                                largePropertyLabel.setText("With HOTEL $" + property.getRentHotel());
                                 largePropertyLabel.setHorizontalAlignment(0);
                             } else if (j == 6) {
-                                largePropertyLabel.setText("Mortgage Value $" + propertyFinancials.getMortgageAmount());
+                                largePropertyLabel.setText("Mortgage Value $" + property.getMortgageAmount());
                                 largePropertyLabel.setHorizontalAlignment(0);
                             } else if (j == 7) {
-                                largePropertyLabel.setText("Houses cost $" + propertyFinancials.getPricePerImprovement() + ". each");
+                                largePropertyLabel.setText("Houses cost $" + property.getPricePerImprovement() + ". each");
                                 largePropertyLabel.setHorizontalAlignment(0);
                             } else if (j == 8) {
-                                largePropertyLabel.setText("Hotels, $" + propertyFinancials.getPricePerImprovement() + ". plus 4 houses");
+                                largePropertyLabel.setText("Hotels, $" + property.getPricePerImprovement() + ". plus 4 houses");
                                 largePropertyLabel.setHorizontalAlignment(0);
                             } else if (j == 9) {
-                                largePropertyLabel.setText(propertyProcessor.getPropertyNameString(propertyFinancials.getName())); // title name
+                                largePropertyLabel.setText(propertyProcessor.getPropertyNameString(propertyProcessor.convertBoardPropertyTileOrderToPopertyNames(propertyTileName))); // title name
                                 //largePropertyLabel.setText(propertyFinancials.getName()); // title name
                                 largePropertyLabel.setHorizontalAlignment(0);
                             } else if (j == 10) {
                                 largePropertyLabel.setText("<html><center>If a player owns ALL the Lots of any Color-Group, the <p> rent is Doubled on Unimproved Lots in that group</center></html>");
                                 largePropertyLabel.setHorizontalAlignment(0);
                             } else if (j == 11) {
-                                largePropertyLabel.setText("RENT $" + propertyFinancials.getRent());
+                                largePropertyLabel.setText("RENT $" + property.getRent());
                                 largePropertyLabel.setHorizontalAlignment(0);
                             } else if(j == 12){
                                 largePropertyLabel.setOpaque(true);
                                 largePropertyLabel.setBounds(xLargePropertyPaneList.get(j), yLargePropertyPaneList.get(j), 305, 70);
-                                switch(propertyAttributes.getColor()){
+                                switch(property.getColor()){
                                     case PropertyGroup.BROWN:
                                         largePropertyLabel.setBackground(new java.awt.Color(121,65,54));
                                         largePropertyLabelList.get(9).setForeground(Color.WHITE);
@@ -350,7 +333,7 @@ public class PropertyProcessorGUI {
             propButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("Element: " + i);
+                    System.out.println("Element: " + propertyTileIndex);
                 }
             });
             boardSidePane.add(propButton, JLayeredPane.POPUP_LAYER);

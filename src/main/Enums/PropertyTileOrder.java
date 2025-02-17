@@ -1,6 +1,6 @@
 package main.Enums;
 
-public enum BoardPropertyTileOrder {
+public enum PropertyTileOrder {
     MEDITERRANEAN_AVENUE(0),
     BALTIC_AVENUE(1),
     READING_RAILROAD(2),
@@ -35,7 +35,7 @@ public enum BoardPropertyTileOrder {
 
     private final int value;
 
-    BoardPropertyTileOrder(int value) {
+    PropertyTileOrder(int value) {
         this.value = value;
     }
 
