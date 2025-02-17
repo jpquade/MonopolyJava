@@ -1,6 +1,7 @@
 package main.Enums;
 
 public enum PropertyGroup {
+
     BROWN,
     LIGHTBLUE,
     PINK,
@@ -12,61 +13,61 @@ public enum PropertyGroup {
     UTILITY,
     RAILROAD;
 
-    enum BROWN{
+    public enum BROWN_GROUP{
         MEDITERRANEAN_AVENUE,
-        BALTIC_AVENUE,
+        BALTIC_AVENUE
     };
 
-    enum LIGHT_BLUE{
+    public enum LIGHT_BLUE_GROUP{
         ORIENTAL_AVENUE,
         VERMONT_AVENUE,
-        CONNECTICUT_AVENUE,
+        CONNECTICUT_AVENUE
     };
 
-    enum PINK{
+    public enum PINK_GROUP{
         ST_CHARLES_PLACE,
         STATES_AVENUE,
-        VIRGINIA_AVENUE,
+        VIRGINIA_AVENUE
     };
 
-    enum ORANGE{
+    public enum ORANGE_GROUP{
         ST_JAMES_PLACE,
         TENNESSEE_AVENUE,
-        NEW_YORK_AVENUE,
+        NEW_YORK_AVENUE
     };
 
-    enum RED{
+    public enum RED_GROUP{
         KENTUCKY_AVENUE,
         INDIANA_AVENUE,
-        ILLINOIS_AVENUE,
+        ILLINOIS_AVENUE
     };
 
-    enum YELLOW{
+    public enum YELLOW_GROUP{
         ATLANTIC_AVENUE,
         VENTNOR_AVENUE,
-        MARVIN_GARDENS,
+        MARVIN_GARDENS
     };
 
-    enum GREEN{
+    public enum GREEN_GROUP{
         PACIFIC_AVENUE,
         NORTH_CAROLINA_AVENUE,
-        PENNSYLVANIA_AVENUE,
+        PENNSYLVANIA_AVENUE
     };
 
-    enum DARK_BLUE{
+    public enum DARK_BLUE_GROUP{
         PARK_PLACE,
-        BOARDWALK,
+        BOARDWALK
     };
 
-    enum UTILITY{
+    public enum UTILITY_GROUP{
         ELECTRIC_COMPANY,
-        WATER_WORKS,
+        WATER_WORKS
     };
 
-    enum RAILROAD{
+    public enum RAILROAD_GROUP{
         READING_RAILROAD,
         PENNSYLVANIA_RAILROAD,
         B_AND_O_RAILROAD,
-        SHORT_LINE_RAILROAD,
+        SHORT_LINE_RAILROAD
     };
 }

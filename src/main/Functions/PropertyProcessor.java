@@ -11,15 +11,22 @@ import java.util.HashMap;
 
 public class PropertyProcessor {
 
+    private final HashMap<PropertyNames, String> propertyNamesStringMap;
     private final HashMap<PropertyNames, Property> propertyMap;
 
     public PropertyProcessor() {
         propertyMap = new HashMap<>();
+        propertyNamesStringMap = new HashMap<>();
+        initializePropertyNameStringMap();
         initializePropertyMap();
     }
 
     public Property getProperty(PropertyNames propertyNames) {
         return propertyMap.get(propertyNames);
+    }
+
+    public String getPropertyNameString(PropertyNames propertyNames) {
+        return propertyNamesStringMap.get(propertyNames);
     }
 
     public ArrayList<Property> findOwnedProperties(PlayerToken playerToken) {
@@ -35,6 +42,40 @@ public class PropertyProcessor {
 
     public void findSellableProperties(ArrayList<Property> ownedProperties){
         ownedProperties.removeIf(property -> property.getHouseCount() > 0 || property.hotelExists() || property.isMortgaged());
+    }
+
+    private void initializePropertyNameStringMap() {
+
+        propertyNamesStringMap.put(PropertyNames.MEDITERRANEAN_AVENUE, "Mediterranean Avenue");
+        propertyNamesStringMap.put(PropertyNames.BALTIC_AVENUE, "Baltic Avenue");
+        propertyNamesStringMap.put(PropertyNames.ORIENTAL_AVENUE, "Oriental Avenue");
+        propertyNamesStringMap.put(PropertyNames.VERMONT_AVENUE, "Vermont Avenue");
+        propertyNamesStringMap.put(PropertyNames.CONNECTICUT_AVENUE, "Connecticut Avenue");
+        propertyNamesStringMap.put(PropertyNames.ST_CHARLES_PLACE, "St Charles Place");
+        propertyNamesStringMap.put(PropertyNames.STATES_AVENUE, "States Avenue");
+        propertyNamesStringMap.put(PropertyNames.VIRGINIA_AVENUE, "Virginia Avenue");
+        propertyNamesStringMap.put(PropertyNames.ST_JAMES_PLACE, "St James Place");
+        propertyNamesStringMap.put(PropertyNames.TENNESSEE_AVENUE, "Tennessee Avenue");
+        propertyNamesStringMap.put(PropertyNames.NEW_YORK_AVENUE, "New York Avenue");
+        propertyNamesStringMap.put(PropertyNames.KENTUCKY_AVENUE, "Kentucky Avenue");
+        propertyNamesStringMap.put(PropertyNames.INDIANA_AVENUE, "Indiana Avenue");
+        propertyNamesStringMap.put(PropertyNames.ILLINOIS_AVENUE, "Illinois Avenue");
+        propertyNamesStringMap.put(PropertyNames.ATLANTIC_AVENUE, "Atlantic Avenue");
+        propertyNamesStringMap.put(PropertyNames.VENTNOR_AVENUE, "Ventnor Avenue");
+        propertyNamesStringMap.put(PropertyNames.MARVIN_GARDENS, "Marvin Gardens");
+        propertyNamesStringMap.put(PropertyNames.PACIFIC_AVENUE, "Pacific Avenue");
+        propertyNamesStringMap.put(PropertyNames.NORTH_CAROLINA_AVENUE, "North Carolina Avenue");
+        propertyNamesStringMap.put(PropertyNames.PENNSYLVANIA_AVENUE, "Pennsylvania Avenue");
+        propertyNamesStringMap.put(PropertyNames.PARK_PLACE, "Park Place");
+        propertyNamesStringMap.put(PropertyNames.BOARDWALK, "Boardwalk");
+
+        propertyNamesStringMap.put(PropertyNames.ELECTRIC_COMPANY, "Electric Company");
+        propertyNamesStringMap.put(PropertyNames.WATER_WORKS, "Water Works");
+
+        propertyNamesStringMap.put(PropertyNames.READING_RAILROAD, "Reading Railroad");
+        propertyNamesStringMap.put(PropertyNames.PENNSYLVANIA_RAILROAD, "Pennsylvania RailRoad");
+        propertyNamesStringMap.put(PropertyNames.B_AND_O_RAILROAD, "B&O RailRoad");
+        propertyNamesStringMap.put(PropertyNames.SHORT_LINE_RAILROAD, "Short Line Railroad");
     }
 
     private void initializePropertyMap() {

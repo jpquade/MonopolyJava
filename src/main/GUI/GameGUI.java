@@ -47,7 +47,7 @@ public class GameGUI extends JFrame{
 
         // initialize external main.GUI classes
         DiceGUI diceGUI = new DiceGUI(playerProcessor, informationPane, dice, locationProcessor, transactionHistoryGUI);
-        PropertyGUI propertyGUI = new PropertyGUI(propertyProcessor,boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
+        PropertyProcessorGUI propertyProcessorGUI = new PropertyProcessorGUI(propertyProcessor,boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
         drawCardGUI = new DrawCardGUI(boardSidePane);
 
         //drawCardGUI.guiSetup(boardSidePane);

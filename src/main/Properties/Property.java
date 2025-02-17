@@ -9,6 +9,7 @@ public class Property {
 
     private final PropertyNames propertyName;
 
+    // property details
     private final PropertyType propertyType;
     private final PropertyGroup color;
     private boolean improvementAllowed;
@@ -18,6 +19,7 @@ public class Property {
     private boolean monopoly;
     private final PlayerToken playerTokenOwner;
 
+    // financials
     private int price;
     private int rent;
     private int pricePerImprovement;
