@@ -14,6 +14,8 @@ public class PropertyProcessor {
     private final HashMap<PropertyNames, String> propertyNamesStringMap;
     private final HashMap<PropertyNames, Property> propertyMap;
 
+    //TODO - create BoardPropertyTileOrder to PropertyNames map converter
+
     public PropertyProcessor() {
         propertyMap = new HashMap<>();
         propertyNamesStringMap = new HashMap<>();
