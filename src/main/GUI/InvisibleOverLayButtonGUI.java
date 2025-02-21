@@ -1,6 +1,9 @@
 package main.GUI;
 
+import main.Enums.PropertyTileOrder;
+
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -38,9 +41,36 @@ public class InvisibleOverLayButtonGUI extends JButton {
         setMouseListener(pane, labelList, this);
     }
 
+    public InvisibleOverLayButtonGUI(JLabel propertyImageTemplateLabel, HashMap<PropertyTileOrder, JLabel> propertyViewLabelMap) {
+        this.setBounds(0,0, 1200, 950);
+        this.setOpaque(false);
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        this.setVisible(false);
+
+        setMouseListener(propertyImageTemplateLabel, propertyViewLabelMap, this);
+    }
+
+    private void setMouseListener(JLabel propertyImageTemplateLabel, HashMap<PropertyTileOrder, JLabel> propertyViewLabelMap, InvisibleOverLayButtonGUI invisibleOverLayButtonGUI) {
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Property Button Clicked");
+                invisibleOverLayButtonGUI.setVisible(false);
+                propertyImageTemplateLabel.setVisible(false);
+                // TODO: only make the active view invisible
+                // large property view text set to invisible
+                for (JLabel jLabel : propertyViewLabelMap.values()) {
+                    jLabel.setVisible(false);
+                }
+            }
+        });
+
+    }
+
     private void setMouseListener(JLayeredPane pane, HashMap<String, JLabel> labelMap, InvisibleOverLayButtonGUI currentButton){
 
-        this.addMouseListener(new MouseListener() {
+        this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Property Button Clicked");
@@ -51,26 +81,6 @@ public class InvisibleOverLayButtonGUI extends JButton {
                 for (JLabel jLabel : labelMap.values()) {
                     jLabel.setVisible(false);
                 }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
     }
@@ -84,39 +94,20 @@ public class InvisibleOverLayButtonGUI extends JButton {
      */
     private void setMouseListener(JLabel label, ArrayList<JLabel> labelList, InvisibleOverLayButtonGUI currentButton){
 
-            this.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    System.out.println("Property Button Clicked");
-                    currentButton.setVisible(false);
-                    label.setVisible(false);
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Property Button Clicked");
+                currentButton.setVisible(false);
+                label.setVisible(false);
+                //singlePropertyDisplayLabel.setVisible(false);
 
-                    // large property view text set to invisible
-                    for (JLabel jLabel : labelList) {
-                        jLabel.setVisible(false);
-                    }
+                // property view text set to invisible
+                for (JLabel jLabel : labelList) {
+                    jLabel.setVisible(false);
                 }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-
-                }
-            });
+            }
+        });
     }
 
     /**
@@ -128,7 +119,7 @@ public class InvisibleOverLayButtonGUI extends JButton {
      */
     private void setMouseListener(JLayeredPane pane, ArrayList<JLabel> labelList, InvisibleOverLayButtonGUI currentButton){
 
-        this.addMouseListener(new MouseListener() {
+        this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Card Button Clicked");
@@ -139,26 +130,6 @@ public class InvisibleOverLayButtonGUI extends JButton {
                 for (JLabel jLabel : labelList) {
                     jLabel.setVisible(false);
                 }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
     }

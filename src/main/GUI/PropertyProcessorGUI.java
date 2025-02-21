@@ -1,42 +1,52 @@
 package main.GUI;
 
-import main.Enums.PropertyTileOrder;
 import main.Enums.PlayerToken;
 import main.Enums.PropertyGroup;
+import main.Enums.PropertyNames;
+import main.Enums.PropertyTileOrder;
 import main.Functions.PropertyProcessor;
 import main.Properties.Property;
-import main.Properties.PropertyAttributes;
-import main.Properties.PropertyFinancials;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class PropertyProcessorGUI {
 
     private final PropertyProcessor propertyProcessor;
-    // center of board large single property display sizes
     private final int centerPropertyScaleW;
     private final int centerPropertyScaleH;
-    private final ArrayList<JLabel> largePropertyLabelList;
-    final int boardPropertyTileElementCount;
+    private final ArrayList<JLabel> propertyElementLabelList;
+    private final int boardPropertyTileElementCount;
 
-    private final HashMap<PropertyTileOrder, JButton> propertyButtonsMap;
+    private final HashMap<PropertyTileOrder, JButton> tileButtonMap;
     private final HashMap<PropertyTileOrder, PropertyCoordinates> propertyBoardLocationsMap;
+    private final HashMap<PropertyTileOrder, JLabel> propertyViewLabelMap;
+    private JLayeredPane propertyPane;
 
-    public PropertyProcessorGUI(PropertyProcessor propertyProcessor, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer,
-            String> singlePropertyBoardData, LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
+    // invisible board property tile buttons and positions
+    private final ArrayList<Integer> xPropButtonList = new ArrayList<>(Arrays.asList(875,718,562,483,327,249,128,128,128,128,128,128,128,128,249,405,483,561,639,717,796,874,953,953,953,953,953,953));
+    private final ArrayList<Integer> yPropButtonList = new ArrayList<>(Arrays.asList(826,826,826,826,826,826,749,671,593,515,437,359,202,124,3,3,3,3,3,3,3,3,123,202,358,436,593,749));
+
+    private final ArrayList<Integer> xLargePropertyPaneList = new ArrayList<>(Arrays.asList(50,250,269,269,269,0,0,0,0,0,0,0,23));
+    private final ArrayList<Integer> yLargePropertyPaneList = new ArrayList<>(Arrays.asList(-27,-62,-39,-16,7,47,68,89,110,-140,165,-92,25));
+
+    private final ArrayList<Float> largePropertyTextSizeList = new ArrayList<>(Arrays.asList(17.0F,17.0F,17.0F,17.0F,17.0F,18.0F,18.0F,18.0F,18.0F,26.0F,10.0F,18.0F));
+
+    private BufferedImage propertyImageTemplateBUfferedImage;
+    private JLabel propertyImageTemplateLabel;
+
+    private InvisibleOverLayButtonGUI invisibleLargeTileButton;
+
+    public PropertyProcessorGUI(PropertyProcessor propertyProcessor, JLayeredPane boardSidePane) throws IOException {
 
         this.propertyProcessor = propertyProcessor;
         centerPropertyScaleW = 350;
@@ -45,298 +55,283 @@ public class PropertyProcessorGUI {
         //TODO: Refactor this section to have a hashmap of the property names and their positions
 
         // large property display and positions of text
-        largePropertyLabelList = new ArrayList<>();
+        //propertyViewLabelList = new ArrayList<>();
+        propertyElementLabelList = new ArrayList<>();
         boardPropertyTileElementCount = 13;
 
-        propertyButtonsMap = new HashMap<>();
+        tileButtonMap = new HashMap<>();
         propertyBoardLocationsMap = new HashMap<>();
+        propertyViewLabelMap = new HashMap<>();
 
-        JLabel singlePropertyDisplayLabel = setupUtilityRRSingleLargePropertyView(boardSidePane);
+        propertyPaneSetup(boardSidePane);
+        propertyImageBlankLabelSetup();
+        elementLabelListSetup();
+        coordinateMapSetup();
 
-        setupPropertyTileButtons(singlePropertyDisplayLabel, boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
+        propertyViewSetup(boardSidePane);
+        removeViewInvisibleButtonSetup(boardSidePane);
+
     }
 
-    public JLabel setupUtilityRRSingleLargePropertyView(JLayeredPane boardSidePane) throws IOException {
-
-
-
-        // displays one property at a time for clicking on a board property
-        BufferedImage singlePropertyDisplayImage = ImageIO.read(new File("src/main/MonopolyImages/monopolyPropertyBlank.png"));
-        JLabel singlePropertyDisplayLabel = new JLabel(new ImageIcon(singlePropertyDisplayImage.getScaledInstance(centerPropertyScaleW,centerPropertyScaleH, Image.SCALE_SMOOTH)));
-        singlePropertyDisplayLabel.setBounds(0,0,centerPropertyScaleW,centerPropertyScaleH);
-        singlePropertyDisplayLabel.setHorizontalAlignment(0);
-        singlePropertyDisplayLabel.setVisible(false);
-
-        JLayeredPane propertyPane = new JLayeredPane();
-        propertyPane.add(singlePropertyDisplayLabel, JLayeredPane.DEFAULT_LAYER);
+    // add large property display to the board Side Pane
+    public void propertyPaneSetup(JLayeredPane boardSidePane){
+        propertyPane = new JLayeredPane();
         propertyPane.setBounds(400,250,centerPropertyScaleW,centerPropertyScaleH);
-        boardSidePane.add(propertyPane, JLayeredPane.MODAL_LAYER);
-
-        // create JLabels for each property tile element
-        for(int i = 0; i < boardPropertyTileElementCount ; i++) {
-
-            JLabel jLabel = new JLabel();
-            propertyPane.add(jLabel, JLayeredPane.MODAL_LAYER);
-            largePropertyLabelList.add(jLabel);
-        }
-
-        // create JLabels for each utility
-        for(PropertyGroup.UTILITY_GROUP utility: PropertyGroup.UTILITY_GROUP.values()){
-            BufferedImage bufferedImage;
-
-            if(utility == PropertyGroup.UTILITY_GROUP.ELECTRIC_COMPANY){
-                bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/ElectricCompany.png"));
-            }
-            else{
-                bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/WaterWorks.png"));
-            }
-
-            JLabel jLabel = new JLabel(new ImageIcon(bufferedImage.getScaledInstance(centerPropertyScaleW,centerPropertyScaleH, Image.SCALE_SMOOTH)));
-            jLabel.setVisible(false);
-            jLabel.setBounds(0, 0, centerPropertyScaleW, centerPropertyScaleH);
-            propertyPane.add(jLabel, JLayeredPane.MODAL_LAYER);
-            largePropertyLabelList.add(jLabel);
-        }
-
-        // create JLabels for each railroad
-        for(PropertyGroup.RAILROAD_GROUP railRoad: PropertyGroup.RAILROAD_GROUP.values()){
-            BufferedImage bufferedImage;
-
-            if(railRoad == PropertyGroup.RAILROAD_GROUP.READING_RAILROAD){
-                bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/ReadingRR.jpg"));
-            }
-            else if(railRoad == PropertyGroup.RAILROAD_GROUP.PENNSYLVANIA_RAILROAD){
-                bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/PennsylvaniaRR.jpg"));
-            }
-            else if(railRoad == PropertyGroup.RAILROAD_GROUP.B_AND_O_RAILROAD){
-                bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/BandORR.jpg"));
-            }
-            else{
-                bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/ShortLineRR.jpg"));
-            }
-
-            JLabel jLabel = new JLabel(new ImageIcon(bufferedImage.getScaledInstance(centerPropertyScaleW,centerPropertyScaleH, Image.SCALE_SMOOTH)));
-            jLabel.setVisible(false);
-            jLabel.setBounds(0, 0, centerPropertyScaleW, centerPropertyScaleH);
-            propertyPane.add(jLabel, JLayeredPane.MODAL_LAYER);
-            largePropertyLabelList.add(jLabel);
-        }
-
-        return singlePropertyDisplayLabel;
+        boardSidePane.add(propertyPane, JLayeredPane.PALETTE_LAYER);
     }
 
-    public void setupPropertyTileButtons(JLabel singlePropertyDisplayLabel, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer,
-            String> singlePropertyBoardData, LinkedHashMap<String, PropertyAttributes> propertyAttributesMap) throws IOException {
+    public void propertyImageBlankLabelSetup() throws IOException {
+        propertyImageTemplateBUfferedImage = ImageIO.read(new File("src/main/MonopolyImages/monopolyPropertyBlank.png"));
+        propertyImageTemplateLabel = new JLabel(new ImageIcon(propertyImageTemplateBUfferedImage.getScaledInstance(centerPropertyScaleW,centerPropertyScaleH, Image.SCALE_SMOOTH)));
+        propertyImageTemplateLabel.setBounds(0,0,centerPropertyScaleW,centerPropertyScaleH);
+        propertyImageTemplateLabel.setHorizontalAlignment(0);
+        propertyImageTemplateLabel.setVisible(false);
 
-        //TODO: Refactor this section to have a hashmap of the property names and their positions
+        // Add property template to the propertyPane
+        propertyPane.add(propertyImageTemplateLabel, JLayeredPane.DEFAULT_LAYER);
+    }
 
-        // large property view for positions of elements inside
-        // there are 13 elements in the large property display
-        ArrayList<Integer> xLargePropertyPaneList = new ArrayList<>(Arrays.asList(50,250,269,269,269,0,0,0,0,0,0,0,23));
-        ArrayList<Integer> yLargePropertyPaneList = new ArrayList<>(Arrays.asList(-27,-62,-39,-16,7,47,68,89,110,-140,165,-92,25));
+    // create property elements for each blank property tile
+    public void elementLabelListSetup(){
 
-        // invisible board property tile buttons and positions
-        ArrayList<Integer> xPropButtonList = new ArrayList<>(Arrays.asList(875,718,562,483,327,249,128,128,128,128,128,128,128,128,249,405,483,561,639,717,796,874,953,953,953,953,953,953));
-        ArrayList<Integer> yPropButtonList = new ArrayList<>(Arrays.asList(826,826,826,826,826,826,749,671,593,515,437,359,202,124,3,3,3,3,3,3,3,3,123,202,358,436,593,749));
+        for (int i = 0; i < boardPropertyTileElementCount; i++) {
 
+            propertyElementLabelList.add(new JLabel());
+            propertyElementLabelList.get(i).setVisible(true);
+
+        }
+    }
+
+    // adds coordinates to every board tile
+    public void coordinateMapSetup(){
         for(PropertyTileOrder propertyName: PropertyTileOrder.values()){
             propertyBoardLocationsMap.put(propertyName, new PropertyCoordinates(xPropButtonList.get(propertyName.getValue()), yPropButtonList.get(propertyName.getValue())));
         }
+    }
 
-        // large property view size of text
-        ArrayList<Float> largePropertyTextSizeList = new ArrayList<>(Arrays.asList(17.0F,17.0F,17.0F,17.0F,17.0F,18.0F,18.0F,18.0F,18.0F,26.0F,10.0F,18.0F));
-
-        // property button sizes
-        final int boardSpacePropertyWidth = 77;
-        final int boardSpacePropertyHeight = 120;
-
-        // utility label index and index location according to property only list
-        int electricCompanyLabelIndex = 13;              // label list index
-        int waterWorksLabelIndex = 14;                   // label list index
-
-        // RR label index and index location according to property only list
-        int readingRailRoadLabelIndex = 15;              // label list index
-        int pennsylvaniaRailRoadLabelIndex = 16;         // label list index
-        int bAndORailRoadLabelIndex = 17;                // label list index
-        int shortLineRailRoadLabelIndex = 18;            // label list index
-
-
+    public void removeViewInvisibleButtonSetup(JLayeredPane boardSidePane){
         // invisible clickable board size button for making large property card view disappear
-        InvisibleOverLayButtonGUI overLayButton = new InvisibleOverLayButtonGUI(singlePropertyDisplayLabel, largePropertyLabelList);
+        invisibleLargeTileButton = new InvisibleOverLayButtonGUI(propertyImageTemplateLabel, propertyViewLabelMap);
 
         // add overLayButton to the right pane
-        boardSidePane.add(overLayButton, JLayeredPane.DRAG_LAYER);
+        boardSidePane.add(invisibleLargeTileButton, JLayeredPane.DRAG_LAYER);
+    }
 
-        // creates a button for each property to click and get large display of the information
-        for(PropertyTileOrder propertyTileName : PropertyTileOrder.values()){
+    public void propertyViewSetup(JLayeredPane boardSidePane) throws IOException {
 
-            int propertyTileIndex = propertyTileName.getValue();
+        // view property label
+        JLabel viewPropertyLabel;
 
-            Property property = propertyProcessor.getProperty(propertyProcessor.convertBoardPropertyTileOrderToPopertyNames(propertyTileName));
+        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()) {
 
-            propertyButtonsMap.put(propertyTileName, new JButton());
+            // create a button for each property tile
+            if(propertyTile == PropertyTileOrder.ELECTRIC_COMPANY || propertyTile == PropertyTileOrder.WATER_WORKS){
+                BufferedImage bufferedImage;
 
-            JButton propButton = propertyButtonsMap.get(propertyTileName);
-            int xCoordinate = propertyBoardLocationsMap.get(propertyTileName).x();
-            int yCoordinate = propertyBoardLocationsMap.get(propertyTileName).y();
-
-            if(propertyTileIndex <= 5) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyWidth, boardSpacePropertyHeight);       // bottom side of board
-            else if(propertyTileIndex <= 13) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyHeight, boardSpacePropertyWidth); // left side of board
-            else if(propertyTileIndex <= 21) propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyWidth, boardSpacePropertyHeight); // top side of board
-            else propButton.setBounds(xCoordinate, yCoordinate, boardSpacePropertyHeight, boardSpacePropertyWidth);             // right side of board
-
-            // make the property buttons clear color but still functional
-            //propButton.setFocusable(false);
-            //propButton.setOpaque(false);
-            propButton.setContentAreaFilled(false); // makes the button clear color
-            propButton.setBorderPainted(false);     // removes the border color
-
-            propButton.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                    overLayButton.setVisible(true);
-
-                    //if(propertyTileIndex == electricCompanyShortBoardIndex)              largePropertyLabelList.get(electricCompanyLabelIndex).setVisible(true);
-                    if(propertyTileName == PropertyTileOrder.ELECTRIC_COMPANY)              largePropertyLabelList.get(electricCompanyLabelIndex).setVisible(true);
-                    else if (propertyTileName == PropertyTileOrder.WATER_WORKS)        largePropertyLabelList.get(waterWorksLabelIndex).setVisible(true);
-                    else if (propertyTileName == PropertyTileOrder.READING_RAILROAD)        largePropertyLabelList.get(readingRailRoadLabelIndex).setVisible(true);
-                    else if (propertyTileName == PropertyTileOrder.PENNSYLVANIA_RAILROAD)   largePropertyLabelList.get(pennsylvaniaRailRoadLabelIndex).setVisible(true);
-                    else if (propertyTileName == PropertyTileOrder.B_AND_O_RAILROAD)          largePropertyLabelList.get(bAndORailRoadLabelIndex).setVisible(true);
-                    else if (propertyTileName == PropertyTileOrder.SHORT_LINE_RAILROAD) largePropertyLabelList.get(shortLineRailRoadLabelIndex).setVisible(true);
-                    else {
-
-                        // sets all large property display elements to visible
-
-                        singlePropertyDisplayLabel.setVisible(true);
-
-                        for (int j = 0; j < boardPropertyTileElementCount; j++) {
-
-                            largePropertyLabelList.get(j).setVisible(true);
-
-                        }
-                    }
-
-                    // display text for standard property cards other than RR's and utilities
-                    if(propertyTileName != PropertyTileOrder.ELECTRIC_COMPANY && propertyTileName != PropertyTileOrder.WATER_WORKS &&
-                            propertyTileName != PropertyTileOrder.READING_RAILROAD && propertyTileName != PropertyTileOrder.PENNSYLVANIA_RAILROAD &&
-                            propertyTileName != PropertyTileOrder.B_AND_O_RAILROAD && propertyTileName != PropertyTileOrder.SHORT_LINE_RAILROAD){
-                        for(int j = 0; j < boardPropertyTileElementCount; j++) {
-
-                            JLabel largePropertyLabel = largePropertyLabelList.get(j);
-
-                            if(j != 12){
-                                largePropertyLabel.setFont(largePropertyLabel.getFont().deriveFont(largePropertyTextSizeList.get(j)));
-                                largePropertyLabel.setBounds(xLargePropertyPaneList.get(j), yLargePropertyPaneList.get(j), centerPropertyScaleW, centerPropertyScaleH);
-                            }
-
-                            if (j == 0) {
-                                largePropertyLabel.setText("<html>With 1 House <br>" +
-                                        "                With 2 Houses      <br>" +
-                                        "                With 3 Houses      <br>" +
-                                        "                With 4 Houses</html>");
-                                largePropertyLabel.setFont(largePropertyLabel.getFont().deriveFont(17.0F));
-                            }
-                            else if (j == 1) largePropertyLabel.setText("$  " + property.getRentOneHouse());
-                            else if (j == 2) largePropertyLabel.setText(Integer.toString(property.getRentTwoHouse()));
-                            else if (j == 3) largePropertyLabel.setText(Integer.toString(property.getRentThreeHouse()));
-                            else if (j == 4) largePropertyLabel.setText(Integer.toString(property.getRentFourHouse()));
-                            else if (j == 5) {
-                                largePropertyLabel.setText("With HOTEL $" + property.getRentHotel());
-                                largePropertyLabel.setHorizontalAlignment(0);
-                            } else if (j == 6) {
-                                largePropertyLabel.setText("Mortgage Value $" + property.getMortgageAmount());
-                                largePropertyLabel.setHorizontalAlignment(0);
-                            } else if (j == 7) {
-                                largePropertyLabel.setText("Houses cost $" + property.getPricePerImprovement() + ". each");
-                                largePropertyLabel.setHorizontalAlignment(0);
-                            } else if (j == 8) {
-                                largePropertyLabel.setText("Hotels, $" + property.getPricePerImprovement() + ". plus 4 houses");
-                                largePropertyLabel.setHorizontalAlignment(0);
-                            } else if (j == 9) {
-                                largePropertyLabel.setText(propertyProcessor.getPropertyNameString(propertyProcessor.convertBoardPropertyTileOrderToPopertyNames(propertyTileName))); // title name
-                                //largePropertyLabel.setText(propertyFinancials.getName()); // title name
-                                largePropertyLabel.setHorizontalAlignment(0);
-                            } else if (j == 10) {
-                                largePropertyLabel.setText("<html><center>If a player owns ALL the Lots of any Color-Group, the <p> rent is Doubled on Unimproved Lots in that group</center></html>");
-                                largePropertyLabel.setHorizontalAlignment(0);
-                            } else if (j == 11) {
-                                largePropertyLabel.setText("RENT $" + property.getRent());
-                                largePropertyLabel.setHorizontalAlignment(0);
-                            } else if(j == 12){
-                                largePropertyLabel.setOpaque(true);
-                                largePropertyLabel.setBounds(xLargePropertyPaneList.get(j), yLargePropertyPaneList.get(j), 305, 70);
-                                switch(property.getColor()){
-                                    case PropertyGroup.BROWN:
-                                        largePropertyLabel.setBackground(new java.awt.Color(121,65,54));
-                                        largePropertyLabelList.get(9).setForeground(Color.WHITE);
-                                        break;
-                                    case PropertyGroup.LIGHTBLUE:
-                                        largePropertyLabel.setBackground(new java.awt.Color(171,232,241));
-                                        largePropertyLabelList.get(9).setForeground(Color.BLACK);
-                                        break;
-                                    case PropertyGroup.PINK:
-                                        largePropertyLabel.setBackground(new java.awt.Color(227,57,194));
-                                        largePropertyLabelList.get(9).setForeground(Color.BLACK);
-                                        break;
-                                    case PropertyGroup.ORANGE:
-                                        largePropertyLabel.setBackground(new java.awt.Color(250,182,46));
-                                        largePropertyLabelList.get(9).setForeground(Color.BLACK);
-                                        break;
-                                    case PropertyGroup.RED:
-                                        largePropertyLabel.setBackground(new java.awt.Color(250,70,46));
-                                        largePropertyLabelList.get(9).setForeground(Color.BLACK);
-                                        break;
-                                    case PropertyGroup.YELLOW:
-                                        largePropertyLabel.setBackground(new java.awt.Color(247,250,51));
-                                        largePropertyLabelList.get(9).setForeground(Color.BLACK);
-                                        break;
-                                    case PropertyGroup.GREEN:
-                                        largePropertyLabel.setBackground(new java.awt.Color(14,109,45));
-                                        largePropertyLabelList.get(9).setForeground(Color.WHITE);
-                                        break;
-                                    case PropertyGroup.DARKBLUE:
-                                        largePropertyLabel.setBackground(new java.awt.Color(59,54,218));
-                                        largePropertyLabelList.get(9).setForeground(Color.WHITE);
-                                        break;
-                                    case PropertyGroup.UTILITY:
-                                        break;
-                                    case PropertyGroup.RAILROAD:
-                                        break;
-                                }
-                            }
-                        }
-
-                    }
+                if(propertyTile == PropertyTileOrder.ELECTRIC_COMPANY){
+                    bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/ElectricCompany.png"));
+                }
+                else{
+                    bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/WaterWorks.png"));
                 }
 
-                @Override
-                public void mousePressed(MouseEvent e) {
+                viewPropertyLabel = new JLabel(new ImageIcon(bufferedImage.getScaledInstance(centerPropertyScaleW,centerPropertyScaleH, Image.SCALE_SMOOTH)));
+                viewPropertyLabel.setVisible(false);
+                viewPropertyLabel.setBounds(0, 0, centerPropertyScaleW, centerPropertyScaleH);
+                propertyViewLabelMap.put(propertyTile, viewPropertyLabel);
+                //propertyPane.add(jLabel, JLayeredPane.PALETTE_LAYER);
+                //largePropertyTileLabelList.add(jLabel);
+            }
+            else if(propertyTile == PropertyTileOrder.READING_RAILROAD || propertyTile == PropertyTileOrder.PENNSYLVANIA_RAILROAD || propertyTile == PropertyTileOrder.B_AND_O_RAILROAD || propertyTile == PropertyTileOrder.SHORT_LINE_RAILROAD){
+                BufferedImage bufferedImage;
 
+                if(propertyTile == PropertyTileOrder.READING_RAILROAD){
+                    bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/ReadingRR.jpg"));
+                }
+                else if(propertyTile == PropertyTileOrder.PENNSYLVANIA_RAILROAD){
+                    bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/PennsylvaniaRR.jpg"));
+                }
+                else if(propertyTile == PropertyTileOrder.B_AND_O_RAILROAD){
+                    bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/BandORR.jpg"));
+                }
+                else{
+                    bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/ShortLineRR.jpg"));
                 }
 
-                @Override
-                public void mouseReleased(MouseEvent e) {
+                viewPropertyLabel = new JLabel(new ImageIcon(bufferedImage.getScaledInstance(centerPropertyScaleW,centerPropertyScaleH, Image.SCALE_SMOOTH)));
+                viewPropertyLabel.setVisible(false);
+                viewPropertyLabel.setBounds(0, 0, centerPropertyScaleW, centerPropertyScaleH);
+                propertyViewLabelMap.put(propertyTile, viewPropertyLabel);
+            }
+            else{
+                viewPropertyLabel = new JLabel();
+                viewPropertyLabel.setBounds(0,0,centerPropertyScaleW,centerPropertyScaleH);
+                //viewPropertyLabel.setHorizontalAlignment(0);
+                //viewPropertyLabel.setVisible(true);
 
-                }
 
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                }
+                //addTileElements(jLabel, propertyTile);
+                propertyViewLabelMap.put(propertyTile, viewPropertyLabel);
+            }
 
-                @Override
-                public void mouseExited(MouseEvent e) {
-                }
-            });
+            tileButtonBuilder(propertyTile, viewPropertyLabel , boardSidePane);
 
-            // prints to console the property clicked
-            propButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Element: " + propertyTileIndex);
+            // add large property display to the propertyPane
+            propertyPane.add(propertyViewLabelMap.get(propertyTile), JLayeredPane.MODAL_LAYER);
+        }
+    }
+
+    public void tileButtonBuilder(PropertyTileOrder propertyTile ,JLabel viewPropertyLabel, JLayeredPane boardSidePane) throws IOException {
+
+        //TODO: Refactor this section to have a hashmap of the property names and their positions
+
+        // property button sizes
+        final int tileWidth = 77;
+        final int tileHeight = 120;
+
+        int tileIndex = propertyTile.getValue();
+        tileButtonMap.put(propertyTile, new JButton());
+
+        //Property property = propertyProcessor.getProperty(propertyProcessor.convertBoardPropertyTileOrderToPopertyNames(propertyTIleOrder));
+
+        JButton invisibleTileButton = tileButtonMap.get(propertyTile);
+        invisibleTileButton.setContentAreaFilled(false); // makes the button clear color
+        invisibleTileButton.setBorderPainted(false);     // removes the border color
+
+        int buttonXCoordinate = propertyBoardLocationsMap.get(propertyTile).x();
+        int buttonYCoordinate = propertyBoardLocationsMap.get(propertyTile).y();
+
+        // position each invisible button on the board
+        if(tileIndex <= 5) invisibleTileButton.setBounds(buttonXCoordinate, buttonYCoordinate, tileWidth, tileHeight);       // bottom side of board
+        else if(tileIndex <= 13) invisibleTileButton.setBounds(buttonXCoordinate, buttonYCoordinate, tileHeight, tileWidth); // left side of board
+        else if(tileIndex <= 21) invisibleTileButton.setBounds(buttonXCoordinate, buttonYCoordinate, tileWidth, tileHeight); // top side of board
+        else invisibleTileButton.setBounds(buttonXCoordinate, buttonYCoordinate, tileHeight, tileWidth);             // right side of board
+
+        invisibleTileButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                invisibleLargeTileButton.setVisible(true);
+
+                // prints to console the property clicked
+                System.out.println("Element: " + propertyTile);
+
+                if(propertyTile == PropertyTileOrder.ELECTRIC_COMPANY)              propertyViewLabelMap.get(PropertyTileOrder.ELECTRIC_COMPANY).setVisible(true);
+                else if (propertyTile == PropertyTileOrder.WATER_WORKS)             propertyViewLabelMap.get(PropertyTileOrder.WATER_WORKS).setVisible(true);
+                else if (propertyTile == PropertyTileOrder.READING_RAILROAD)        propertyViewLabelMap.get(PropertyTileOrder.READING_RAILROAD).setVisible(true);
+                else if (propertyTile == PropertyTileOrder.PENNSYLVANIA_RAILROAD)   propertyViewLabelMap.get(PropertyTileOrder.PENNSYLVANIA_RAILROAD).setVisible(true);
+                else if (propertyTile == PropertyTileOrder.B_AND_O_RAILROAD)        propertyViewLabelMap.get(PropertyTileOrder.B_AND_O_RAILROAD).setVisible(true);
+                else if (propertyTile == PropertyTileOrder.SHORT_LINE_RAILROAD)     propertyViewLabelMap.get(PropertyTileOrder.SHORT_LINE_RAILROAD).setVisible(true);
+                else {
+                    // contains property image template
+                    propertyImageTemplateLabel.setVisible(true);
+                    propertyViewLabelMap.get(propertyTile).setVisible(true);
+
+                    // sets all large property display elements to visible if not utility or RR
+                    addTileElements(viewPropertyLabel, propertyTile);
                 }
-            });
-            boardSidePane.add(propButton, JLayeredPane.POPUP_LAYER);
+            }
+        });
+
+        // adds an invisible button over the property tile
+        boardSidePane.add(invisibleTileButton, JLayeredPane.POPUP_LAYER);
+    }
+
+    public void addTileElements(JLabel viewPropertyLabel, PropertyTileOrder propertyTileOrder){
+
+        // convert the enum to a property name, then to a property
+        PropertyNames propertyName = propertyProcessor.convertBoardPropertyTileOrderToPopertyNames(propertyTileOrder);
+        Property property = propertyProcessor.getProperty(propertyName);
+
+        // elements get set to blankLabelProperty and set visible
+        for (JLabel jLabel : propertyElementLabelList) {
+            jLabel.setVisible(true);
+            viewPropertyLabel.add(jLabel);
+        }
+
+        for(int i = 0; i < propertyElementLabelList.size(); i++) {
+
+            JLabel elementLabel = propertyElementLabelList.get(i);
+
+            if(i != 12){
+                elementLabel.setFont(elementLabel.getFont().deriveFont(largePropertyTextSizeList.get(i)));
+                elementLabel.setBounds(xLargePropertyPaneList.get(i), yLargePropertyPaneList.get(i), centerPropertyScaleW, centerPropertyScaleH);
+            }
+
+            if (i == 0) {
+                elementLabel.setText("<html>With 1 House <br>" +
+                        "                With 2 Houses      <br>" +
+                        "                With 3 Houses      <br>" +
+                        "                With 4 Houses</html>");
+                elementLabel.setFont(elementLabel.getFont().deriveFont(17.0F));
+            }
+            else if (i == 1) elementLabel.setText("$  " + property.getRentOneHouse());
+            else if (i == 2) elementLabel.setText(Integer.toString(property.getRentTwoHouse()));
+            else if (i == 3) elementLabel.setText(Integer.toString(property.getRentThreeHouse()));
+            else if (i == 4) elementLabel.setText(Integer.toString(property.getRentFourHouse()));
+            else if (i == 5) {
+                elementLabel.setText("With HOTEL $" + property.getRentHotel());
+                elementLabel.setHorizontalAlignment(0);
+            } else if (i == 6) {
+                elementLabel.setText("Mortgage Value $" + property.getMortgageAmount());
+                elementLabel.setHorizontalAlignment(0);
+            } else if (i == 7) {
+                elementLabel.setText("Houses cost $" + property.getPricePerImprovement() + ". each");
+                elementLabel.setHorizontalAlignment(0);
+            } else if (i == 8) {
+                elementLabel.setText("Hotels, $" + property.getPricePerImprovement() + ". plus 4 houses");
+                elementLabel.setHorizontalAlignment(0);
+            } else if (i == 9) {
+                elementLabel.setText(propertyProcessor.getPropertyNameString(propertyName)); // title name
+                //largePropertyTileLabel.setText(propertyFinancials.getName()); // title name
+                elementLabel.setHorizontalAlignment(0);
+            } else if (i == 10) {
+                elementLabel.setText("<html><center>If a player owns ALL the Lots of any Color-Group, the <p> rent is Doubled on Unimproved Lots in that group</center></html>");
+                elementLabel.setHorizontalAlignment(0);
+            } else if (i == 11) {
+                elementLabel.setText("RENT $" + property.getRent());
+                elementLabel.setHorizontalAlignment(0);
+            } else if(i == 12){
+                elementLabel.setOpaque(true);
+                elementLabel.setBounds(xLargePropertyPaneList.get(i), yLargePropertyPaneList.get(i), 305, 70);
+                switch(property.getColor()){
+                    case PropertyGroup.BROWN:
+                        elementLabel.setBackground(new Color(121,65,54));
+                        propertyElementLabelList.get(9).setForeground(Color.WHITE);
+                        break;
+                    case PropertyGroup.LIGHTBLUE:
+                        elementLabel.setBackground(new Color(171,232,241));
+                        propertyElementLabelList.get(9).setForeground(Color.BLACK);
+                        break;
+                    case PropertyGroup.PINK:
+                        elementLabel.setBackground(new Color(227,57,194));
+                        propertyElementLabelList.get(9).setForeground(Color.BLACK);
+                        break;
+                    case PropertyGroup.ORANGE:
+                        elementLabel.setBackground(new Color(250,182,46));
+                        propertyElementLabelList.get(9).setForeground(Color.BLACK);
+                        break;
+                    case PropertyGroup.RED:
+                        elementLabel.setBackground(new Color(250,70,46));
+                        propertyElementLabelList.get(9).setForeground(Color.BLACK);
+                        break;
+                    case PropertyGroup.YELLOW:
+                        elementLabel.setBackground(new Color(247,250,51));
+                        propertyElementLabelList.get(9).setForeground(Color.BLACK);
+                        break;
+                    case PropertyGroup.GREEN:
+                        elementLabel.setBackground(new Color(14,109,45));
+                        propertyElementLabelList.get(9).setForeground(Color.WHITE);
+                        break;
+                    case PropertyGroup.DARKBLUE:
+                        elementLabel.setBackground(new Color(59,54,218));
+                        propertyElementLabelList.get(9).setForeground(Color.WHITE);
+                        break;
+                    case PropertyGroup.UTILITY:
+                    case PropertyGroup.RAILROAD:
+                        break;
+                }
+            }
         }
     }
 
