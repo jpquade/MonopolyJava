@@ -48,7 +48,7 @@ public class GameGUI extends JFrame{
         // initialize external main.GUI classes
         DiceGUI diceGUI = new DiceGUI(playerProcessor, informationPane, dice, locationProcessor, transactionHistoryGUI);
         //PropertyProcessorGUI2 propertyProcessorGUI = new PropertyProcessorGUI2(propertyProcessor,boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
-        PropertyProcessorGUI propertyProcessorGUI = new PropertyProcessorGUI(propertyProcessor, boardSidePane);
+        //PropertyProcessorGUI propertyProcessorGUI = new PropertyProcessorGUI(propertyProcessor, boardSidePane);
         drawCardGUI = new DrawCardGUI(boardSidePane);
 
         //drawCardGUI.guiSetup(boardSidePane);
@@ -92,33 +92,13 @@ public class GameGUI extends JFrame{
         this.setVisible(true); // keep at end
 
         // temporary mouse location listener
-        boardSidePane.addMouseListener(new MouseListener() {
+        boardSidePane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
 
                 System.out.println("X:" + x + "Y:" + y);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
     }

@@ -51,21 +51,50 @@ public class SelectionBoxButtonGUI {
 
     public void setButtonList() {}
 
-    public void actionOptions(){
+    public void actionOptions(TransactionType transactionType, int cost, PlayerToken otherPlayerToken, PropertyProcessorGUI propertyProcessorGUI) {
+        // TODO - enable this method for use independently
+
         resetButtonIndex();
 
-        tradePropertyButton();
-        mortgageButton();
-        unMortgageButton();
-        buildHouseButton();
-        sellHouseButton();
-        buildHotelButton();
-        sellHotelButton();
-        endTurnButton();
+        String[] methodNames = {"payButton", "tradePropertyButton", "mortgageButton", "unMortgageButton", "buildHouseButton", "sellHouseButton", "buildHotelButton", "sellHotelButton", "endTurnButton"};
+
+        for(String methodName : methodNames){
+            switch(methodName){
+                case "payButton":
+                    payButton(transactionType, otherPlayerToken, cost);
+                    break;
+                case "tradePropertyButton":
+                    tradePropertyButton(propertyProcessorGUI);
+                    break;
+                case "mortgageButton":
+                    mortgageButton();
+                    break;
+                case "unMortgageButton":
+                    unMortgageButton();
+                    break;
+                case "buildHouseButton":
+                    buildHouseButton();
+                    break;
+                case "sellHouseButton":
+                    sellHouseButton();
+                    break;
+                case "buildHotelButton":
+                    buildHotelButton();
+                    break;
+                case "sellHotelButton":
+                    sellHotelButton();
+                    break;
+                case "endTurnButton":
+                    endTurnButton();
+                    break;
+            }
+            incrementButtonIndex();
+        }
+
     }
 
     public void paymentOptions(TransactionType transactionType, int cost, PlayerToken otherPlayerToken) {
-        resetButtonIndex();
+        //resetButtonIndex();
 
         payButton(transactionType, otherPlayerToken, cost);
         sellPropertyButton();
@@ -74,9 +103,11 @@ public class SelectionBoxButtonGUI {
 
     public void payButton(TransactionType transactionType, PlayerToken otherPlayerToken, int cost){
         commandBoxGUI.setMessage("Make a payment");
-        buttonList.get(buttonTempIndex).setText("Pay: " + cost);
-        buttonList.get(buttonTempIndex).setVisible(true);
-        buttonList.get(buttonTempIndex).addActionListener(new ActionListener() {
+        JButton payButton = buttonList.get(buttonTempIndex);
+
+        payButton.setText("Pay: " + cost);
+        payButton.setVisible(true);
+        payButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,19 +118,20 @@ public class SelectionBoxButtonGUI {
                 }
             }
         });
-        incrementButtonIndex();
     }
 
 
     // TODO - Work on this one first
     // player trades property with another player
-    private void tradePropertyButton() {
+    private void tradePropertyButton(PropertyProcessorGUI propertyProcessorGUI) {
+
+        JButton tradeButton = buttonList.get(buttonTempIndex);
 
         // TODO - make properties sellable with cash only
 
-        buttonList.get(buttonTempIndex).setText("Trade properties");
-        buttonList.get(buttonTempIndex).setVisible(true);
-        buttonList.get(buttonTempIndex).addActionListener(new ActionListener() {
+        tradeButton.setText("Trade properties");
+        tradeButton.setVisible(true);
+        tradeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -108,9 +140,14 @@ public class SelectionBoxButtonGUI {
                 }
                 commandBoxGUI.setMessage("Pick a property to trade");
             }
-        });
 
-        incrementButtonIndex();
+        });
+        tradeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                propertyProcessorGUI.highLightActivePlayerProperty();
+            }
+        });
     }
 
     private void unMortgageButton() {
@@ -148,7 +185,6 @@ public class SelectionBoxButtonGUI {
 //                    }
             }
         });
-        incrementButtonIndex();
     }
 
     public void mortgageButton(){
@@ -165,7 +201,6 @@ public class SelectionBoxButtonGUI {
                 }
             }
         });
-        incrementButtonIndex();
     }
 
     // button location index

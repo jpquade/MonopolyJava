@@ -25,14 +25,15 @@ public class App {
         //dogMovement.put(0, new ArrayList<>(Arrays.asList(0, 1)));
 
         Dice dice = new Dice();
-        PropertyProcessor propertyProcessor = new PropertyProcessor();
         PlayerProcessor playerProcessor = new PlayerProcessor();
+        PropertyProcessor propertyProcessor = new PropertyProcessor(playerProcessor);
         JLayeredPane boardSidePane = new JLayeredPane();
         InformationPane informationPane = new InformationPane();
         CommandBoxGUI commandBoxGUI = new CommandBoxGUI();
         TransactionHistoryGUI transactionHistoryGUI = new TransactionHistoryGUI();
         MoneyProcessor moneyProcessor = new MoneyProcessor(playerProcessor, transactionHistoryGUI, commandBoxGUI);
         SelectionBoxButtonGUI selectionBoxButtonGUI = new SelectionBoxButtonGUI(moneyProcessor, commandBoxGUI);
+        PropertyProcessorGUI propertyProcessorGUI = new PropertyProcessorGUI(propertyProcessor, boardSidePane);
 
 
         //JLayeredPane informationSidePane = new JLayeredPane();
@@ -52,7 +53,8 @@ public class App {
         GameGUI gameGUI = new GameGUI(propertyProcessor, dice,informationPane , boardSidePane, gameData.getPropertyFinancialsMap(), gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap(), playerProcessor, locationProcessor, transactionHistoryGUI);
         DrawCardGUI drawCardGUI = new DrawCardGUI(boardSidePane);
 
-        selectionBoxButtonGUI.paymentOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE);
+        //selectionBoxButtonGUI.paymentOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE);
+        selectionBoxButtonGUI.actionOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE, propertyProcessorGUI);
         //selectionBoxButtonGUI.actionOptions();
         //System.out.println(drawCardGUI.drawAChanceCard().toString());
         //System.out.println(drawCardGUI.drawACommunityChestCard().toString());

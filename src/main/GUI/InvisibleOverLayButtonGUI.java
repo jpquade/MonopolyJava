@@ -5,11 +5,16 @@ import main.Enums.PropertyTileOrder;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InvisibleOverLayButtonGUI extends JButton {
+
+    PropertyTileOrder propertyTileOrder;
+
+    InvisibleOverLayButtonGUI(){
+        propertyTileOrder = null;
+    }
 
     public InvisibleOverLayButtonGUI(JLayeredPane pane, HashMap<String, JLabel> labelMap){
         this.setBounds(0,0, 1200, 950);
@@ -60,9 +65,11 @@ public class InvisibleOverLayButtonGUI extends JButton {
                 propertyImageTemplateLabel.setVisible(false);
                 // TODO: only make the active view invisible
                 // large property view text set to invisible
-                for (JLabel jLabel : propertyViewLabelMap.values()) {
-                    jLabel.setVisible(false);
-                }
+//                for (JLabel jLabel : propertyViewLabelMap.values()) {
+//                    jLabel.setVisible(false);
+//                }
+
+                propertyViewLabelMap.get(propertyTileOrder).setVisible(false);
             }
         });
 
@@ -132,5 +139,9 @@ public class InvisibleOverLayButtonGUI extends JButton {
                 }
             }
         });
+    }
+
+    public void tobeClosed(PropertyTileOrder propertyTileOrder){
+        this.propertyTileOrder = propertyTileOrder;
     }
 }

@@ -12,15 +12,19 @@ public class PropertyProcessor {
     private final HashMap<PropertyNames, Property> propertyMap;
     private final HashMap<PropertyTileOrder, PropertyNames> tileOrderConvertToPropertyNames;
 
+    private final PlayerProcessor playerProcessor;
+
     //TODO - create BoardPropertyTileOrder to PropertyNames map converter
 
-    public PropertyProcessor() {
+    public PropertyProcessor(PlayerProcessor playerProcessor) {
         propertyMap = new HashMap<>();
         propertyNamesStringMap = new HashMap<>();
         tileOrderConvertToPropertyNames = new HashMap<>();
         initializePropertyNameStringMap();
         initializePropertyMap();
         initializeTileOrderConvertToPropertyNames();
+
+        this.playerProcessor = playerProcessor;
     }
 
     public Property getProperty(PropertyNames propertyNames) {
@@ -34,7 +38,9 @@ public class PropertyProcessor {
         return propertyNamesStringMap.get(propertyNames);
     }
 
-    public ArrayList<Property> findOwnedProperties(PlayerToken playerToken) {
+    public ArrayList<Property> findOwnedProperties() {
+        PlayerToken playerToken = playerProcessor.getActivePlayer().getPlayerToken();
+
         ArrayList<Property> ownedProperties = new ArrayList<>();
         for (Property property : propertyMap.values()) {
             if (property.getPlayerTokenOwner() == playerToken) {
