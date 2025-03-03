@@ -22,8 +22,8 @@ public class DrawCardGUI {
     private JLayeredPane chanceCardPane;
     private JLayeredPane communityChestCardPane;
 
-    InvisibleOverLayButtonGUI chanceInvisibleButton;
-    InvisibleOverLayButtonGUI communityChestInvisibleButton;
+    InvisibleBoardButtonGUI chanceInvisibleButton;
+    InvisibleBoardButtonGUI communityChestInvisibleButton;
 
     //JButton overLayButton;
 
@@ -47,8 +47,8 @@ public class DrawCardGUI {
         communityChestGuiSetup(pane, communityChestLabelMap);
 
         // setup invisible overlay buttons
-        chanceInvisibleButton = new InvisibleOverLayButtonGUI(chanceCardPane, chanceLabelMap);
-        communityChestInvisibleButton = new InvisibleOverLayButtonGUI(chanceCardPane, communityChestLabelMap);
+        chanceInvisibleButton = new InvisibleBoardButtonGUI(chanceCardPane, chanceLabelMap);
+        communityChestInvisibleButton = new InvisibleBoardButtonGUI(chanceCardPane, communityChestLabelMap);
 
         // add the invisible overlay buttons to the card pane
         pane.add(chanceInvisibleButton);

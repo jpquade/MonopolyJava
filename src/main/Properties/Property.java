@@ -17,7 +17,7 @@ public class Property {
     private boolean hotel;
     private boolean isMortgaged;
     private boolean monopoly;
-    private final PlayerToken playerTokenOwner;
+    private PlayerToken owner;
 
     // financials
     private int price;
@@ -32,7 +32,7 @@ public class Property {
 
     public Property(PropertyNames propertyName, PropertyType propertyType, PropertyGroup propertyGroup,
                     boolean improvementAllowed, int houseCount, boolean hotel, boolean isMortgaged, boolean monopoly,
-                    PlayerToken playerTokenOwner, int price, int rent, int pricePerImprovement, int rentOneHouse,
+                    PlayerToken owner, int price, int rent, int pricePerImprovement, int rentOneHouse,
                     int rentTwoHouse, int rentThreeHouse, int rentFourHouse, int rentHotel, int mortgageAmount) {
         this.propertyName = propertyName;
         this.propertyType = propertyType;
@@ -42,7 +42,7 @@ public class Property {
         this.hotel = hotel;
         this.isMortgaged = isMortgaged;
         this.monopoly = monopoly;
-        this.playerTokenOwner = playerTokenOwner;
+        this.owner = owner;
         this.price = price;
         this.rent = rent;
         this.pricePerImprovement = pricePerImprovement;
@@ -106,8 +106,12 @@ public class Property {
         this.monopoly = monopoly;
     }
 
-    public PlayerToken getPlayerTokenOwner() {
-        return playerTokenOwner;
+    public PlayerToken getOwner() {
+        return owner;
+    }
+
+    public void setOwner(PlayerToken owner) {
+        this.owner = owner;
     }
 
     public int getPrice() {
@@ -182,6 +186,8 @@ public class Property {
         this.mortgageAmount = mortgageAmount;
     }
 
+
+
     public static class PropertyBuilder{
         private PropertyNames propertyName;
         private PropertyType propertyType;
@@ -191,7 +197,7 @@ public class Property {
         private boolean hotel;
         private boolean isMortgaged;
         private boolean monopoly;
-        private PlayerToken playerTokenOwner;
+        private PlayerToken owner;
         private int price;
         private int rent;
         private int pricePerImprovement;
@@ -243,7 +249,7 @@ public class Property {
         }
 
         public PropertyBuilder playerTokenOwner(PlayerToken playerTokenOwner) {
-            this.playerTokenOwner = playerTokenOwner;
+            this.owner = playerTokenOwner;
             return this;
         }
 
@@ -293,7 +299,7 @@ public class Property {
         }
 
         public Property build(){
-            return new Property(propertyName, propertyType, color, improvementAllowed, house, hotel, isMortgaged, monopoly, playerTokenOwner, price, rent, pricePerImprovement, rentOneHouse, rentTwoHouse, rentThreeHouse, rentFourHouse, rentHotel, mortgageAmount);
+            return new Property(propertyName, propertyType, color, improvementAllowed, house, hotel, isMortgaged, monopoly, owner, price, rent, pricePerImprovement, rentOneHouse, rentTwoHouse, rentThreeHouse, rentFourHouse, rentHotel, mortgageAmount);
         }
     }
 

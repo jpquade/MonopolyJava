@@ -8,15 +8,15 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class InvisibleOverLayButtonGUI extends JButton {
+public class InvisibleBoardButtonGUI extends JButton {
 
     PropertyTileOrder propertyTileOrder;
 
-    InvisibleOverLayButtonGUI(){
+    InvisibleBoardButtonGUI(){
         propertyTileOrder = null;
     }
 
-    public InvisibleOverLayButtonGUI(JLayeredPane pane, HashMap<String, JLabel> labelMap){
+    public InvisibleBoardButtonGUI(JLayeredPane pane, HashMap<String, JLabel> labelMap){
         this.setBounds(0,0, 1200, 950);
         this.setOpaque(false);
         this.setContentAreaFilled(false);
@@ -26,7 +26,7 @@ public class InvisibleOverLayButtonGUI extends JButton {
         setMouseListener(pane, labelMap, this);
     }
 
-    public InvisibleOverLayButtonGUI(JLabel label, ArrayList<JLabel> labelList){
+    public InvisibleBoardButtonGUI(JLabel label, ArrayList<JLabel> labelList){
         this.setBounds(0,0, 1200, 950);
         this.setOpaque(false);
         this.setContentAreaFilled(false);
@@ -36,7 +36,7 @@ public class InvisibleOverLayButtonGUI extends JButton {
         setMouseListener(label, labelList, this);
     }
 
-    public InvisibleOverLayButtonGUI(JLayeredPane pane, ArrayList<JLabel> labelList){
+    public InvisibleBoardButtonGUI(JLayeredPane pane, ArrayList<JLabel> labelList){
         this.setBounds(0,0, 1200, 950);
         this.setOpaque(false);
         this.setContentAreaFilled(false);
@@ -46,7 +46,7 @@ public class InvisibleOverLayButtonGUI extends JButton {
         setMouseListener(pane, labelList, this);
     }
 
-    public InvisibleOverLayButtonGUI(JLabel propertyImageTemplateLabel, HashMap<PropertyTileOrder, JLabel> propertyViewLabelMap) {
+    public InvisibleBoardButtonGUI(JLabel propertyImageTemplateLabel, HashMap<PropertyTileOrder, JLabel> propertyViewLabelMap) {
         this.setBounds(0,0, 1200, 950);
         this.setOpaque(false);
         this.setContentAreaFilled(false);
@@ -56,12 +56,12 @@ public class InvisibleOverLayButtonGUI extends JButton {
         setMouseListener(propertyImageTemplateLabel, propertyViewLabelMap, this);
     }
 
-    private void setMouseListener(JLabel propertyImageTemplateLabel, HashMap<PropertyTileOrder, JLabel> propertyViewLabelMap, InvisibleOverLayButtonGUI invisibleOverLayButtonGUI) {
+    private void setMouseListener(JLabel propertyImageTemplateLabel, HashMap<PropertyTileOrder, JLabel> propertyViewLabelMap, InvisibleBoardButtonGUI invisibleBoardButtonGUI) {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Property Button Clicked");
-                invisibleOverLayButtonGUI.setVisible(false);
+                invisibleBoardButtonGUI.setVisible(false);
                 propertyImageTemplateLabel.setVisible(false);
                 // TODO: only make the active view invisible
                 // large property view text set to invisible
@@ -75,7 +75,7 @@ public class InvisibleOverLayButtonGUI extends JButton {
 
     }
 
-    private void setMouseListener(JLayeredPane pane, HashMap<String, JLabel> labelMap, InvisibleOverLayButtonGUI currentButton){
+    private void setMouseListener(JLayeredPane pane, HashMap<String, JLabel> labelMap, InvisibleBoardButtonGUI currentButton){
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -99,7 +99,7 @@ public class InvisibleOverLayButtonGUI extends JButton {
      * @param labelList The list of labels to be controlled by the button.
      * @param currentButton The current instance of InvisibleOverLayButtonGUI.
      */
-    private void setMouseListener(JLabel label, ArrayList<JLabel> labelList, InvisibleOverLayButtonGUI currentButton){
+    private void setMouseListener(JLabel label, ArrayList<JLabel> labelList, InvisibleBoardButtonGUI currentButton){
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -124,7 +124,7 @@ public class InvisibleOverLayButtonGUI extends JButton {
      * @param labelList The list of labels to be controlled by the button.
      * @param currentButton The current instance of InvisibleOverLayButtonGUI.
      */
-    private void setMouseListener(JLayeredPane pane, ArrayList<JLabel> labelList, InvisibleOverLayButtonGUI currentButton){
+    private void setMouseListener(JLayeredPane pane, ArrayList<JLabel> labelList, InvisibleBoardButtonGUI currentButton){
 
         this.addMouseListener(new MouseAdapter() {
             @Override

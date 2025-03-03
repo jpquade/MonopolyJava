@@ -1,6 +1,7 @@
 package main.GUI;
 
 import main.Enums.PlayerToken;
+import main.Enums.PropertyTileOrder;
 import main.Enums.TransactionType;
 import main.Functions.MoneyProcessor;
 
@@ -54,17 +55,18 @@ public class SelectionBoxButtonGUI {
     public void actionOptions(TransactionType transactionType, int cost, PlayerToken otherPlayerToken, PropertyProcessorGUI propertyProcessorGUI) {
         // TODO - enable this method for use independently
 
+        // clears the button index list for new buttons
         resetButtonIndex();
 
-        String[] methodNames = {"payButton", "tradePropertyButton", "mortgageButton", "unMortgageButton", "buildHouseButton", "sellHouseButton", "buildHotelButton", "sellHotelButton", "endTurnButton"};
+        String[] financialOptions = {"payButton", "sellPropertyButton", "mortgageButton", "unMortgageButton", "buildHouseButton", "sellHouseButton", "buildHotelButton", "sellHotelButton", "endTurnButton"};
 
-        for(String methodName : methodNames){
+        for(String methodName : financialOptions){
             switch(methodName){
                 case "payButton":
                     payButton(transactionType, otherPlayerToken, cost);
                     break;
-                case "tradePropertyButton":
-                    tradePropertyButton(propertyProcessorGUI);
+                case "sellPropertyButton":
+                    sellPropertyButton(propertyProcessorGUI);
                     break;
                 case "mortgageButton":
                     mortgageButton();
@@ -93,12 +95,9 @@ public class SelectionBoxButtonGUI {
 
     }
 
-    public void paymentOptions(TransactionType transactionType, int cost, PlayerToken otherPlayerToken) {
-        //resetButtonIndex();
+    public void actionOptions(TransactionType transactionType, int cost, PlayerToken otherPlayerToken) {
+        resetButtonIndex();
 
-        payButton(transactionType, otherPlayerToken, cost);
-        sellPropertyButton();
-        mortgageButton();
     }
 
     public void payButton(TransactionType transactionType, PlayerToken otherPlayerToken, int cost){
@@ -120,21 +119,21 @@ public class SelectionBoxButtonGUI {
         });
     }
 
-
     // TODO - Work on this one first
     // player trades property with another player
-    private void tradePropertyButton(PropertyProcessorGUI propertyProcessorGUI) {
+    private void sellPropertyButton(PropertyProcessorGUI propertyProcessorGUI) {
 
         JButton tradeButton = buttonList.get(buttonTempIndex);
 
         // TODO - make properties sellable with cash only
 
-        tradeButton.setText("Trade properties");
+        tradeButton.setText("Sell properties");
         tradeButton.setVisible(true);
         tradeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                // make all the financial buttons invisible
                 for(JButton button : buttonList){
                     button.setVisible(false);
                 }
@@ -145,10 +144,13 @@ public class SelectionBoxButtonGUI {
         tradeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                propertyProcessorGUI.highLightActivePlayerProperty();
+                propertyProcessorGUI.showSellableProperty();
+                propertyProcessorGUI.enableSellableProperty();
             }
         });
     }
+
+
 
     private void unMortgageButton() {
         // TODO - add logic
@@ -174,18 +176,25 @@ public class SelectionBoxButtonGUI {
         // TODO - add logic
     }
 
-    public void sellPropertyButton(){
-        buttonList.get(buttonTempIndex).setText("Highlight Sellable Properties");
-        buttonList.get(buttonTempIndex).setVisible(true);
-        buttonList.get(buttonTempIndex).addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                    for(JButton button : buttonList){
-//                        button.setVisible(false);
-//                    }
-            }
-        });
+    public void sellPropertyOptions(PropertyTileOrder propertyTile){
+        JButton propertyNameButton = new JButton();
+        propertyNameButton.setText("Sell: " + propertyTile.toString());
+
+
     }
+
+//    public void sellPropertyButton(){
+//        buttonList.get(buttonTempIndex).setText("Sell Properties");
+//        buttonList.get(buttonTempIndex).setVisible(true);
+//        buttonList.get(buttonTempIndex).addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+////                    for(JButton button : buttonList){
+////                        button.setVisible(false);
+////                    }
+//            }
+//        });
+//    }
 
     public void mortgageButton(){
 

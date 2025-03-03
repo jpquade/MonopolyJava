@@ -11,6 +11,7 @@ public class PropertyProcessor {
     private final HashMap<PropertyNames, String> propertyNamesStringMap;
     private final HashMap<PropertyNames, Property> propertyMap;
     private final HashMap<PropertyTileOrder, PropertyNames> tileOrderConvertToPropertyNames;
+    private final HashMap<PropertyNames, PropertyTileOrder> propertyNamesConvertToTileOrder;
 
     private final PlayerProcessor playerProcessor;
 
@@ -20,9 +21,11 @@ public class PropertyProcessor {
         propertyMap = new HashMap<>();
         propertyNamesStringMap = new HashMap<>();
         tileOrderConvertToPropertyNames = new HashMap<>();
+        propertyNamesConvertToTileOrder = new HashMap<>();
         initializePropertyNameStringMap();
         initializePropertyMap();
         initializeTileOrderConvertToPropertyNames();
+        initializePropertyNamesConvertToTileOrder();
 
         this.playerProcessor = playerProcessor;
     }
@@ -30,29 +33,40 @@ public class PropertyProcessor {
     public Property getProperty(PropertyNames propertyNames) {
         return propertyMap.get(propertyNames);
     }
-    public PropertyNames convertBoardPropertyTileOrderToPopertyNames(PropertyTileOrder propertyTileOrder){
-        return tileOrderConvertToPropertyNames.get(propertyTileOrder);
-    }
 
-    public String getPropertyNameString(PropertyNames propertyNames) {
+    public String convertPropertyNameToString(PropertyNames propertyNames) {
         return propertyNamesStringMap.get(propertyNames);
     }
 
-    public ArrayList<Property> findOwnedProperties() {
+    public PropertyNames convertBoardPropertyTileOrderToPropertyNames(PropertyTileOrder propertyTileOrder){
+        return tileOrderConvertToPropertyNames.get(propertyTileOrder);
+    }
+
+    public PropertyTileOrder convertNameToTile(PropertyNames propertyNames){
+        return propertyNamesConvertToTileOrder.get(propertyNames);
+    }
+
+    private void findOwnedProperties(ArrayList<Property> ownedProperties) {
         PlayerToken playerToken = playerProcessor.getActivePlayer().getPlayerToken();
 
-        ArrayList<Property> ownedProperties = new ArrayList<>();
+        //ArrayList<Property> ownedProperties = new ArrayList<>();
         for (Property property : propertyMap.values()) {
-            if (property.getPlayerTokenOwner() == playerToken) {
+            if (property.getOwner() == playerToken) {
                 ownedProperties.add(property);
             }
         }
-
-        return ownedProperties;
     }
 
-    public void findSellableProperties(ArrayList<Property> ownedProperties){
-        ownedProperties.removeIf(property -> property.getHouseCount() > 0 || property.hotelExists() || property.isMortgaged());
+    public void setPropertyOwnership(PlayerToken playerToken, PropertyNames propertyName){
+        propertyMap.get(propertyName).setOwner(playerToken);
+    }
+
+    public ArrayList<Property> findSellableProperties(){
+        ArrayList<Property> ownedProperties = new ArrayList<>();
+        findOwnedProperties(ownedProperties);
+        ownedProperties.removeIf(property -> property.getHouseCount() > 0 || property.hotelExists());
+
+        return ownedProperties;
     }
 
     private void initializePropertyNameStringMap() {
@@ -196,7 +210,7 @@ public class PropertyProcessor {
 
     }
 
-    public void initializeTileOrderConvertToPropertyNames(){
+    private void initializeTileOrderConvertToPropertyNames(){
         tileOrderConvertToPropertyNames.put(PropertyTileOrder.MEDITERRANEAN_AVENUE, PropertyNames.MEDITERRANEAN_AVENUE);
         tileOrderConvertToPropertyNames.put(PropertyTileOrder.BALTIC_AVENUE, PropertyNames.BALTIC_AVENUE);
         tileOrderConvertToPropertyNames.put(PropertyTileOrder.ORIENTAL_AVENUE, PropertyNames.ORIENTAL_AVENUE);
@@ -226,5 +240,36 @@ public class PropertyProcessor {
         tileOrderConvertToPropertyNames.put(PropertyTileOrder.B_AND_O_RAILROAD, PropertyNames.B_AND_O_RAILROAD);
         tileOrderConvertToPropertyNames.put(PropertyTileOrder.SHORT_LINE_RAILROAD, PropertyNames.SHORT_LINE_RAILROAD);
 
+    }
+
+    private void initializePropertyNamesConvertToTileOrder() {
+        propertyNamesConvertToTileOrder.put(PropertyNames.MEDITERRANEAN_AVENUE, PropertyTileOrder.MEDITERRANEAN_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.BALTIC_AVENUE, PropertyTileOrder.BALTIC_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ORIENTAL_AVENUE, PropertyTileOrder.ORIENTAL_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.VERMONT_AVENUE, PropertyTileOrder.VERMONT_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.CONNECTICUT_AVENUE, PropertyTileOrder.CONNECTICUT_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ST_CHARLES_PLACE, PropertyTileOrder.ST_CHARLES_PLACE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.STATES_AVENUE, PropertyTileOrder.STATES_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.VIRGINIA_AVENUE, PropertyTileOrder.VIRGINIA_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ST_JAMES_PLACE, PropertyTileOrder.ST_JAMES_PLACE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.TENNESSEE_AVENUE, PropertyTileOrder.TENNESSEE_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.NEW_YORK_AVENUE, PropertyTileOrder.NEW_YORK_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.KENTUCKY_AVENUE, PropertyTileOrder.KENTUCKY_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.INDIANA_AVENUE, PropertyTileOrder.INDIANA_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ILLINOIS_AVENUE, PropertyTileOrder.ILLINOIS_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ATLANTIC_AVENUE, PropertyTileOrder.ATLANTIC_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.VENTNOR_AVENUE, PropertyTileOrder.VENTNOR_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.MARVIN_GARDENS, PropertyTileOrder.MARVIN_GARDENS);
+        propertyNamesConvertToTileOrder.put(PropertyNames.PACIFIC_AVENUE, PropertyTileOrder.PACIFIC_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.NORTH_CAROLINA_AVENUE, PropertyTileOrder.NORTH_CAROLINA_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.PENNSYLVANIA_AVENUE, PropertyTileOrder.PENNSYLVANIA_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.PARK_PLACE, PropertyTileOrder.PARK_PLACE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.BOARDWALK, PropertyTileOrder.BOARDWALK);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ELECTRIC_COMPANY, PropertyTileOrder.ELECTRIC_COMPANY);
+        propertyNamesConvertToTileOrder.put(PropertyNames.WATER_WORKS, PropertyTileOrder.WATER_WORKS);
+        propertyNamesConvertToTileOrder.put(PropertyNames.READING_RAILROAD, PropertyTileOrder.READING_RAILROAD);
+        propertyNamesConvertToTileOrder.put(PropertyNames.PENNSYLVANIA_RAILROAD, PropertyTileOrder.PENNSYLVANIA_RAILROAD);
+        propertyNamesConvertToTileOrder.put(PropertyNames.B_AND_O_RAILROAD, PropertyTileOrder.B_AND_O_RAILROAD);
+        propertyNamesConvertToTileOrder.put(PropertyNames.SHORT_LINE_RAILROAD, PropertyTileOrder.SHORT_LINE_RAILROAD);
     }
 }
