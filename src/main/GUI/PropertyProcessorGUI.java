@@ -36,12 +36,14 @@ public class PropertyProcessorGUI {
     private final ArrayList<Integer> yCoordinateViewList;
     private final ArrayList<Float> elementTextSizeList;
 
-    private BufferedImage propertyImageTemplateBUfferedImage;
+    private BufferedImage propertyImageTemplateBufferedImage;
     private JLabel propertyImageTemplateLabel;
     private JLayeredPane propertyViewPane;
 
     private final PropertyProcessor propertyProcessor;
     private InvisibleBoardButtonGUI invisibleBoardButtonGUI;
+//    private final SellPropertySubBoxGUI sellPropertySubBoxGUI;
+//    private final SelectionBoxButtonGUI selectionBoxButtonGUI;
 
     public PropertyProcessorGUI(PropertyProcessor propertyProcessor, JLayeredPane boardSidePane) throws IOException {
 
@@ -53,6 +55,7 @@ public class PropertyProcessorGUI {
         tileButtonCoordinateMap = new HashMap<>();
         propertyViewMap = new HashMap<>();
         enableSellMap = new HashMap<>();
+        enableSellMapSetup();
 
         elementLabelList = new ArrayList<>();
         xCoordinateTileButtonList = new ArrayList<>(Arrays.asList(875,718,562,483,327,249,128,128,128,128,128,128,128,128,249,405,483,561,639,717,796,874,953,953,953,953,953,953));
@@ -63,13 +66,27 @@ public class PropertyProcessorGUI {
 
         this.propertyProcessor = propertyProcessor;
 
+        //this.sellPropertySubBoxGUI = sellPropertySubBoxGUI;
+
+        //this.selectionBoxButtonGUI = selectionBoxButtonGUI;
+
         propertyPaneSetup(boardSidePane);
         propertyImageBlankLabelSetup();
         elementLabelListSetup();
         coordinateMapSetup();
         propertyViewSetup(boardSidePane);
         removeViewInvisibleButtonSetup(boardSidePane);
-        checkIfSellablePropertySetup();
+        //checkIfSellablePropertySetup();
+    }
+
+    public HashMap<PropertyTileOrder, JButton> getTileButtonMap() {
+        return tileButtonMap;
+    }
+
+    public void enableSellMapSetup(){
+        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()){
+            enableSellMap.put(propertyTile, false);
+        }
     }
 
     // add large property display to the board Side Pane
@@ -80,8 +97,8 @@ public class PropertyProcessorGUI {
     }
 
     public void propertyImageBlankLabelSetup() throws IOException {
-        propertyImageTemplateBUfferedImage = ImageIO.read(new File("src/main/MonopolyImages/monopolyPropertyBlank.png"));
-        propertyImageTemplateLabel = new JLabel(new ImageIcon(propertyImageTemplateBUfferedImage.getScaledInstance(propertyViewWidth, propertyViewHeight, Image.SCALE_SMOOTH)));
+        propertyImageTemplateBufferedImage = ImageIO.read(new File("src/main/MonopolyImages/monopolyPropertyBlank.png"));
+        propertyImageTemplateLabel = new JLabel(new ImageIcon(propertyImageTemplateBufferedImage.getScaledInstance(propertyViewWidth, propertyViewHeight, Image.SCALE_SMOOTH)));
         propertyImageTemplateLabel.setBounds(0,0, propertyViewWidth, propertyViewHeight);
         propertyImageTemplateLabel.setHorizontalAlignment(0);
         propertyImageTemplateLabel.setVisible(false);
@@ -173,6 +190,10 @@ public class PropertyProcessorGUI {
             // add large property display to the propertyPane
             propertyViewPane.add(propertyViewMap.get(propertyTile), JLayeredPane.MODAL_LAYER);
         }
+    }
+
+    public HashMap<PropertyTileOrder, Boolean> getEnableSellMap(){
+        return enableSellMap;
     }
 
     public void tileButtonBuilder(PropertyTileOrder propertyTile ,JLabel viewPropertyLabel, JLayeredPane boardSidePane) throws IOException {
@@ -357,51 +378,16 @@ public class PropertyProcessorGUI {
     }
 
     public void enableSellableProperty(){
-        ArrayList<Property> ownedProperties;
-
         // locates all the properties owned by the active player
-        ownedProperties = propertyProcessor.findSellableProperties();
+        ArrayList<Property> ownedProperties = propertyProcessor.findSellableProperties();
 
         // sets each property to be sellable for the active player as bool true
         for(Property property : ownedProperties) {
             PropertyTileOrder propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
 
+            //System.out.println(propertyTile.toString() + " Converted");
+
             enableSellMap.put(propertyTile, true);
-        }
-    }
-
-    // adds a mouse listener to each property tile button to enable selling
-    public void checkIfSellablePropertySetup(){
-        // sets all properties to be false for selling
-        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()){
-            enableSellMap.put(propertyTile, false);
-        }
-
-        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()){
-            tileButtonMap.get(propertyTile).addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e){
-                    if(enableSellMap.get(propertyTile)) {
-                        // sell property
-                        System.out.println("Sell Property: " + propertyTile);
-                    }
-                }
-            });
-        }
-    }
-
-    public void checkIfSellablePropertySetup2(){
-
-        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()){
-            tileButtonMap.get(propertyTile).addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e){
-                    if(enableSellMap.get(propertyTile)) {
-                        // sell property
-                        System.out.println("Sell Property: " + propertyTile);
-                    }
-                }
-            });
         }
     }
 

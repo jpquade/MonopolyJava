@@ -3,7 +3,6 @@ package main;
 import main.Data.GameData;
 import main.Enums.PlayerToken;
 import main.Enums.PropertyNames;
-import main.Enums.PropertyTileOrder;
 import main.Enums.TransactionType;
 import main.Functions.MoneyProcessor;
 import main.Functions.PropertyProcessor;
@@ -34,15 +33,20 @@ public class App {
         CommandBoxGUI commandBoxGUI = new CommandBoxGUI();
         TransactionHistoryGUI transactionHistoryGUI = new TransactionHistoryGUI();
         MoneyProcessor moneyProcessor = new MoneyProcessor(playerProcessor, transactionHistoryGUI, commandBoxGUI);
-        //SelectionBoxButtonGUI selectionBoxButtonGUI = new SelectionBoxButtonGUI(moneyProcessor, commandBoxGUI);
-        SellPropertySubBoxGUI sellPropertySubBoxGUI = new SellPropertySubBoxGUI(moneyProcessor, commandBoxGUI);
         PropertyProcessorGUI propertyProcessorGUI = new PropertyProcessorGUI(propertyProcessor, boardSidePane);
+        SellPropertySubBoxGUI sellPropertySubBoxGUI = new SellPropertySubBoxGUI(moneyProcessor, commandBoxGUI, propertyProcessor);
+        SelectionBoxButtonGUI selectionBoxButtonGUI = new SelectionBoxButtonGUI(moneyProcessor, commandBoxGUI, propertyProcessorGUI, sellPropertySubBoxGUI);
+
+
+
+
+        //selectionBoxButtonGUI = new SelectionBoxButtonGUI(moneyProcessor, commandBoxGUI, propertyProcessorGUI);
 
         //JLayeredPane informationSidePane = new JLayeredPane();
         TokenGUI tokenGUI = new TokenGUI(boardSidePane);
 
         informationPane.add(commandBoxGUI.getCommandBoxGUIPanel());
-        //informationPane.add(selectionBoxButtonGUI.getSelectionBoxButtonPanel());
+        informationPane.add(selectionBoxButtonGUI.getSelectionBoxButtonPanel());
         informationPane.add(sellPropertySubBoxGUI.getSellPropertySubBoxGUIPanel());
         informationPane.add(transactionHistoryGUI.getHistoryPanel());
 
@@ -66,8 +70,8 @@ public class App {
         DrawCardGUI drawCardGUI = new DrawCardGUI(boardSidePane);
 
         //selectionBoxButtonGUI.paymentOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE);
-        //selectionBoxButtonGUI.actionOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE, propertyProcessorGUI);
-        sellPropertySubBoxGUI.actionOptions();
+        selectionBoxButtonGUI.paymentOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE, propertyProcessorGUI);
+        //sellPropertySubBoxGUI.actionOptions();
         //selectionBoxButtonGUI.actionOptions();
         //System.out.println(drawCardGUI.drawAChanceCard().toString());
         //System.out.println(drawCardGUI.drawACommunityChestCard().toString());

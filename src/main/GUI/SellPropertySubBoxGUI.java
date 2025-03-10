@@ -1,78 +1,118 @@
 package main.GUI;
 
 import main.Enums.PlayerToken;
+import main.Enums.PropertyNames;
 import main.Enums.PropertyTileOrder;
-import main.Enums.TransactionType;
 import main.Functions.MoneyProcessor;
+import main.Functions.PropertyProcessor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SellPropertySubBoxGUI {
-    private final MoneyProcessor moneyProcessor;
-    private final CommandBoxGUI commandBoxGUI;
+
+    private final PropertyProcessor propertyProcessor;
+    private PropertyTileOrder currentPropertyName;
     final private JPanel sellPropertySubBoxGUIPanel;
     final int MAX_BUTTONS;
-    //private final ArrayList<JButton> buttonList;
-    private int buttonTempIndex;
 
     private final JLabel propertyDisplay = new JLabel();
 
-    private final JList<String> list;
+    //private final JList<String> list;
 
-    public SellPropertySubBoxGUI(MoneyProcessor moneyProcessor, CommandBoxGUI commandBoxGUI) {
-        this.moneyProcessor = moneyProcessor;
-        this.commandBoxGUI = commandBoxGUI;
+    private enum ButtonType {
+        PROPERTY_DISPLAY,
+        PRICE_DISPLAY,
+        PLAYER_LIST_DISPLAY,
+        CONFIRM_BUTTON,
+        CANCEL_BUTTON
+    }
+
+    public SellPropertySubBoxGUI(MoneyProcessor moneyProcessor, CommandBoxGUI commandBoxGUI, PropertyProcessor propertyProcessor) {
+        this.propertyProcessor = propertyProcessor;
         sellPropertySubBoxGUIPanel = new JPanel();
-        MAX_BUTTONS = 10;
+        MAX_BUTTONS = 12;
         sellPropertySubBoxGUIPanel.setBounds(20, 250, 450, 350);
-        sellPropertySubBoxGUIPanel.setLayout(new GridLayout(0, 1));
+        sellPropertySubBoxGUIPanel.setLayout(new GridLayout(12, 1));
         sellPropertySubBoxGUIPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         sellPropertySubBoxGUIPanel.setOpaque(false);
-        sellPropertySubBoxGUIPanel.setVisible(true);
+        sellPropertySubBoxGUIPanel.setVisible(false);
         sellPropertySubBoxGUIPanel.add(new JLabel("<html><u>Sell Property</u></html>"));
-        buttonTempIndex = 0;
 
-        //list = new JList<>();
-
-        String[] playerList = {"Player 1", "Player 2", "Player 3"};
-        list = new JList<>(playerList);
-
-
-
-//        buttonList = new ArrayList<>();
-//        for (int i = 0; i < MAX_BUTTONS; i++) {
-//            buttonList.add(new JButton());
-//            buttonList.get(i).setHorizontalAlignment(SwingConstants.LEFT);
-//            buttonList.get(i).setVisible(false);
-//        }
-//
-//        for (JButton button : buttonList) {
-//            sellPropertySubBoxGUI.add(button);
-//        }
+        sellPropertySubBoxGUIPanel.add(propertyDisplay);
     }
 
     public JPanel getSellPropertySubBoxGUIPanel() {
         return sellPropertySubBoxGUIPanel;
     }
 
-    public void propertyDisplay(PropertyTileOrder propertyTile){
+    public void sellingPropertyMenu() {
+        // TODO - enable this method for use independently
+
+        sellPropertySubBoxGUIPanel.removeAll();
+        sellPropertySubBoxGUIPanel.add(new JLabel("<html><u>Sell Property</u></html>"));
+
+        for(ButtonType buttonType : ButtonType.values()){
+
+            switch(buttonType){
+                case PROPERTY_DISPLAY:
+                    propertyNameTag();
+                    break;
+                case PRICE_DISPLAY:
+                    playerListDisplay();
+                    break;
+                case PLAYER_LIST_DISPLAY:
+                    break;
+                case CONFIRM_BUTTON:
+                    break;
+                case CANCEL_BUTTON:
+                    break;
+            }
+        }
+        sellPropertySubBoxGUIPanel.setVisible(true);
+
+    }
+
+    public void propertyNameTag(){
         // TODO - add logic
-        propertyDisplay.setText("Sell: " + propertyTile.toString());
+        PropertyNames propertyNames = propertyProcessor.convertBoardPropertyTileOrderToPropertyNames(currentPropertyName);
+        String name = propertyProcessor.convertPropertyNameToString(propertyNames);
+        propertyDisplay.setText("Sell: " + name + " to: ");
         sellPropertySubBoxGUIPanel.add(propertyDisplay);
+    }
+
+    public void priceDisplay(){
+        // TODO - add logic
+        
     }
 
     public void playerListDisplay(){
 
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        HashMap<String, PlayerToken> playerList = new HashMap<>();
 
-        JScrollPane listScroll = new JScrollPane(list);
-        sellPropertySubBoxGUIPanel.add(listScroll);
-        listScroll.setVisible(true);
-        //list.getSelectedIndex();
-        System.out.println(list.getSelectedIndex());
+        for(PlayerToken playerToken : PlayerToken.values()){
+            if(playerToken != PlayerToken.NONE){
+                playerList.put(playerToken.toString(), playerToken);
+            }
+        }
+
+        JComboBox<String> jComboBox = new JComboBox<>(playerList.keySet().toArray(new String[0]));
+        jComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedPlayer = (String)jComboBox.getSelectedItem();
+
+                System.out.println(selectedPlayer);
+            }
+        });
+
+        sellPropertySubBoxGUIPanel.add(jComboBox);
+
+        //System.out.println(list.getSelectedIndex());
 
     }
 
@@ -89,158 +129,7 @@ public class SellPropertySubBoxGUI {
         });
     }
 
-    public void actionOptions() {
-        // TODO - enable this method for use independently
-
-        // clears the button index list for new buttons
-        resetButtonIndex();
-
-        String[] financialOptions = {"propertyDisplay", "playerListDisplay"};
-
-        for(String methodName : financialOptions){
-            switch(methodName){
-                case "propertyDisplay":
-                    //payButton(transactionType, otherPlayerToken, cost);
-                    break;
-                case "playerListDisplay":
-                    //sellPropertyButton(propertyProcessorGUI);
-                    break;
-            }
-            incrementButtonIndex();
-        }
-
-    }
-
-    // TODO - add sell""
-    // add to player
-    // add for:
-    // confirm/cancel
-
-
-
-//    public void actionOptions(TransactionType transactionType, int cost, PlayerToken otherPlayerToken) {
-//        resetButtonIndex();
-//
-//    }
-
-//    public void payButton(TransactionType transactionType, PlayerToken otherPlayerToken, int cost){
-//        commandBoxGUI.setMessage("Make a payment");
-//        JButton payButton = buttonList.get(buttonTempIndex);
-//
-//        payButton.setText("Pay: " + cost);
-//        payButton.setVisible(true);
-//        payButton.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(moneyProcessor.transactionHandler(transactionType, otherPlayerToken, cost)) {
-//                    for (JButton button : buttonList) {
-//                        button.setVisible(false);
-//                    }
-//                }
-//            }
-//        });
-//    }
-
-//    // TODO - Work on this one first
-//    // player trades property with another player
-//    private void sellPropertyButton(PropertyProcessorGUI propertyProcessorGUI) {
-//
-//        JButton tradeButton = buttonList.get(buttonTempIndex);
-//
-//        // TODO - make properties sellable with cash only
-//
-//        tradeButton.setText("Sell properties");
-//        tradeButton.setVisible(true);
-//        tradeButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//                // make all the financial buttons invisible
-//                for(JButton button : buttonList){
-//                    button.setVisible(false);
-//                }
-//                commandBoxGUI.setMessage("Pick a property to trade");
-//            }
-//
-//        });
-//        tradeButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                propertyProcessorGUI.showSellableProperty();
-//                propertyProcessorGUI.enableSellableProperty();
-//            }
-//        });
-//    }
-
-
-
-//    private void unMortgageButton() {
-//        // TODO - add logic
-//    }
-//
-//    private void buildHouseButton() {
-//        // TODO - add logic
-//    }
-//
-//    private void sellHouseButton() {
-//        // TODO - add logic
-//    }
-//
-//    private void buildHotelButton() {
-//        // TODO - add logic
-//    }
-//
-//    private void sellHotelButton() {
-//        // TODO - add logic
-//    }
-//
-//    private void endTurnButton() {
-//        // TODO - add logic
-//    }
-
-//    public void sellPropertyOptions(PropertyTileOrder propertyTile){
-//        JButton propertyNameButton = new JButton();
-//        propertyNameButton.setText("Sell: " + propertyTile.toString());
-//
-//
-//    }
-
-//    public void sellPropertyButton(){
-//        buttonList.get(buttonTempIndex).setText("Sell Properties");
-//        buttonList.get(buttonTempIndex).setVisible(true);
-//        buttonList.get(buttonTempIndex).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-////                    for(JButton button : buttonList){
-////                        button.setVisible(false);
-////                    }
-//            }
-//        });
-//    }
-
-//    public void mortgageButton(){
-//
-//        // need list of properties to sell
-//
-//        buttonList.get(buttonTempIndex).setText("HighLight Properties You Can Mortgage");
-//        buttonList.get(buttonTempIndex).setVisible(true);
-//        buttonList.get(buttonTempIndex).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                for(JButton button : buttonList){
-//                    button.setVisible(false);
-//                }
-//            }
-//        });
-//    }
-
-    // button location index
-    private void incrementButtonIndex(){
-        buttonTempIndex++;
-    }
-    // reset button location index
-    private void resetButtonIndex(){
-        buttonTempIndex = 0;
+    public void retrieveProperty(PropertyTileOrder propertyTile) {
+        currentPropertyName = propertyTile;
     }
 }
