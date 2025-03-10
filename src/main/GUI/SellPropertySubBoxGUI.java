@@ -22,6 +22,8 @@ public class SellPropertySubBoxGUI {
 
     private final JLabel propertyDisplay = new JLabel();
 
+    JComboBox<String> jComboBox;
+
     //private final JList<String> list;
 
     private enum ButtonType {
@@ -43,7 +45,9 @@ public class SellPropertySubBoxGUI {
         sellPropertySubBoxGUIPanel.setVisible(false);
         sellPropertySubBoxGUIPanel.add(new JLabel("<html><u>Sell Property</u></html>"));
 
-        sellPropertySubBoxGUIPanel.add(propertyDisplay);
+        //sellPropertySubBoxGUIPanel.add(propertyDisplay);
+
+        panelObjectsSetup();
     }
 
     public JPanel getSellPropertySubBoxGUIPanel() {
@@ -77,11 +81,15 @@ public class SellPropertySubBoxGUI {
 
     }
 
+    public void panelObjectsSetup(){
+        playerListDisplaySetup();
+    }
+
     public void propertyNameTag(){
         // TODO - add logic
         PropertyNames propertyNames = propertyProcessor.convertBoardPropertyTileOrderToPropertyNames(currentPropertyName);
         String name = propertyProcessor.convertPropertyNameToString(propertyNames);
-        propertyDisplay.setText("Sell: " + name + " to: ");
+        propertyDisplay.setText("Sell " + name + " to: ");
         sellPropertySubBoxGUIPanel.add(propertyDisplay);
     }
 
@@ -90,7 +98,7 @@ public class SellPropertySubBoxGUI {
         
     }
 
-    public void playerListDisplay(){
+    public void playerListDisplaySetup(){
 
         HashMap<String, PlayerToken> playerList = new HashMap<>();
 
@@ -100,7 +108,8 @@ public class SellPropertySubBoxGUI {
             }
         }
 
-        JComboBox<String> jComboBox = new JComboBox<>(playerList.keySet().toArray(new String[0]));
+        //JComboBox<String> jComboBox = new JComboBox<>(playerList.keySet().toArray(new String[0]));
+        jComboBox = new JComboBox<>(playerList.keySet().toArray(new String[0]));
         jComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,10 +119,17 @@ public class SellPropertySubBoxGUI {
             }
         });
 
+        jComboBox.setVisible(true);
+
         sellPropertySubBoxGUIPanel.add(jComboBox);
 
         //System.out.println(list.getSelectedIndex());
 
+    }
+
+    public void playerListDisplay(){
+        //jComboBox.setVisible(true);
+        sellPropertySubBoxGUIPanel.add(jComboBox);
     }
 
     public void confirmButton(){
