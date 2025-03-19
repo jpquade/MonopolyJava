@@ -10,8 +10,8 @@ public class PropertyProcessor {
 
     private final HashMap<PropertyNames, String> propertyNamesStringMap;
     private final HashMap<PropertyNames, Property> propertyMap;
-    private final HashMap<PropertyTileOrder, PropertyNames> tileOrderConvertToPropertyNames;
-    private final HashMap<PropertyNames, PropertyTileOrder> propertyNamesConvertToTileOrder;
+    private final HashMap<PropertyTile, PropertyNames> tileOrderConvertToPropertyNames;
+    private final HashMap<PropertyNames, PropertyTile> propertyNamesConvertToTileOrder;
 
     private final PlayerProcessor playerProcessor;
 
@@ -38,16 +38,16 @@ public class PropertyProcessor {
         return propertyNamesStringMap.get(propertyNames);
     }
 
-    public PropertyNames convertBoardPropertyTileOrderToPropertyNames(PropertyTileOrder propertyTileOrder){
-        return tileOrderConvertToPropertyNames.get(propertyTileOrder);
+    public PropertyNames convertBoardPropertyTileOrderToPropertyNames(PropertyTile propertyTile){
+        return tileOrderConvertToPropertyNames.get(propertyTile);
     }
 
-    public PropertyTileOrder convertNameToTile(PropertyNames propertyNames){
+    public PropertyTile convertNameToTile(PropertyNames propertyNames){
         return propertyNamesConvertToTileOrder.get(propertyNames);
     }
 
     private void findOwnedProperties(ArrayList<Property> ownedProperties) {
-        PlayerToken playerToken = playerProcessor.getActivePlayer().getPlayerToken();
+        PlayerToken playerToken = playerProcessor.getActivePlayer().getToken();
 
         //ArrayList<Property> ownedProperties = new ArrayList<>();
         for (Property property : propertyMap.values()) {
@@ -211,65 +211,72 @@ public class PropertyProcessor {
     }
 
     private void initializeTileOrderConvertToPropertyNames(){
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.MEDITERRANEAN_AVENUE, PropertyNames.MEDITERRANEAN_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.BALTIC_AVENUE, PropertyNames.BALTIC_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.ORIENTAL_AVENUE, PropertyNames.ORIENTAL_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.VERMONT_AVENUE, PropertyNames.VERMONT_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.CONNECTICUT_AVENUE, PropertyNames.CONNECTICUT_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.ST_CHARLES_PLACE, PropertyNames.ST_CHARLES_PLACE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.STATES_AVENUE, PropertyNames.STATES_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.VIRGINIA_AVENUE, PropertyNames.VIRGINIA_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.ST_JAMES_PLACE, PropertyNames.ST_JAMES_PLACE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.TENNESSEE_AVENUE, PropertyNames.TENNESSEE_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.NEW_YORK_AVENUE, PropertyNames.NEW_YORK_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.KENTUCKY_AVENUE, PropertyNames.KENTUCKY_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.INDIANA_AVENUE, PropertyNames.INDIANA_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.ILLINOIS_AVENUE, PropertyNames.ILLINOIS_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.ATLANTIC_AVENUE, PropertyNames.ATLANTIC_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.VENTNOR_AVENUE, PropertyNames.VENTNOR_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.MARVIN_GARDENS, PropertyNames.MARVIN_GARDENS);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.PACIFIC_AVENUE, PropertyNames.PACIFIC_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.NORTH_CAROLINA_AVENUE, PropertyNames.NORTH_CAROLINA_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.PENNSYLVANIA_AVENUE, PropertyNames.PENNSYLVANIA_AVENUE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.PARK_PLACE, PropertyNames.PARK_PLACE);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.BOARDWALK, PropertyNames.BOARDWALK);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.ELECTRIC_COMPANY, PropertyNames.ELECTRIC_COMPANY);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.WATER_WORKS, PropertyNames.WATER_WORKS);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.READING_RAILROAD, PropertyNames.READING_RAILROAD);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.PENNSYLVANIA_RAILROAD, PropertyNames.PENNSYLVANIA_RAILROAD);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.B_AND_O_RAILROAD, PropertyNames.B_AND_O_RAILROAD);
-        tileOrderConvertToPropertyNames.put(PropertyTileOrder.SHORT_LINE_RAILROAD, PropertyNames.SHORT_LINE_RAILROAD);
+        tileOrderConvertToPropertyNames.put(PropertyTile.MEDITERRANEAN_AVENUE, PropertyNames.MEDITERRANEAN_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.BALTIC_AVENUE, PropertyNames.BALTIC_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.ORIENTAL_AVENUE, PropertyNames.ORIENTAL_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.VERMONT_AVENUE, PropertyNames.VERMONT_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.CONNECTICUT_AVENUE, PropertyNames.CONNECTICUT_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.ST_CHARLES_PLACE, PropertyNames.ST_CHARLES_PLACE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.STATES_AVENUE, PropertyNames.STATES_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.VIRGINIA_AVENUE, PropertyNames.VIRGINIA_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.ST_JAMES_PLACE, PropertyNames.ST_JAMES_PLACE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.TENNESSEE_AVENUE, PropertyNames.TENNESSEE_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.NEW_YORK_AVENUE, PropertyNames.NEW_YORK_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.KENTUCKY_AVENUE, PropertyNames.KENTUCKY_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.INDIANA_AVENUE, PropertyNames.INDIANA_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.ILLINOIS_AVENUE, PropertyNames.ILLINOIS_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.ATLANTIC_AVENUE, PropertyNames.ATLANTIC_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.VENTNOR_AVENUE, PropertyNames.VENTNOR_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.MARVIN_GARDENS, PropertyNames.MARVIN_GARDENS);
+        tileOrderConvertToPropertyNames.put(PropertyTile.PACIFIC_AVENUE, PropertyNames.PACIFIC_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.NORTH_CAROLINA_AVENUE, PropertyNames.NORTH_CAROLINA_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.PENNSYLVANIA_AVENUE, PropertyNames.PENNSYLVANIA_AVENUE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.PARK_PLACE, PropertyNames.PARK_PLACE);
+        tileOrderConvertToPropertyNames.put(PropertyTile.BOARDWALK, PropertyNames.BOARDWALK);
+        tileOrderConvertToPropertyNames.put(PropertyTile.ELECTRIC_COMPANY, PropertyNames.ELECTRIC_COMPANY);
+        tileOrderConvertToPropertyNames.put(PropertyTile.WATER_WORKS, PropertyNames.WATER_WORKS);
+        tileOrderConvertToPropertyNames.put(PropertyTile.READING_RAILROAD, PropertyNames.READING_RAILROAD);
+        tileOrderConvertToPropertyNames.put(PropertyTile.PENNSYLVANIA_RAILROAD, PropertyNames.PENNSYLVANIA_RAILROAD);
+        tileOrderConvertToPropertyNames.put(PropertyTile.B_AND_O_RAILROAD, PropertyNames.B_AND_O_RAILROAD);
+        tileOrderConvertToPropertyNames.put(PropertyTile.SHORT_LINE_RAILROAD, PropertyNames.SHORT_LINE_RAILROAD);
 
     }
 
     private void initializePropertyNamesConvertToTileOrder() {
-        propertyNamesConvertToTileOrder.put(PropertyNames.MEDITERRANEAN_AVENUE, PropertyTileOrder.MEDITERRANEAN_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.BALTIC_AVENUE, PropertyTileOrder.BALTIC_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.ORIENTAL_AVENUE, PropertyTileOrder.ORIENTAL_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.VERMONT_AVENUE, PropertyTileOrder.VERMONT_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.CONNECTICUT_AVENUE, PropertyTileOrder.CONNECTICUT_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.ST_CHARLES_PLACE, PropertyTileOrder.ST_CHARLES_PLACE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.STATES_AVENUE, PropertyTileOrder.STATES_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.VIRGINIA_AVENUE, PropertyTileOrder.VIRGINIA_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.ST_JAMES_PLACE, PropertyTileOrder.ST_JAMES_PLACE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.TENNESSEE_AVENUE, PropertyTileOrder.TENNESSEE_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.NEW_YORK_AVENUE, PropertyTileOrder.NEW_YORK_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.KENTUCKY_AVENUE, PropertyTileOrder.KENTUCKY_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.INDIANA_AVENUE, PropertyTileOrder.INDIANA_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.ILLINOIS_AVENUE, PropertyTileOrder.ILLINOIS_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.ATLANTIC_AVENUE, PropertyTileOrder.ATLANTIC_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.VENTNOR_AVENUE, PropertyTileOrder.VENTNOR_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.MARVIN_GARDENS, PropertyTileOrder.MARVIN_GARDENS);
-        propertyNamesConvertToTileOrder.put(PropertyNames.PACIFIC_AVENUE, PropertyTileOrder.PACIFIC_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.NORTH_CAROLINA_AVENUE, PropertyTileOrder.NORTH_CAROLINA_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.PENNSYLVANIA_AVENUE, PropertyTileOrder.PENNSYLVANIA_AVENUE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.PARK_PLACE, PropertyTileOrder.PARK_PLACE);
-        propertyNamesConvertToTileOrder.put(PropertyNames.BOARDWALK, PropertyTileOrder.BOARDWALK);
-        propertyNamesConvertToTileOrder.put(PropertyNames.ELECTRIC_COMPANY, PropertyTileOrder.ELECTRIC_COMPANY);
-        propertyNamesConvertToTileOrder.put(PropertyNames.WATER_WORKS, PropertyTileOrder.WATER_WORKS);
-        propertyNamesConvertToTileOrder.put(PropertyNames.READING_RAILROAD, PropertyTileOrder.READING_RAILROAD);
-        propertyNamesConvertToTileOrder.put(PropertyNames.PENNSYLVANIA_RAILROAD, PropertyTileOrder.PENNSYLVANIA_RAILROAD);
-        propertyNamesConvertToTileOrder.put(PropertyNames.B_AND_O_RAILROAD, PropertyTileOrder.B_AND_O_RAILROAD);
-        propertyNamesConvertToTileOrder.put(PropertyNames.SHORT_LINE_RAILROAD, PropertyTileOrder.SHORT_LINE_RAILROAD);
+        propertyNamesConvertToTileOrder.put(PropertyNames.MEDITERRANEAN_AVENUE, PropertyTile.MEDITERRANEAN_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.BALTIC_AVENUE, PropertyTile.BALTIC_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ORIENTAL_AVENUE, PropertyTile.ORIENTAL_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.VERMONT_AVENUE, PropertyTile.VERMONT_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.CONNECTICUT_AVENUE, PropertyTile.CONNECTICUT_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ST_CHARLES_PLACE, PropertyTile.ST_CHARLES_PLACE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.STATES_AVENUE, PropertyTile.STATES_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.VIRGINIA_AVENUE, PropertyTile.VIRGINIA_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ST_JAMES_PLACE, PropertyTile.ST_JAMES_PLACE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.TENNESSEE_AVENUE, PropertyTile.TENNESSEE_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.NEW_YORK_AVENUE, PropertyTile.NEW_YORK_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.KENTUCKY_AVENUE, PropertyTile.KENTUCKY_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.INDIANA_AVENUE, PropertyTile.INDIANA_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ILLINOIS_AVENUE, PropertyTile.ILLINOIS_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ATLANTIC_AVENUE, PropertyTile.ATLANTIC_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.VENTNOR_AVENUE, PropertyTile.VENTNOR_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.MARVIN_GARDENS, PropertyTile.MARVIN_GARDENS);
+        propertyNamesConvertToTileOrder.put(PropertyNames.PACIFIC_AVENUE, PropertyTile.PACIFIC_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.NORTH_CAROLINA_AVENUE, PropertyTile.NORTH_CAROLINA_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.PENNSYLVANIA_AVENUE, PropertyTile.PENNSYLVANIA_AVENUE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.PARK_PLACE, PropertyTile.PARK_PLACE);
+        propertyNamesConvertToTileOrder.put(PropertyNames.BOARDWALK, PropertyTile.BOARDWALK);
+        propertyNamesConvertToTileOrder.put(PropertyNames.ELECTRIC_COMPANY, PropertyTile.ELECTRIC_COMPANY);
+        propertyNamesConvertToTileOrder.put(PropertyNames.WATER_WORKS, PropertyTile.WATER_WORKS);
+        propertyNamesConvertToTileOrder.put(PropertyNames.READING_RAILROAD, PropertyTile.READING_RAILROAD);
+        propertyNamesConvertToTileOrder.put(PropertyNames.PENNSYLVANIA_RAILROAD, PropertyTile.PENNSYLVANIA_RAILROAD);
+        propertyNamesConvertToTileOrder.put(PropertyNames.B_AND_O_RAILROAD, PropertyTile.B_AND_O_RAILROAD);
+        propertyNamesConvertToTileOrder.put(PropertyNames.SHORT_LINE_RAILROAD, PropertyTile.SHORT_LINE_RAILROAD);
+    }
+
+    public void transferProperty(PropertyTile currentPropertyToSell, PlayerToken selectedPlayer) {
+        PropertyNames propertyName = tileOrderConvertToPropertyNames.get(currentPropertyToSell);
+        Property property = propertyMap.get(propertyName);
+
+        property.setOwner(selectedPlayer);
     }
 }

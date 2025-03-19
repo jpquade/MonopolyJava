@@ -3,31 +3,23 @@ package main.GUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class InformationPane {
+public class InformationPane extends JLayeredPane{
 
-    private final JLayeredPane informationSidePane;
+   // private final JLayeredPane informationSidePane;
 
     public InformationPane() {
-        // setup for the information side pane
-        informationSidePane = new JLayeredPane();
-        informationSidePane.setBackground(Color.WHITE);
-        informationSidePane.setBounds(0,0, 500, 1000);
-        informationSidePane.setOpaque(true);
+        this.setBackground(Color.WHITE);
+        this.setBounds(0,0, 500, 1000);
+        this.setOpaque(true);
     }
 
-    public void add(JLabel label) {
-        informationSidePane.add(label, JLayeredPane.PALETTE_LAYER);
-    }
+//    public void add(JLabel label) {this.add(label, JLayeredPane.PALETTE_LAYER);}
 
-    public void add(JButton button) {
-        informationSidePane.add(button, JLayeredPane.PALETTE_LAYER);
-    }
-
-    public void add(JPanel historyPanel) {
-        informationSidePane.add(historyPanel, JLayeredPane.PALETTE_LAYER);
-    }
-
-    public JLayeredPane getInformationSidePane() {
-        return informationSidePane;
-    }
+//    public void add(JButton button) {
+//        this.add(button, JLayeredPane.PALETTE_LAYER);
+//    }
+//
+//    public void add(JPanel historyPanel) {
+//        this.add(historyPanel, JLayeredPane.PALETTE_LAYER);
+//    }
 }

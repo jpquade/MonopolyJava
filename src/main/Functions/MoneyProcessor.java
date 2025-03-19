@@ -37,6 +37,8 @@ public class MoneyProcessor {
         if(playerProcessor.getActivePlayer().getCash() - cost >= 0){
             //playerProcessor.getActivePlayer().setCash(playerProcessor.getActivePlayer().getCash() - cost);
             playerProcessor.subtractMoney(playerProcessor.getActivePlayer().getToken(), cost);
+
+            //moneyGridGUI.updateMoney(playerProcessor.getActivePlayer().getToken(), playerProcessor.getActivePlayer().getCash());
             //transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString()} paid" + cost}");
             return true;
         }
@@ -86,8 +88,8 @@ public class MoneyProcessor {
     public boolean transactionHandler(TransactionType transactionType, PlayerToken otherPlayerToken, int cost){
         if(transactionType == TransactionType.ACTIVE_PLAYER_PAY_OTHER_PLAYER){
             if(pay(cost)){
-                playerPayPlayer(playerProcessor.getActivePlayer().getPlayerToken(), otherPlayerToken, cost);
-                transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getPlayerToken().toString() + " paid $" + cost + " to " + otherPlayerToken.toString());
+                playerPayPlayer(playerProcessor.getActivePlayer().getToken(), otherPlayerToken, cost);
+                transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $" + cost + " to " + otherPlayerToken.toString());
                 return true;
             } else{
                 return false;
@@ -95,8 +97,8 @@ public class MoneyProcessor {
         }
         else if(transactionType == TransactionType.OTHER_PLAYER_PAY_ACTIVE_PLAYER){
             if(pay(cost)){
-                playerPayPlayer(otherPlayerToken, playerProcessor.getActivePlayer().getPlayerToken(), cost);
-                transactionHistoryGUI.addTransaction(otherPlayerToken.toString() + " paid $" + cost + " to " + playerProcessor.getActivePlayer().getPlayerToken());
+                playerPayPlayer(otherPlayerToken, playerProcessor.getActivePlayer().getToken(), cost);
+                transactionHistoryGUI.addTransaction(otherPlayerToken.toString() + " paid $" + cost + " to " + playerProcessor.getActivePlayer().getToken());
                 return true;
             } else{
                 return false;
@@ -105,7 +107,7 @@ public class MoneyProcessor {
         else if(transactionType == TransactionType.ACTIVE_PLAYER_PAY_BANK){
             if(pay(cost)){
                 playerPayBank(cost);
-                transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getPlayerToken().toString() + " paid $ " + cost + " to the bank");
+                transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $ " + cost + " to the bank");
                 return true;
             } else{
             return false;}

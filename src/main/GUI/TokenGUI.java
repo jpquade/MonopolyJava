@@ -103,7 +103,7 @@ public class TokenGUI {
 
     public void startingPosition(PlayerProcessor playerProcessor){
         for(Player player : playerProcessor.getMapOfPlayers().values()){
-            addTokenToBoardSpaceLocation(player.getPlayerToken(), player.getBoardLocation());
+            addTokenToBoardSpaceLocation(player.getToken(), player.getBoardLocation());
         }
     }
 

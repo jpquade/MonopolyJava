@@ -7,7 +7,7 @@ import main.Functions.PlayerProcessor;
 import javax.swing.*;
 import java.awt.*;
 
-public class MoneyGridGUI {
+public class MoneyGridGUI extends JPanel {
     public JLabel carMoney;
     public JLabel catMoney;
     public JLabel dogMoney;
@@ -18,18 +18,16 @@ public class MoneyGridGUI {
     public JLabel thimbleMoney;
 
     // money panel tracking
-    public MoneyGridGUI(PlayerProcessor playerProcessor, JLayeredPane boardSidePane){
-        // money panel tracking settings
-        JPanel moneyPanel = new JPanel();
-        moneyPanel.setBounds(270, 700, 450, 100);
-        //moneyPanel.setBackground();
-        moneyPanel.setOpaque(false);
-        moneyPanel.setLayout(new GridLayout(2, 8));
-        //moneyPanel.setBorder(BorderFactory);
-        //moneyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        moneyPanel.setVisible(true);
-        moneyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        boardSidePane.add(moneyPanel, JLayeredPane.PALETTE_LAYER);
+    public MoneyGridGUI(PlayerProcessor playerProcessor, BoardSidePaneGUI boardSidePane) {
+        // MoneyGridGUI panel tracking settings
+        this.setBounds(270, 700, 450, 100);
+
+        this.setOpaque(false);
+        this.setLayout(new GridLayout(2, 8));
+        this.setVisible(true);
+        this.setAlignmentX(Component.LEFT_ALIGNMENT);
+        boardSidePane.add(this, JLayeredPane.PALETTE_LAYER);
+        //boardSidePane.add(moneyPanel, JLayeredPane.DRAG_LAYER);
 
 
         JLabel car = new JLabel(PlayerToken.CAR + "$");
@@ -163,24 +161,24 @@ public class MoneyGridGUI {
 
 
 
-        moneyPanel.add(car);
-        moneyPanel.add(carMoney);
-        moneyPanel.add(cat);
-        moneyPanel.add(catMoney);
-        moneyPanel.add(dog);
-        moneyPanel.add(dogMoney);
-        moneyPanel.add(hat);
-        moneyPanel.add(hatMoney);
-        moneyPanel.add(iron);
-        moneyPanel.add(ironMoney);
-        moneyPanel.add(ship);
-        moneyPanel.add(shipMoney);
-        moneyPanel.add(shoe);
-        moneyPanel.add(shoeMoney);
-        moneyPanel.add(thimble);
-        moneyPanel.add(thimbleMoney);
+        this.add(car);
+        this.add(carMoney);
+        this.add(cat);
+        this.add(catMoney);
+        this.add(dog);
+        this.add(dogMoney);
+        this.add(hat);
+        this.add(hatMoney);
+        this.add(iron);
+        this.add(ironMoney);
+        this.add(ship);
+        this.add(shipMoney);
+        this.add(shoe);
+        this.add(shoeMoney);
+        this.add(thimble);
+        this.add(thimbleMoney);
 
-        System.out.println("Money Panel Components - " + moneyPanel.getComponentCount());
+        System.out.println("Money Panel Components - " + this.getComponentCount());
     }
 
     public void updateGrid(Player player){

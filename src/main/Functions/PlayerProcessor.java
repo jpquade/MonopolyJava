@@ -20,7 +20,7 @@ public class PlayerProcessor {
 
     public void createPlayer(PlayerToken playerToken) {
         mapOfPlayers.put(playerToken, new Player());
-        mapOfPlayers.get(playerToken).setPlayerToken(playerToken);
+        mapOfPlayers.get(playerToken).setToken(playerToken);
         playerOrder.add(playerToken);
         playerCount++;
         randomizePlayerOrder();
@@ -63,14 +63,13 @@ public class PlayerProcessor {
         return mapOfPlayers.get(playerToken);
     }
 
-    public Player addMoney(PlayerToken playerToken, int amount){
+    public void addMoney(PlayerToken playerToken, int amount){
         mapOfPlayers.get(playerToken).setCash(mapOfPlayers.get(playerToken).getCash() + amount);
-        return mapOfPlayers.get(playerToken);
     }
 
-    public Player subtractMoney(PlayerToken playerToken, int amount){
+    public void subtractMoney(PlayerToken playerToken, int amount){
         mapOfPlayers.get(playerToken).setCash(mapOfPlayers.get(playerToken).getCash() - amount);
-        return mapOfPlayers.get(playerToken);
+
     }
 
 

@@ -2,7 +2,7 @@ package main.GUI;
 
 import main.Enums.PropertyGroup;
 import main.Enums.PropertyNames;
-import main.Enums.PropertyTileOrder;
+import main.Enums.PropertyTile;
 import main.Functions.PropertyProcessor;
 import main.Properties.Property;
 
@@ -24,10 +24,10 @@ public class PropertyProcessorGUI {
     private final int propertyViewHeight;
     private final int elementCount;
 
-    private final HashMap<PropertyTileOrder, JButton> tileButtonMap;
-    private final HashMap<PropertyTileOrder, PropertyCoordinates> tileButtonCoordinateMap;
-    private final HashMap<PropertyTileOrder, JLabel> propertyViewMap;
-    private final HashMap<PropertyTileOrder, Boolean> enableSellMap;
+    private final HashMap<PropertyTile, JButton> tileButtonMap;
+    private final HashMap<PropertyTile, PropertyCoordinates> tileButtonCoordinateMap;
+    private final HashMap<PropertyTile, JLabel> propertyViewMap;
+    private final HashMap<PropertyTile, Boolean> enableSellMap;
 
     private final ArrayList<JLabel> elementLabelList;
     private final ArrayList<Integer> xCoordinateTileButtonList;
@@ -42,10 +42,11 @@ public class PropertyProcessorGUI {
 
     private final PropertyProcessor propertyProcessor;
     private InvisibleBoardButtonGUI invisibleBoardButtonGUI;
-//    private final SellPropertySubBoxGUI sellPropertySubBoxGUI;
-//    private final SelectionBoxButtonGUI selectionBoxButtonGUI;
 
-    public PropertyProcessorGUI(PropertyProcessor propertyProcessor, JLayeredPane boardSidePane) throws IOException {
+    private PropertyTile activeView;
+
+    public PropertyProcessorGUI(PropertyProcessor propertyProcessor, BoardSidePaneGUI boardSidePane) throws IOException {
+        this.activeView = null;
 
         propertyViewWidth = 350;
         propertyViewHeight = 400;
@@ -79,12 +80,12 @@ public class PropertyProcessorGUI {
         //checkIfSellablePropertySetup();
     }
 
-    public HashMap<PropertyTileOrder, JButton> getTileButtonMap() {
+    public HashMap<PropertyTile, JButton> getTileButtonMap() {
         return tileButtonMap;
     }
 
     public void enableSellMapSetup(){
-        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()){
+        for(PropertyTile propertyTile : PropertyTile.values()){
             enableSellMap.put(propertyTile, false);
         }
     }
@@ -119,7 +120,7 @@ public class PropertyProcessorGUI {
 
     // adds coordinates to every board tile
     public void coordinateMapSetup(){
-        for(PropertyTileOrder propertyName: PropertyTileOrder.values()){
+        for(PropertyTile propertyName: PropertyTile.values()){
             tileButtonCoordinateMap.put(propertyName, new PropertyCoordinates(xCoordinateTileButtonList.get(propertyName.getValue()), yCoordinateTileButtonList.get(propertyName.getValue())));
         }
     }
@@ -137,13 +138,13 @@ public class PropertyProcessorGUI {
         // view property label
         JLabel viewPropertyLabel;
 
-        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()) {
+        for(PropertyTile propertyTile : PropertyTile.values()) {
 
             // create a button for each property tile
-            if(propertyTile == PropertyTileOrder.ELECTRIC_COMPANY || propertyTile == PropertyTileOrder.WATER_WORKS){
+            if(propertyTile == PropertyTile.ELECTRIC_COMPANY || propertyTile == PropertyTile.WATER_WORKS){
                 BufferedImage bufferedImage;
 
-                if(propertyTile == PropertyTileOrder.ELECTRIC_COMPANY){
+                if(propertyTile == PropertyTile.ELECTRIC_COMPANY){
                     bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/ElectricCompany.png"));
                 }
                 else{
@@ -155,16 +156,16 @@ public class PropertyProcessorGUI {
                 viewPropertyLabel.setBounds(0, 0, propertyViewWidth, propertyViewHeight);
                 propertyViewMap.put(propertyTile, viewPropertyLabel);
             }
-            else if(propertyTile == PropertyTileOrder.READING_RAILROAD || propertyTile == PropertyTileOrder.PENNSYLVANIA_RAILROAD || propertyTile == PropertyTileOrder.B_AND_O_RAILROAD || propertyTile == PropertyTileOrder.SHORT_LINE_RAILROAD){
+            else if(propertyTile == PropertyTile.READING_RAILROAD || propertyTile == PropertyTile.PENNSYLVANIA_RAILROAD || propertyTile == PropertyTile.B_AND_O_RAILROAD || propertyTile == PropertyTile.SHORT_LINE_RAILROAD){
                 BufferedImage bufferedImage;
 
-                if(propertyTile == PropertyTileOrder.READING_RAILROAD){
+                if(propertyTile == PropertyTile.READING_RAILROAD){
                     bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/ReadingRR.jpg"));
                 }
-                else if(propertyTile == PropertyTileOrder.PENNSYLVANIA_RAILROAD){
+                else if(propertyTile == PropertyTile.PENNSYLVANIA_RAILROAD){
                     bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/PennsylvaniaRR.jpg"));
                 }
-                else if(propertyTile == PropertyTileOrder.B_AND_O_RAILROAD){
+                else if(propertyTile == PropertyTile.B_AND_O_RAILROAD){
                     bufferedImage = ImageIO.read(new File("src/main/MonopolyImages/BandORR.jpg"));
                 }
                 else{
@@ -192,11 +193,11 @@ public class PropertyProcessorGUI {
         }
     }
 
-    public HashMap<PropertyTileOrder, Boolean> getEnableSellMap(){
+    public HashMap<PropertyTile, Boolean> getEnableSellMap(){
         return enableSellMap;
     }
 
-    public void tileButtonBuilder(PropertyTileOrder propertyTile ,JLabel viewPropertyLabel, JLayeredPane boardSidePane) throws IOException {
+    public void tileButtonBuilder(PropertyTile propertyTile , JLabel viewPropertyLabel, JLayeredPane boardSidePane) throws IOException {
 
         // create a button property tile
         tileButtonMap.put(propertyTile, new JButton());
@@ -226,9 +227,11 @@ public class PropertyProcessorGUI {
         else if(tileIndex <= 21) invisibleTileButton.setBounds(buttonXCoordinate, buttonYCoordinate, tileWidth, tileHeight); // top side of board
         else invisibleTileButton.setBounds(buttonXCoordinate, buttonYCoordinate, tileHeight, tileWidth);                     // right side of board
 
+        // setup for closing the last selected tile and also enabling the invisible button
         invisibleTileButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e){
+                if (activeView != null) propertyViewMap.get(activeView).setVisible(false);
                 // add the property name using the tobeClosed method to the invisible button
                 // so that property can be closed when the invisible button is clicked
                 invisibleBoardButtonGUI.tobeClosed(propertyTile);
@@ -239,19 +242,23 @@ public class PropertyProcessorGUI {
                 // set the invisible button to enabled for clicking
                 propertyViewMap.get(propertyTile).setVisible(true);
 
+                // sets current active tile for tracking
+                activeView = propertyTile;
+
                 // prints to console the property clicked
                 System.out.println("Element: " + propertyTile);
             }
         });
 
+        // setup for property view
         invisibleTileButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
                 // if the property is not a utility or railroad, display the property image template and add elements
-                if(propertyTile != PropertyTileOrder.ELECTRIC_COMPANY && propertyTile != PropertyTileOrder.WATER_WORKS &&
-                        propertyTile != PropertyTileOrder.READING_RAILROAD && propertyTile != PropertyTileOrder.PENNSYLVANIA_RAILROAD &&
-                        propertyTile != PropertyTileOrder.B_AND_O_RAILROAD && propertyTile != PropertyTileOrder.SHORT_LINE_RAILROAD){
+                if(propertyTile != PropertyTile.ELECTRIC_COMPANY && propertyTile != PropertyTile.WATER_WORKS &&
+                        propertyTile != PropertyTile.READING_RAILROAD && propertyTile != PropertyTile.PENNSYLVANIA_RAILROAD &&
+                        propertyTile != PropertyTile.B_AND_O_RAILROAD && propertyTile != PropertyTile.SHORT_LINE_RAILROAD){
 
                     // makes the property image template visible
                     propertyImageTemplateLabel.setVisible(true);
@@ -263,10 +270,10 @@ public class PropertyProcessorGUI {
         });
     }
 
-    public void addTileElements(JLabel viewPropertyLabel, PropertyTileOrder propertyTileOrder){
+    public void addTileElements(JLabel viewPropertyLabel, PropertyTile propertyTile){
 
         // convert the enum to a property name, then to a property
-        PropertyNames propertyName = propertyProcessor.convertBoardPropertyTileOrderToPropertyNames(propertyTileOrder);
+        PropertyNames propertyName = propertyProcessor.convertBoardPropertyTileOrderToPropertyNames(propertyTile);
         Property property = propertyProcessor.getProperty(propertyName);
 
         // elements get set to blankLabelProperty
@@ -369,12 +376,28 @@ public class PropertyProcessorGUI {
 
        // puts a black border around each player owned property
        for(Property property : ownedProperties) {
-           PropertyTileOrder propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
+           PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
 
            JButton tileButton = tileButtonMap.get(propertyTile);
            tileButton.setBorderPainted(true);
            tileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 10));
        }
+    }
+
+    public void hideSellableProperty(){
+        ArrayList<Property> ownedProperties;
+
+        // locates all the properties without houses/hotels owned by the active player
+        ownedProperties = propertyProcessor.findSellableProperties();
+
+        // puts a black border around each player owned property
+        for(Property property : ownedProperties) {
+            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
+
+            JButton tileButton = tileButtonMap.get(propertyTile);
+            tileButton.setBorderPainted(false);
+            tileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 10));
+        }
     }
 
     public void enableSellableProperty(){
@@ -383,12 +406,35 @@ public class PropertyProcessorGUI {
 
         // sets each property to be sellable for the active player as bool true
         for(Property property : ownedProperties) {
-            PropertyTileOrder propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
+            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
 
             //System.out.println(propertyTile.toString() + " Converted");
 
             enableSellMap.put(propertyTile, true);
         }
+    }
+
+    public void disableSellableProperty(){
+        // locates all the properties owned by the active player
+        ArrayList<Property> ownedProperties = propertyProcessor.findSellableProperties();
+
+        // sets each property to be sellable for the active player as bool true
+        for(Property property : ownedProperties) {
+            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
+
+            //System.out.println(propertyTile.toString() + " Converted");
+
+            enableSellMap.put(propertyTile, false);
+        }
+    }
+
+    // removes black border and sets the property to not sellable
+    public void removeSellablePropertyTile(){
+        // Set the enable sell bool to false
+        disableSellableProperty();
+
+        // Hide the Black Borders around the property tiles
+        hideSellableProperty();
     }
 
     record PropertyCoordinates(int x, int y) {

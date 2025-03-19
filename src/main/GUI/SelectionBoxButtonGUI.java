@@ -1,7 +1,6 @@
 package main.GUI;
 
 import main.Enums.PlayerToken;
-import main.Enums.PropertyTileOrder;
 import main.Enums.TransactionType;
 import main.Functions.MoneyProcessor;
 
@@ -9,17 +8,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
-public class SelectionBoxButtonGUI {
+import static main.GUI.ActionBoxManagerGUI.ActionBoxType.SELECTION_BOX;
+
+public class SelectionBoxButtonGUI extends JPanel {
     private final MoneyProcessor moneyProcessor;
     private final CommandBoxGUI commandBoxGUI;
-    final private JPanel selectionBoxButtonPanel;
+    //final private JPanel selectionBoxButtonPanel;
     final int MAX_BUTTONS;
     private final SellPropertySubBoxGUI sellPropertySubBoxGUI;
     private final PropertyProcessorGUI propertyProcessorGUI;
+    private final ActionBoxManagerGUI actionBoxManagerGUI;
+
+    private final HashMap<ButtonType, JButton> buttonMap = new HashMap<>();
+
+    private TransactionType transactionType = TransactionType.OTHER_PLAYER_PAY_ACTIVE_PLAYER;
+    private PlayerToken otherPlayerToken = PlayerToken.NONE;
+    private int cost = 5000;
 
     private enum ButtonType {
         PAY,
@@ -32,59 +38,43 @@ public class SelectionBoxButtonGUI {
         SELL_HOTEL,
         END_TURN
     }
-    private final HashMap<ButtonType, JButton> buttonMap = new HashMap<>();
-
-    TransactionType transactionType = TransactionType.OTHER_PLAYER_PAY_ACTIVE_PLAYER;
-    PlayerToken otherPlayerToken = PlayerToken.NONE;
-    int cost = 5000;
 
     public SelectionBoxButtonGUI(MoneyProcessor moneyProcessor, CommandBoxGUI commandBoxGUI,
-                                 PropertyProcessorGUI propertyProcessorGUI, SellPropertySubBoxGUI sellPropertySubBoxGUI) {
+                                 PropertyProcessorGUI propertyProcessorGUI, SellPropertySubBoxGUI sellPropertySubBoxGUI,
+                                 ActionBoxManagerGUI actionBoxManagerGUI) {
         this.moneyProcessor = moneyProcessor;
         this.commandBoxGUI = commandBoxGUI;
         this.sellPropertySubBoxGUI = sellPropertySubBoxGUI;
         this.propertyProcessorGUI = propertyProcessorGUI;
-        selectionBoxButtonPanel = new JPanel();
+        this.actionBoxManagerGUI = actionBoxManagerGUI;
+        //selectionBoxButtonPanel = new JPanel();
+        actionBoxManagerGUI.addActionBox(SELECTION_BOX, this);
+
         MAX_BUTTONS = 10;
-        selectionBoxButtonPanel.setBounds(20, 250, 450, 350);
-        selectionBoxButtonPanel.setLayout(new GridLayout(MAX_BUTTONS, 1));
-        selectionBoxButtonPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        selectionBoxButtonPanel.setOpaque(false);
-        selectionBoxButtonPanel.setVisible(true);
+        this.setBounds(20, 250, 450, 350);
+        this.setLayout(new GridLayout(MAX_BUTTONS, 1));
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.setOpaque(false);
+        this.setVisible(true);
         buttonSetup(propertyProcessorGUI);
-        checkIfSellablePropertySetup();
+        //checkIfSellablePropertySetup(selectionBoxButtonGUI);
     }
 
-    // TODO add buttons for each needed menu option
+    public void paymentMenuList(){
 
-    public JPanel getSelectionBoxButtonPanel() {
-        return selectionBoxButtonPanel;
-    }
+        // remove all buttons from this panel
+        this.removeAll();
 
+        this.setVisible(true);
 
-
-    public void paymentOptions(TransactionType transactionType, int cost, PlayerToken otherPlayerToken, PropertyProcessorGUI propertyProcessorGUI) {
-        // TODO - enable this method for use independently
-
-        this.transactionType = transactionType;
-        this.cost = cost;
-        this.otherPlayerToken = otherPlayerToken;
-
-        System.out.println("Transaction Type: " + transactionType);
-        System.out.println("Cost: " + cost);
-        System.out.println("Other Player Token: " + otherPlayerToken);
-
-        // remove all buttons
-        selectionBoxButtonPanel.removeAll();
-
-        selectionBoxButtonPanel.add(new JLabel("<html><u>Selection Buttons</u></html>"));
+        this.add(new JLabel("<html><u>Selection Buttons</u></html>"));
 
         String[] financialOptions = {"payButton", "sellPropertyButton", "mortgageButton", "unMortgageButton", "buildHouseButton", "sellHouseButton", "buildHotelButton", "sellHotelButton", "endTurnButton"};
 
         for(String methodName : financialOptions){
             switch(methodName){
                 case "payButton":
-                    payButton(transactionType, otherPlayerToken, cost);
+                    payButton(cost);
                     break;
                 case "sellPropertyButton":
                     sellPropertyButton();
@@ -112,9 +102,21 @@ public class SelectionBoxButtonGUI {
                     break;
             }
         }
+    }
 
-        selectionBoxButtonPanel.setVisible(true);
+    // uses existint transactionType, cost, and otherPlayerToken
+    public void paymentOptions() {
+        paymentMenuList();
+    }
 
+    // updates values with parameters
+    public void paymentOptions(TransactionType transactionType, int cost, PlayerToken otherPlayerToken) {
+
+        this.transactionType = transactionType;
+        this.cost = cost;
+        this.otherPlayerToken = otherPlayerToken;
+
+        paymentMenuList();
     }
 
     public void buttonSetup(PropertyProcessorGUI propertyProcessorGUI){
@@ -124,40 +126,12 @@ public class SelectionBoxButtonGUI {
 
     private void visibleAddToPanel(JButton jButton){
         jButton.setVisible(true);
-        selectionBoxButtonPanel.add(jButton);
+        this.add(jButton);
     }
 
     private void removeAllButtonsPanelInvisible(){
-        selectionBoxButtonPanel.removeAll();
-        selectionBoxButtonPanel.setVisible(false);
-    }
-
-    // adds a mouse listener to each property tile button to enable selling
-    public void checkIfSellablePropertySetup(){
-//        // sets all properties to be false for selling
-//        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()){
-//            enableSellMap.put(propertyTile, false);
-//        }
-
-        for(PropertyTileOrder propertyTile : PropertyTileOrder.values()){
-            JButton tile = propertyProcessorGUI.getTileButtonMap().get(propertyTile);
-            tile.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e){
-
-                    //System.out.println(enableSellMap.get(propertyTile));
-                    if(propertyProcessorGUI.getEnableSellMap().get(propertyTile)) {
-                        // sell property
-                        System.out.println("Sell Property: " + propertyTile);
-                        //getSelectionBoxButtonPanel().setVisible(false);
-                        sellPropertySubBoxGUI.retrieveProperty(propertyTile);
-                        sellPropertySubBoxGUI.getSellPropertySubBoxGUIPanel().setVisible(true);
-                        sellPropertySubBoxGUI.sellingPropertyMenu();
-
-                    }
-                }
-            });
-        }
+        this.removeAll();
+        this.setVisible(false);
     }
 
     private void payButtonSetup(){
@@ -175,7 +149,7 @@ public class SelectionBoxButtonGUI {
         buttonMap.put(ButtonType.PAY, payB);
     }
 
-    public void payButton(TransactionType transactionType, PlayerToken otherPlayerToken, int cost){
+    public void payButton(int cost){
         commandBoxGUI.setMessage("Make a payment");
 
         JButton payB = buttonMap.get(ButtonType.PAY);
@@ -184,11 +158,11 @@ public class SelectionBoxButtonGUI {
     }
 
     private void sellPropertyButtonSetup(PropertyProcessorGUI propertyProcessorGUI){
-        JButton jButton = new JButton();
-        jButton.setHorizontalAlignment(SwingConstants.LEFT);
-        jButton.setVisible(false);
+        JButton sellPropertyButton = new JButton();
+        sellPropertyButton.setHorizontalAlignment(SwingConstants.LEFT);
+        sellPropertyButton.setVisible(false);
 
-        jButton.addActionListener(new ActionListener() {
+        sellPropertyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 removeAllButtonsPanelInvisible();
@@ -196,7 +170,7 @@ public class SelectionBoxButtonGUI {
             }
 
         });
-        jButton.addActionListener(new ActionListener() {
+        sellPropertyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 propertyProcessorGUI.showSellableProperty();
@@ -204,10 +178,8 @@ public class SelectionBoxButtonGUI {
             }
         });
 
-        buttonMap.put(ButtonType.SELL_PROPERTY, jButton);
+        buttonMap.put(ButtonType.SELL_PROPERTY, sellPropertyButton);
     }
-
-
 
     // TODO - Work on this one first
     // player trades property with another player
@@ -256,5 +228,17 @@ public class SelectionBoxButtonGUI {
 //                }
 //            }
 //        });
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public PlayerToken getOtherPlayerToken() {
+        return otherPlayerToken;
+    }
+
+    public int getCost() {
+        return cost;
     }
 }

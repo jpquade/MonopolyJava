@@ -124,14 +124,6 @@ public class Player {
         this.totalHotels = totalHotels;
     }
 
-    public PlayerToken getPlayerToken() {
-        return playerToken;
-    }
-
-    public void setPlayerToken(PlayerToken playerToken) {
-        this.playerToken = playerToken;
-    }
-
     public boolean isBankrupt() {
         return bankrupt;
     }

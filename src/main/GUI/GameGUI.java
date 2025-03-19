@@ -25,25 +25,15 @@ public class GameGUI extends JFrame{
     ArrayList<TokenBoardLocation> location = gameData.getLocation();
 
     public DrawCardGUI drawCardGUI;
-    //public JLayeredPane lLayeredPane; // used for dice
-    //private final JLayeredPane boardSidePane; // used for board
-    //private TokenGUI tokenGUI;
-    public MoneyGridGUI moneyGridGUI;
+    private final JLayeredPane boardSidePane; // used for board
 
-    public GameGUI(PropertyProcessor propertyProcessor ,Dice dice, InformationPane informationPane, JLayeredPane boardSidePane, LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
-                   LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, PlayerProcessor playerProcessor, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
+    public GameGUI(PropertyProcessor propertyProcessor ,Dice dice, InformationPane informationPane, BoardSidePaneGUI boardSidePane,
+                   LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
+                   LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, PlayerProcessor playerProcessor,
+                   LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
         //this.tokenGUI = tokenGUI;
 
-        // left layered pane setup
-//        informationSidePane = new JLayeredPane();
-//        informationSidePane.setBackground(Color.WHITE);
-//        informationSidePane.setBounds(0,0, 500, 1000);
-//        informationSidePane.setOpaque(true);
-
-        // boardSidePane layered pane setup
-        //this.boardSidePane = boardSidePane;
-        boardSidePane.setBounds(500,0, 1200, 1000);
-        boardSidePane.setOpaque(true);
+        this.boardSidePane = boardSidePane;
 
         // initialize external main.GUI classes
         DiceGUI diceGUI = new DiceGUI(playerProcessor, informationPane, dice, locationProcessor, transactionHistoryGUI);
@@ -76,30 +66,16 @@ public class GameGUI extends JFrame{
         rotateCommunityChestCardLabel.setVisible(true);
         boardSidePane.add(rotateCommunityChestCardLabel, JLayeredPane.PALETTE_LAYER);
 
-        // money panel tracking
-        //moneyTable(playerList);
-        moneyGridGUI =  new MoneyGridGUI(playerProcessor, boardSidePane);
-
         // board adjustments and setup
         this.setIconImage(board);
         this.setTitle("Java Monopoly");
         this.setSize(1700, 1000);
         this.setLayout(null);
         //this.add(overProperyOverLay);
-        this.add(informationPane.getInformationSidePane());
+        this.add(informationPane);
         this.add(boardSidePane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // keep at end
         this.setVisible(true); // keep at end
 
-        // temporary mouse location listener
-        boardSidePane.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-
-                System.out.println("X:" + x + "Y:" + y);
-            }
-        });
     }
 }

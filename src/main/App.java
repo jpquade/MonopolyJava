@@ -28,27 +28,29 @@ public class App {
         Dice dice = new Dice();
         PlayerProcessor playerProcessor = new PlayerProcessor();
         PropertyProcessor propertyProcessor = new PropertyProcessor(playerProcessor);
-        JLayeredPane boardSidePane = new JLayeredPane();
+        BoardSidePaneGUI boardSidePane = new BoardSidePaneGUI();
         InformationPane informationPane = new InformationPane();
         CommandBoxGUI commandBoxGUI = new CommandBoxGUI();
+        ActionBoxManagerGUI actionBoxManagerGUI = new ActionBoxManagerGUI();
         TransactionHistoryGUI transactionHistoryGUI = new TransactionHistoryGUI();
+
         MoneyProcessor moneyProcessor = new MoneyProcessor(playerProcessor, transactionHistoryGUI, commandBoxGUI);
         PropertyProcessorGUI propertyProcessorGUI = new PropertyProcessorGUI(propertyProcessor, boardSidePane);
-        SellPropertySubBoxGUI sellPropertySubBoxGUI = new SellPropertySubBoxGUI(moneyProcessor, commandBoxGUI, propertyProcessor);
-        SelectionBoxButtonGUI selectionBoxButtonGUI = new SelectionBoxButtonGUI(moneyProcessor, commandBoxGUI, propertyProcessorGUI, sellPropertySubBoxGUI);
+        SellPropertySubBoxGUI sellPropertySubBoxGUI = new SellPropertySubBoxGUI(commandBoxGUI, propertyProcessor, actionBoxManagerGUI);
 
-
-
+        SelectionBoxButtonGUI selectionBoxButtonGUI = new SelectionBoxButtonGUI(moneyProcessor, commandBoxGUI, propertyProcessorGUI, sellPropertySubBoxGUI, actionBoxManagerGUI);
+        //sellPropertySubBoxGUI.checkIfSellablePropertySetup(selectionBoxButtonGUI, propertyProcessorGUI, TransactionType.OTHER_PLAYER_PAY_ACTIVE_PLAYER, 0, PlayerToken.NONE);
+        sellPropertySubBoxGUI.checkIfSellablePropertySetup(selectionBoxButtonGUI, propertyProcessorGUI, playerProcessor, transactionHistoryGUI, moneyProcessor);
 
         //selectionBoxButtonGUI = new SelectionBoxButtonGUI(moneyProcessor, commandBoxGUI, propertyProcessorGUI);
 
         //JLayeredPane informationSidePane = new JLayeredPane();
         TokenGUI tokenGUI = new TokenGUI(boardSidePane);
 
-        informationPane.add(commandBoxGUI.getCommandBoxGUIPanel());
-        informationPane.add(selectionBoxButtonGUI.getSelectionBoxButtonPanel());
-        informationPane.add(sellPropertySubBoxGUI.getSellPropertySubBoxGUIPanel());
-        informationPane.add(transactionHistoryGUI.getHistoryPanel());
+        informationPane.add(commandBoxGUI);
+        informationPane.add(selectionBoxButtonGUI);
+        informationPane.add(sellPropertySubBoxGUI);
+        informationPane.add(transactionHistoryGUI);
 
         playerProcessor.createPlayer(PlayerToken.CAR);
         playerProcessor.createPlayer(PlayerToken.CAT);
@@ -66,11 +68,12 @@ public class App {
 
         tokenGUI.startingPosition(playerProcessor);
         LocationProcessor locationProcessor = new LocationProcessor(tokenGUI);
+        MoneyGridGUI moneyGridGUI = new MoneyGridGUI(playerProcessor, boardSidePane);
         GameGUI gameGUI = new GameGUI(propertyProcessor, dice,informationPane , boardSidePane, gameData.getPropertyFinancialsMap(), gameData.getSinglePropertyBoardData(), gameData.getPropertyAttributesMap(), playerProcessor, locationProcessor, transactionHistoryGUI);
         DrawCardGUI drawCardGUI = new DrawCardGUI(boardSidePane);
 
         //selectionBoxButtonGUI.paymentOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE);
-        selectionBoxButtonGUI.paymentOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE, propertyProcessorGUI);
+        selectionBoxButtonGUI.paymentOptions(TransactionType.ACTIVE_PLAYER_PAY_BANK, 10 , PlayerToken.NONE);
         //sellPropertySubBoxGUI.actionOptions();
         //selectionBoxButtonGUI.actionOptions();
         //System.out.println(drawCardGUI.drawAChanceCard().toString());

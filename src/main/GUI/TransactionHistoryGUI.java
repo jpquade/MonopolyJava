@@ -6,9 +6,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class TransactionHistoryGUI {
+public class TransactionHistoryGUI extends JPanel{
 
-    private final JPanel historyPanel;
+    //private final JPanel historyPanel;
     private final LinkedList<String> historyLinkedList;
     private final ArrayList<JLabel> historyLabelArrayList;
     private final int MAX_HISTORY = 6;
@@ -16,13 +16,13 @@ public class TransactionHistoryGUI {
 
     public TransactionHistoryGUI(){
 
-        historyPanel = new JPanel();
-        historyPanel.setBounds(20, 850, 450, 100);
-        historyPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        historyPanel.setOpaque(false);
-        historyPanel.setLayout(new GridLayout(0, 1));
-        historyPanel.setVisible(true);
-        historyPanel.add(new JLabel("<html><u>Transaction History</u></html>"));
+        //this = new JPanel();
+        this.setBounds(20, 850, 450, 100);
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.setOpaque(false);
+        this.setLayout(new GridLayout(0, 1));
+        this.setVisible(true);
+        this.add(new JLabel("<html><u>Transaction History</u></html>"));
 
         historyLinkedList = new LinkedList<>();
         historyLabelArrayList = new ArrayList<>();
@@ -36,7 +36,7 @@ public class TransactionHistoryGUI {
 //            historyPanel.add(historyLabelArrayList.get(i));
 //        }
         for(int i = 0; i < MAX_HISTORY; i++){
-            historyPanel.add(historyLabelArrayList.get(i));
+            this.add(historyLabelArrayList.get(i));
         }
 
     }
@@ -82,7 +82,7 @@ public class TransactionHistoryGUI {
         }
     }
 
-    public JPanel getHistoryPanel(){
-        return historyPanel;
-    }
+    //public JPanel getHistoryPanel(){
+//        return historyPanel;
+//    }
 }
