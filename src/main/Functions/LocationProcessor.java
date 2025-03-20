@@ -1,9 +1,7 @@
-package main.LocationFunctions;
+package main.Functions;
 
 import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
-import main.Functions.Player;
-import main.Functions.PlayerProcessor;
 import main.GUI.TokenGUI;
 
 public class LocationProcessor {

@@ -4,7 +4,7 @@ import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
 import main.Functions.Player;
 import main.Functions.PlayerProcessor;
-import main.LocationFunctions.TokenBoardLocation;
+import main.Functions.TokenBoardLocation;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -102,7 +102,7 @@ public class TokenGUI {
     }
 
     public void startingPosition(PlayerProcessor playerProcessor){
-        for(Player player : playerProcessor.getMapOfPlayers().values()){
+        for(Player player : playerProcessor.getMapOfCurrentPlayers().values()){
             addTokenToBoardSpaceLocation(player.getToken(), player.getBoardLocation());
         }
     }

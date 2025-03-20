@@ -30,6 +30,10 @@ public class PropertyProcessor {
         this.playerProcessor = playerProcessor;
     }
 
+    public HashMap<PropertyNames, Property> getPropertyMap() {
+        return propertyMap;
+    }
+
     public Property getProperty(PropertyNames propertyNames) {
         return propertyMap.get(propertyNames);
     }
@@ -278,5 +282,15 @@ public class PropertyProcessor {
         Property property = propertyMap.get(propertyName);
 
         property.setOwner(selectedPlayer);
+    }
+
+    public boolean checkPlayerHasProperties(PlayerToken playerToken, PropertyProcessor propertyProcessor){
+        for(Property property : propertyProcessor.getPropertyMap().values()){
+            if(property.getOwner() == playerToken){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

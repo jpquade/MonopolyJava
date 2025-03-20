@@ -1,4 +1,4 @@
-package main.LocationFunctions;
+package main.Functions;
 
 import main.Enums.PlayerToken;
 

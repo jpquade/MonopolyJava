@@ -368,7 +368,12 @@ public class PropertyProcessorGUI {
         }
     }
 
-    public void showSellableProperty(){
+    public void showSellableProperties(){
+        setBlackSellableBorder();
+        setSellablePropertiesTrue();
+    }
+
+    public void setBlackSellableBorder(){
         ArrayList<Property> ownedProperties;
 
         // locates all the properties without houses/hotels owned by the active player
@@ -385,22 +390,30 @@ public class PropertyProcessorGUI {
     }
 
     public void hideSellableProperty(){
-        ArrayList<Property> ownedProperties;
+        //ArrayList<Property> ownedProperties;
 
         // locates all the properties without houses/hotels owned by the active player
-        ownedProperties = propertyProcessor.findSellableProperties();
+//        ownedProperties = propertyProcessor.findSellableProperties();
+//
+//        // puts a black border around each player owned property
+//        for(Property property : ownedProperties) {
+//            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
+//
+//            JButton tileButton = tileButtonMap.get(propertyTile);
+//            tileButton.setBorderPainted(false);
+//            //tileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 10));
+//        }
 
-        // puts a black border around each player owned property
-        for(Property property : ownedProperties) {
+        for(Property property : propertyProcessor.getPropertyMap().values()) {
             PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
 
             JButton tileButton = tileButtonMap.get(propertyTile);
             tileButton.setBorderPainted(false);
-            tileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 10));
+            //tileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 10));
         }
     }
 
-    public void enableSellableProperty(){
+    public void setSellablePropertiesTrue(){
         // locates all the properties owned by the active player
         ArrayList<Property> ownedProperties = propertyProcessor.findSellableProperties();
 
@@ -414,28 +427,43 @@ public class PropertyProcessorGUI {
         }
     }
 
-    public void disableSellableProperty(){
+    public void setSellablePropertiesFalse(){
         // locates all the properties owned by the active player
-        ArrayList<Property> ownedProperties = propertyProcessor.findSellableProperties();
+//        ArrayList<Property> ownedProperties = propertyProcessor.findSellableProperties();
 
-        // sets each property to be sellable for the active player as bool true
-        for(Property property : ownedProperties) {
+        // sets each property to be sellable for the active player as bool false
+        for(Property property : propertyProcessor.getPropertyMap().values()) {
             PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
 
             //System.out.println(propertyTile.toString() + " Converted");
 
             enableSellMap.put(propertyTile, false);
         }
+
+
+        // sets each property to be sellable for the active player as bool false
+//        for(Property property : ownedProperties) {
+//            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
+//
+//            //System.out.println(propertyTile.toString() + " Converted");
+//
+//            enableSellMap.put(propertyTile, false);
+//        }
     }
 
     // removes black border and sets the property to not sellable
-    public void removeSellablePropertyTile(){
+    public void removeBlackBorderNotSellable(){
         // Set the enable sell bool to false
-        disableSellableProperty();
+        setSellablePropertiesFalse();
 
         // Hide the Black Borders around the property tiles
         hideSellableProperty();
     }
+
+//    public void hideBlackBorder(){
+//        // Hide the Black Borders around the property tiles
+//
+//    }
 
     record PropertyCoordinates(int x, int y) {
     }

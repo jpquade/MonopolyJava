@@ -3,7 +3,7 @@ package main.Initialization;
 import main.Enums.PlayerToken;
 import main.Enums.PropertyGroup;
 import main.Enums.PropertyType;
-import main.LocationFunctions.TokenBoardLocation;
+import main.Functions.TokenBoardLocation;
 import main.Properties.PropertyGroupProcessor;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;

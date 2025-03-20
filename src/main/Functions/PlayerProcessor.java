@@ -1,6 +1,7 @@
 package main.Functions;
 
 import main.Enums.PlayerToken;
+import main.GUI.ActivePlayerBoxGUI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ public class PlayerProcessor {
     private int activePlayerElementNumber;
 
     private final ArrayList<PlayerToken> playerOrder;
-    private final HashMap<PlayerToken, Player> mapOfPlayers = new HashMap<>();
+    private final HashMap<PlayerToken, Player> mapOfCurrentPlayers = new HashMap<>();
 
     public PlayerProcessor() {
         playerCount = 0;
@@ -18,31 +19,37 @@ public class PlayerProcessor {
         playerOrder = new ArrayList<>();
     }
 
-    public void createPlayer(PlayerToken playerToken) {
-        mapOfPlayers.put(playerToken, new Player());
-        mapOfPlayers.get(playerToken).setToken(playerToken);
+    public void createPlayer(PlayerToken playerToken, ActivePlayerBoxGUI activePlayerBoxGUI) {
+        mapOfCurrentPlayers.put(playerToken, new Player());
+        mapOfCurrentPlayers.get(playerToken).setToken(playerToken);
         playerOrder.add(playerToken);
         playerCount++;
         randomizePlayerOrder();
+        System.out.println("Active player: " + getActivePlayer().getToken());
+
+        activePlayerBoxGUI.setActivePlayer(getActivePlayer().getToken().toString());
     }
 
     public int getPlayerCount() {
         return playerCount;
     }
 
-    public HashMap<PlayerToken, Player> getMapOfPlayers() {
-        return mapOfPlayers;
+    public HashMap<PlayerToken, Player> getMapOfCurrentPlayers() {
+        return mapOfCurrentPlayers;
     }
 
     public Player getActivePlayer(){
-        return mapOfPlayers.get(playerOrder.get(activePlayerElementNumber));
+        return mapOfCurrentPlayers.get(playerOrder.get(activePlayerElementNumber));
     }
 
-    public void nextPlayer(){
+    public void nextPlayer(ActivePlayerBoxGUI activePlayerBoxGUI){
         activePlayerElementNumber++;
         if(activePlayerElementNumber >= playerCount){
             activePlayerElementNumber = 0;
         }
+        System.out.println("Active player: " + getActivePlayer().getToken());
+
+        activePlayerBoxGUI.setActivePlayer(getActivePlayer().getToken().toString());
     }
 
     public void randomizePlayerOrder(){
@@ -56,19 +63,19 @@ public class PlayerProcessor {
     }
 
     public boolean ifPlayerExists(PlayerToken playerToken){
-        return mapOfPlayers.containsKey(playerToken);
+        return mapOfCurrentPlayers.containsKey(playerToken);
     }
 
     public Player getPlayer(PlayerToken playerToken){
-        return mapOfPlayers.get(playerToken);
+        return mapOfCurrentPlayers.get(playerToken);
     }
 
     public void addMoney(PlayerToken playerToken, int amount){
-        mapOfPlayers.get(playerToken).setCash(mapOfPlayers.get(playerToken).getCash() + amount);
+        mapOfCurrentPlayers.get(playerToken).setCash(mapOfCurrentPlayers.get(playerToken).getCash() + amount);
     }
 
     public void subtractMoney(PlayerToken playerToken, int amount){
-        mapOfPlayers.get(playerToken).setCash(mapOfPlayers.get(playerToken).getCash() - amount);
+        mapOfCurrentPlayers.get(playerToken).setCash(mapOfCurrentPlayers.get(playerToken).getCash() - amount);
 
     }
 

@@ -3,7 +3,7 @@ package main.GUI;
 import main.Enums.BoardSpaceElement;
 import main.Enums.PlayerToken;
 import main.Functions.PlayerProcessor;
-import main.LocationFunctions.LocationProcessor;
+import main.Functions.LocationProcessor;
 import main.Functions.Dice;
 
 import javax.imageio.ImageIO;
@@ -132,7 +132,7 @@ public class DiceGUI{
 
                 tokenIncrement++;
 
-                transactionHistoryGUI.addTransaction(Integer.toString(tokenIncrement));
+                //transactionHistoryGUI.addTransaction(Integer.toString(tokenIncrement));
             }
         });
     }

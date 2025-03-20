@@ -4,15 +4,14 @@ import main.Data.GameData;
 import main.Functions.Dice;
 import main.Functions.PlayerProcessor;
 import main.Functions.PropertyProcessor;
-import main.LocationFunctions.LocationProcessor;
-import main.LocationFunctions.TokenBoardLocation;
+import main.Functions.LocationProcessor;
+import main.Functions.TokenBoardLocation;
 import main.Properties.PropertyAttributes;
 import main.Properties.PropertyFinancials;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

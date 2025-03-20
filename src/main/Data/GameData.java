@@ -8,7 +8,7 @@ import main.Enums.PlayerToken;
 import main.Enums.PropertyGroup;
 import main.Enums.PropertyType;
 import main.Initialization.InitializeData;
-import main.LocationFunctions.TokenBoardLocation;
+import main.Functions.TokenBoardLocation;
 import main.Functions.PropertyMerchant;
 import main.Properties.PropertyGroupProcessor;
 import main.Properties.PropertyAttributes;

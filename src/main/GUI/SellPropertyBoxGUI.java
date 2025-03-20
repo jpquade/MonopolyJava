@@ -18,21 +18,19 @@ import java.util.Objects;
 
 import static main.GUI.ActionBoxManagerGUI.ActionBoxType.SELL_PROPERTY_SUB_BOX;
 
-public class SellPropertySubBoxGUI extends JPanel{
+public class SellPropertyBoxGUI extends JPanel{
+
+    private final int MAX_BUTTONS;
 
     private final PropertyProcessor propertyProcessor;
-    private PropertyTile currentPropertyToSell;
-    //final private JPanel sellPropertySubBoxGUIPanel;
-    final int MAX_BUTTONS;
-
     private final CommandBoxGUI commandBoxGUI;
     private final ActionBoxManagerGUI actionBoxManagerGUI;
+
+    private PropertyTile currentPropertyToSell;
 
     private PlayerToken selectedPlayer;
 
     JTextField priceField;
-
-
 
     private enum ButtonType {
         PROPERTY_DISPLAY,
@@ -42,7 +40,7 @@ public class SellPropertySubBoxGUI extends JPanel{
         CANCEL_BUTTON
     }
 
-    public SellPropertySubBoxGUI(CommandBoxGUI commandBoxGUI, PropertyProcessor propertyProcessor, ActionBoxManagerGUI actionBoxManagerGUI) {
+    public SellPropertyBoxGUI(CommandBoxGUI commandBoxGUI, PropertyProcessor propertyProcessor, ActionBoxManagerGUI actionBoxManagerGUI) {
         this.propertyProcessor = propertyProcessor;
         this.commandBoxGUI = commandBoxGUI;
         this.actionBoxManagerGUI = actionBoxManagerGUI;
@@ -50,22 +48,19 @@ public class SellPropertySubBoxGUI extends JPanel{
         actionBoxManagerGUI.addActionBox(SELL_PROPERTY_SUB_BOX,this);
         MAX_BUTTONS = 12;
         this.setBounds(20, 250, 450, 350);
-        this.setLayout(new GridLayout(12, 1));
+        this.setLayout(new GridLayout(MAX_BUTTONS, 1));
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.setOpaque(false);
         this.setVisible(false);
 
     }
 
-//    public JPanel getSellPropertySubBoxGUIPanel() {
-//        return this;
-//    }
+    public void sellingPropertyMenu(SelectionBoxGUI selectionBoxGUI, PropertyProcessorGUI propertyProcessorGUI,
+                                    PlayerProcessor playerProcessor, TransactionHistoryGUI transactionHistoryGUI, MoneyProcessor moneyProcessor,
+                                    PropertyProcessor propertyProcessor) {
 
-    public void sellingPropertyMenu(SelectionBoxButtonGUI selectionBoxButtonGUI, PropertyProcessorGUI propertyProcessorGUI,
-                                    PlayerProcessor playerProcessor, TransactionHistoryGUI transactionHistoryGUI, MoneyProcessor moneyProcessor) {
-        // TODO - enable this method for use independently
-        this.removeAll();
         this.setVisible(true);
+        this.removeAll();
         this.add(new JLabel("<html><u>Sell Property</u></html>"));
 
         for(ButtonType buttonType : ButtonType.values()){
@@ -75,24 +70,23 @@ public class SellPropertySubBoxGUI extends JPanel{
                     propertyNameTag();
                     break;
                 case PRICE_DISPLAY:
-                    //playerListDisplay();
                     priceDisplay();
                     break;
                 case PLAYER_LIST_DISPLAY:
-                    playerListDisplaySetup();
+                    playerListDisplaySetup(playerProcessor);
                     break;
                 case CONFIRM_BUTTON:
-                    confirmButton(playerProcessor, transactionHistoryGUI, moneyProcessor, propertyProcessorGUI, selectionBoxButtonGUI);
+                    confirmButton(playerProcessor, transactionHistoryGUI, moneyProcessor, propertyProcessorGUI, selectionBoxGUI);
                     break;
                 case CANCEL_BUTTON:
-                    cancelButton(selectionBoxButtonGUI, propertyProcessorGUI);
+                    cancelButton(selectionBoxGUI, propertyProcessorGUI, playerProcessor);
                     break;
             }
         }
     }
 
     // adds a mouse listener to each property tile button to enable selling
-    public void checkIfSellablePropertySetup(SelectionBoxButtonGUI selectionBoxButtonGUI, PropertyProcessorGUI propertyProcessorGUI,
+    public void checkIfSellablePropertySetup(SelectionBoxGUI selectionBoxGUI, PropertyProcessorGUI propertyProcessorGUI,
                                              PlayerProcessor playerProcessor, TransactionHistoryGUI transactionHistoryGUI, MoneyProcessor moneyProcessor) {
         for(PropertyTile propertyTile : PropertyTile.values()){
             JButton tile = propertyProcessorGUI.getTileButtonMap().get(propertyTile);
@@ -101,7 +95,7 @@ public class SellPropertySubBoxGUI extends JPanel{
                 public void mouseClicked(MouseEvent e){
                     if(propertyProcessorGUI.getEnableSellMap().get(propertyTile)) {;
                         setCurrentPropertyToSell(propertyTile);
-                        sellingPropertyMenu(selectionBoxButtonGUI, propertyProcessorGUI, playerProcessor, transactionHistoryGUI, moneyProcessor);
+                        sellingPropertyMenu(selectionBoxGUI, propertyProcessorGUI, playerProcessor, transactionHistoryGUI, moneyProcessor, propertyProcessor);
                         commandBoxGUI.setMessage("Changes options to sell property");
                     }
                 }
@@ -110,56 +104,42 @@ public class SellPropertySubBoxGUI extends JPanel{
     }
 
     public void propertyNameTag(){
-        // TODO - add logic
-
         PropertyNames propertyNames = propertyProcessor.convertBoardPropertyTileOrderToPropertyNames(currentPropertyToSell);
         String name = propertyProcessor.convertPropertyNameToString(propertyNames);
         JLabel propertyDisplay = new JLabel("Sell " + name + " for dollar amount - ");
-        //propertyDisplay.setText("Sell " + name + " for dollar amount - ");
         this.add(propertyDisplay);
     }
 
     public void priceDisplay(){
-
         priceField = new JTextField(10);
         this.add(priceField);
-
-//        priceField.addActionListener(e -> {
-//            //String cost = priceField.getText();
-//            //System.out.println(cost);
-//        });
     }
 
-    public void playerListDisplaySetup(){
-
-        //JComboBox<PlayerToken> jComboBox = new JComboBox<>(PlayerToken.values());
+    public void playerListDisplaySetup(PlayerProcessor playerProcessor){
         JComboBox<PlayerToken> jComboBox = new JComboBox<>();
 
-
-        // TODO - add logic to display only players that are active players
         for(PlayerToken playerToken : PlayerToken.values()){
-            if(playerToken != PlayerToken.NONE){
-                jComboBox.addItem(playerToken);
+            if(playerToken != playerProcessor.getActivePlayer().getToken()){
+                if(playerProcessor.getMapOfCurrentPlayers().get(playerToken) != null || playerToken == PlayerToken.NONE){
+                    jComboBox.addItem(playerToken);
+                }
             }
         }
 
         jComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //PlayerToken selectedPlayer = PlayerToken.valueOf(Objects.requireNonNull(jComboBox.getSelectedItem()).toString());
-
                 selectedPlayer = PlayerToken.valueOf(Objects.requireNonNull(jComboBox.getSelectedItem()).toString());
                 System.out.println("Selected player to Sell to - " + selectedPlayer);
             }
         });
-
-        jComboBox.setVisible(true);
         this.add(jComboBox);
+        //jComboBox.setVisible(true);
 
     }
 
     public void confirmButton(PlayerProcessor playerProcessor, TransactionHistoryGUI transactionHistoryGUI, MoneyProcessor moneyProcessor,
-                              PropertyProcessorGUI propertyProcessorGUI, SelectionBoxButtonGUI selectionBoxButtonGUI){
+                              PropertyProcessorGUI propertyProcessorGUI, SelectionBoxGUI selectionBoxGUI){
         JButton confirmButton = new JButton();
         confirmButton.setText("Confirm");
         this.add(confirmButton);
@@ -193,18 +173,19 @@ public class SellPropertySubBoxGUI extends JPanel{
                             // sell property to player
                             propertyProcessor.transferProperty(currentPropertyToSell, selectedPlayer);
 
-
-
                             System.out.println(currentPropertyToSell + "After owned by " + propertyProcessor.getProperty(propertyProcessor.convertBoardPropertyTileOrderToPropertyNames(currentPropertyToSell)).getOwner());
 
+                            // reset the selected player
+                            selectedPlayer = PlayerToken.NONE;
+
                             // Set the sell property sub box to invisible
-                            SellPropertySubBoxGUI.this.setVisible(false);
+                            SellPropertyBoxGUI.this.setVisible(false);
 
                             // removes black border and sets the property to not sellable
-                            propertyProcessorGUI.removeSellablePropertyTile();
+                            propertyProcessorGUI.removeBlackBorderNotSellable();
 
                             // Set the selection box button panel to visible
-                            selectionBoxButtonGUI.paymentOptions();
+                            selectionBoxGUI.paymentOptions(propertyProcessor, playerProcessor);
 
                         } else{
                             commandBoxGUI.setMessage("Player does not have enough money to buy property");
@@ -225,20 +206,23 @@ public class SellPropertySubBoxGUI extends JPanel{
         });
     }
 
-    public void cancelButton(SelectionBoxButtonGUI selectionBoxButtonGUI, PropertyProcessorGUI propertyProcessorGUI){
+    public void cancelButton(SelectionBoxGUI selectionBoxGUI, PropertyProcessorGUI propertyProcessorGUI, PlayerProcessor playerProcessor){
         JButton cancelButton = new JButton();
         cancelButton.setText("Cancel");
         this.add(cancelButton);
         cancelButton.addActionListener(e -> {
 
-            // Set the sell property sub box to invisible
-            this.setVisible(false);
+            // reset the selected player
+            selectedPlayer = PlayerToken.NONE;
 
             // removes black border and sets the property to not sellable
-            propertyProcessorGUI.removeSellablePropertyTile();
+            propertyProcessorGUI.removeBlackBorderNotSellable();
 
             // Set the selection box button panel to visible
-            selectionBoxButtonGUI.paymentOptions();
+            selectionBoxGUI.paymentOptions(propertyProcessor, playerProcessor);
+
+            // Set the sell property sub box to invisible
+            this.setVisible(false);
 
         });
     }
