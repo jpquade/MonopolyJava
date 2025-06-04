@@ -78,7 +78,7 @@ public class Property {
         return houseCount;
     }
 
-    public void setHouseCount(int houseCount) {
+    public void setHouses(int houseCount) {
         this.houseCount = houseCount;
     }
 
@@ -192,6 +192,7 @@ public class Property {
         private PropertyNames propertyName;
         private PropertyType propertyType;
         private PropertyGroup color;
+        //private PropertyGroup.GROUP_COLOR groupColor;
         private boolean improvementAllowed;
         private int house;
         private boolean hotel;

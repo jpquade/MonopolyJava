@@ -1,8 +1,11 @@
 package main.GUI;
 
+import main.Enums.PlayerToken;
 import main.Enums.PropertyGroup;
 import main.Enums.PropertyNames;
 import main.Enums.PropertyTile;
+import main.Functions.MoneyProcessor;
+import main.Functions.PlayerProcessor;
 import main.Functions.PropertyProcessor;
 import main.Properties.Property;
 
@@ -28,6 +31,7 @@ public class PropertyProcessorGUI {
     private final HashMap<PropertyTile, PropertyCoordinates> tileButtonCoordinateMap;
     private final HashMap<PropertyTile, JLabel> propertyViewMap;
     private final HashMap<PropertyTile, Boolean> enableSellMap;
+    private final HashMap<PropertyTile, Boolean> mortgageMap;
 
     private final ArrayList<JLabel> elementLabelList;
     private final ArrayList<Integer> xCoordinateTileButtonList;
@@ -45,7 +49,10 @@ public class PropertyProcessorGUI {
 
     private PropertyTile activeView;
 
+    private PropertyTile currentPropertyToMortgage;
+
     public PropertyProcessorGUI(PropertyProcessor propertyProcessor, BoardSidePaneGUI boardSidePane) throws IOException {
+        mortgageMap = new HashMap<>();
         this.activeView = null;
 
         propertyViewWidth = 350;
@@ -84,9 +91,15 @@ public class PropertyProcessorGUI {
         return tileButtonMap;
     }
 
-    public void enableSellMapSetup(){
+    private void enableSellMapSetup(){
         for(PropertyTile propertyTile : PropertyTile.values()){
             enableSellMap.put(propertyTile, false);
+        }
+    }
+
+    private void enableMortgageMapSetup(){
+        for(PropertyTile propertyTile : PropertyTile.values()){
+            mortgageMap.put(propertyTile, false);
         }
     }
 
@@ -236,7 +249,7 @@ public class PropertyProcessorGUI {
                 // so that property can be closed when the invisible button is clicked
                 invisibleBoardButtonGUI.tobeClosed(propertyTile);
 
-                // set the invisible button to enabled for clicking
+                // set the board button to enabled for clicking
                 invisibleBoardButtonGUI.setVisible(true);
 
                 // set the invisible button to enabled for clicking
@@ -368,41 +381,27 @@ public class PropertyProcessorGUI {
         }
     }
 
+    // puts black border around tiles and sets each tile to be enabled for selling
     public void showSellableProperties(){
-        setBlackSellableBorder();
-        setSellablePropertiesTrue();
-    }
-
-    public void setBlackSellableBorder(){
-        ArrayList<Property> ownedProperties;
 
         // locates all the properties without houses/hotels owned by the active player
-        ownedProperties = propertyProcessor.findSellableProperties();
+        ArrayList<Property> ownedProperties = propertyProcessor.findActivePlayerPropertiesWithoutImprovements();
 
-       // puts a black border around each player owned property
-       for(Property property : ownedProperties) {
+        for(Property property : ownedProperties) {
            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
 
            JButton tileButton = tileButtonMap.get(propertyTile);
+
+           // puts a black border around each player owned property
            tileButton.setBorderPainted(true);
            tileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 10));
-       }
+
+           // sets each property to be sellable for the active player as bool true
+           enableSellMap.put(propertyTile, true);
+        }
     }
 
     public void hideSellableProperty(){
-        //ArrayList<Property> ownedProperties;
-
-        // locates all the properties without houses/hotels owned by the active player
-//        ownedProperties = propertyProcessor.findSellableProperties();
-//
-//        // puts a black border around each player owned property
-//        for(Property property : ownedProperties) {
-//            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
-//
-//            JButton tileButton = tileButtonMap.get(propertyTile);
-//            tileButton.setBorderPainted(false);
-//            //tileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 10));
-//        }
 
         for(Property property : propertyProcessor.getPropertyMap().values()) {
             PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
@@ -410,20 +409,6 @@ public class PropertyProcessorGUI {
             JButton tileButton = tileButtonMap.get(propertyTile);
             tileButton.setBorderPainted(false);
             //tileButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 10));
-        }
-    }
-
-    public void setSellablePropertiesTrue(){
-        // locates all the properties owned by the active player
-        ArrayList<Property> ownedProperties = propertyProcessor.findSellableProperties();
-
-        // sets each property to be sellable for the active player as bool true
-        for(Property property : ownedProperties) {
-            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
-
-            //System.out.println(propertyTile.toString() + " Converted");
-
-            enableSellMap.put(propertyTile, true);
         }
     }
 
@@ -439,16 +424,6 @@ public class PropertyProcessorGUI {
 
             enableSellMap.put(propertyTile, false);
         }
-
-
-        // sets each property to be sellable for the active player as bool false
-//        for(Property property : ownedProperties) {
-//            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
-//
-//            //System.out.println(propertyTile.toString() + " Converted");
-//
-//            enableSellMap.put(propertyTile, false);
-//        }
     }
 
     // removes black border and sets the property to not sellable
@@ -460,11 +435,73 @@ public class PropertyProcessorGUI {
         hideSellableProperty();
     }
 
-//    public void hideBlackBorder(){
-//        // Hide the Black Borders around the property tiles
-//
-//    }
+    public void removeRedBorderMortgageProperty(){
+        // Hide the Red Borders around the property tiles
+        for(Property property : propertyProcessor.getPropertyMap().values()) {
+            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
+
+            mortgageMap.put(propertyTile, false);
+        }
+    }
+
+    public void showMortgageableProperties(PlayerToken playerToken) {
+        // Todo complete logic
+
+        // sets the ability to mortgage properties to true
+        propertyProcessor.setMortgageFlag();
+
+
+        // locates all the properties owned by the active player
+        ArrayList<Property> ownedProperties = propertyProcessor.findValidPropertiesToMortgage(playerToken);
+
+        System.out.println(ownedProperties.toString());
+
+        // puts a red border around each property that can be mortgaged by the player
+        for(Property property : ownedProperties) {
+            PropertyTile propertyTile = propertyProcessor.convertNameToTile(property.getPropertyName());
+
+            JButton tileButton = tileButtonMap.get(propertyTile);
+
+            // puts a red border around each active player property that can be mortgaged
+            tileButton.setBorderPainted(true);
+            tileButton.setBorder(BorderFactory.createLineBorder(Color.RED, 10));
+
+            // sets each property to mortgage for the active player to true
+            mortgageMap.put(propertyTile, true);
+        }
+    }
+
+    // adds a mouse listener to each property tile button to enable mortgaging
+    public void showPropertiesThatCanBeMortgaged(PaymentBoxGUI paymentBoxGUI, PropertyProcessorGUI propertyProcessorGUI,
+                                             PlayerProcessor playerProcessor, TransactionHistoryGUI transactionHistoryGUI, MoneyProcessor moneyProcessor,
+                                                 MortgagePropertyBoxGUI mortgagePropertyBoxGUI, CommandBoxGUI commandBoxGUI) {
+        // loop applies a mouse listener to each property tile button when clicked
+        for(PropertyTile propertyTile : PropertyTile.values()){
+            JButton tile = propertyProcessorGUI.getTileButtonMap().get(propertyTile);
+            tile.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e){
+                System.out.println("Checking if mortgage property is true for " + propertyTile +  propertyProcessorGUI.getMortgageMap().get(propertyTile));
+                // if property in a mortgage map is set to true
+                if(propertyProcessorGUI.getMortgageMap().get(propertyTile)) {;
+
+                    setCurrentPropertyToMortgage(propertyTile);
+                    mortgagePropertyBoxGUI.mortgagePropertyMenu(propertyProcessorGUI, moneyProcessor, playerProcessor, paymentBoxGUI);
+                    commandBoxGUI.setMessage("Changes options to mortgage property");
+                }
+                }
+            });
+        }
+    }
+
+    public HashMap<PropertyTile, Boolean> getMortgageMap(){
+        return mortgageMap;
+    }
 
     record PropertyCoordinates(int x, int y) {
+    }
+
+    public void setCurrentPropertyToMortgage(PropertyTile propertyTile){
+        currentPropertyToMortgage = propertyTile;
     }
 }

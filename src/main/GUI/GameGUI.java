@@ -26,7 +26,7 @@ public class GameGUI extends JFrame{
     public DrawCardGUI drawCardGUI;
     private final JLayeredPane boardSidePane; // used for board
 
-    public GameGUI(PropertyProcessor propertyProcessor ,Dice dice, InformationPane informationPane, BoardSidePaneGUI boardSidePane,
+    public GameGUI(PropertyProcessor propertyProcessor , Dice dice, InformationPaneGUI informationPaneGUI, BoardSidePaneGUI boardSidePane,
                    LinkedHashMap<String, PropertyFinancials> propertyFinancialsMap, HashMap<Integer, String> singlePropertyBoardData,
                    LinkedHashMap<String, PropertyAttributes> propertyAttributesMap, PlayerProcessor playerProcessor,
                    LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
@@ -35,7 +35,7 @@ public class GameGUI extends JFrame{
         this.boardSidePane = boardSidePane;
 
         // initialize external main.GUI classes
-        DiceGUI diceGUI = new DiceGUI(playerProcessor, informationPane, dice, locationProcessor, transactionHistoryGUI);
+        DiceGUI diceGUI = new DiceGUI(playerProcessor, informationPaneGUI, dice, locationProcessor, transactionHistoryGUI);
         //PropertyProcessorGUI2 propertyProcessorGUI = new PropertyProcessorGUI2(propertyProcessor,boardSidePane, propertyFinancialsMap, singlePropertyBoardData, propertyAttributesMap);
         //PropertyProcessorGUI propertyProcessorGUI = new PropertyProcessorGUI(propertyProcessor, boardSidePane);
         drawCardGUI = new DrawCardGUI(boardSidePane);
@@ -71,7 +71,7 @@ public class GameGUI extends JFrame{
         this.setSize(1700, 1000);
         this.setLayout(null);
         //this.add(overProperyOverLay);
-        this.add(informationPane);
+        this.add(informationPaneGUI);
         this.add(boardSidePane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // keep at end
         this.setVisible(true); // keep at end

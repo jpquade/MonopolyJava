@@ -5,7 +5,6 @@ import main.Enums.TransactionType;
 import main.Functions.MoneyProcessor;
 import main.Functions.PlayerProcessor;
 import main.Functions.PropertyProcessor;
-import main.Properties.Property;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,7 @@ import java.awt.event.ActionListener;
 
 import static main.GUI.ActionBoxManagerGUI.ActionBoxType.SELECTION_BOX;
 
-public class SelectionBoxGUI extends JPanel {
+public class PaymentBoxGUI extends JPanel {
     private final MoneyProcessor moneyProcessor;
     private final CommandBoxGUI commandBoxGUI;
     //final private JPanel selectionBoxButtonPanel;
@@ -41,9 +40,9 @@ public class SelectionBoxGUI extends JPanel {
         END_TURN
     }
 
-    public SelectionBoxGUI(MoneyProcessor moneyProcessor, CommandBoxGUI commandBoxGUI,
-                           PropertyProcessorGUI propertyProcessorGUI, SellPropertyBoxGUI sellPropertyBoxGUI,
-                           ActionBoxManagerGUI actionBoxManagerGUI) {
+    public PaymentBoxGUI(MoneyProcessor moneyProcessor, CommandBoxGUI commandBoxGUI,
+                         PropertyProcessorGUI propertyProcessorGUI, SellPropertyBoxGUI sellPropertyBoxGUI,
+                         ActionBoxManagerGUI actionBoxManagerGUI) {
         this.moneyProcessor = moneyProcessor;
         this.commandBoxGUI = commandBoxGUI;
         this.sellPropertyBoxGUI = sellPropertyBoxGUI;
@@ -67,35 +66,66 @@ public class SelectionBoxGUI extends JPanel {
 
         this.add(new JLabel("<html><u>Selection Buttons</u></html>"));
 
-        String[] financialOptions = {"payButton", "sellPropertyButton", "mortgageButton", "unMortgageButton", "buildHouseButton", "sellHouseButton", "buildHotelButton", "sellHotelButton", "endTurnButton"};
+        enum ButtonType {
+            PAY(0),
+            SELL_PROPERTY(1),
+            MORTGAGE(2),
+            UNMORTGAGE(3),
+            BUILD_HOUSE(4),
+            SELL_HOUSE(5),
+            BUILD_HOTEL(6),
+            SELL_HOTEL(7),
+            END_TURN(8);
 
-        for(String methodName : financialOptions){
-            switch(methodName){
-                case "payButton":
+            private final int index;
+
+            ButtonType(int index) {
+                this.index = index;
+            }
+
+            public int getIndex(){
+                return index;
+            }
+
+            public static ButtonType getButtonType(int index){
+                for(ButtonType button : ButtonType.values()){
+                    if(button.getIndex() == index){
+                        return button;
+                    }
+                }
+                return null;
+            }
+        }
+
+        for(ButtonType button : ButtonType.values()){
+            switch(button){
+                case ButtonType.PAY:
                     payButton(cost);
                     break;
-                case "sellPropertyButton":
+                case SELL_PROPERTY:
                     sellPropertyButton(propertyProcessor, playerProcessor);
                     break;
-                case "mortgageButton":
-                    mortgageButton();
+                case MORTGAGE:
+
+                    // TODO - add logic
+                    mortgageButton(propertyProcessor, playerProcessor);
                     break;
-                case "unMortgageButton":
+                case UNMORTGAGE:
                     unMortgageButton();
                     break;
-                case "buildHouseButton":
+                case BUILD_HOUSE:
                     buildHouseButton();
                     break;
-                case "sellHouseButton":
+                case SELL_HOUSE:
                     sellHouseButton();
                     break;
-                case "buildHotelButton":
+                case BUILD_HOTEL:
                     buildHotelButton();
                     break;
-                case "sellHotelButton":
+                case SELL_HOTEL:
                     sellHotelButton();
                     break;
-                case "endTurnButton":
+                case END_TURN:
                     endTurnButton();
                     break;
             }
@@ -104,7 +134,7 @@ public class SelectionBoxGUI extends JPanel {
         this.setVisible(true);
     }
 
-    // uses existint transactionType, cost, and otherPlayerToken
+    // uses existing transactionType, cost, and otherPlayerToken
     public void paymentOptions(PropertyProcessor propertyProcessor, PlayerProcessor playerProcessor) {
         paymentMenuList(propertyProcessor, playerProcessor);
     }
@@ -170,24 +200,18 @@ public class SelectionBoxGUI extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // if player has properties then go to sell property box
-                if(propertyProcessor.checkPlayerHasProperties(playerProcessor.getActivePlayer().getToken(), propertyProcessor)) {
+                // check if player has properties to sell, if all properties have houses or hotels
+                if(propertyProcessor.checkPlayerHasProperties(playerProcessor.getActivePlayer().getToken(), propertyProcessor) &&
+                        !propertyProcessor.checkPlayerIfAllPropertiesHaveHousesOrHotels(playerProcessor.getActivePlayer().getToken(), propertyProcessor)){
                     removeAllButtonsPanelInvisible();
                     commandBoxGUI.setMessage("Pick a property to sell");
                     propertyProcessorGUI.showSellableProperties();
                 }
+                else{
+                    commandBoxGUI.setMessage("You do not have any valid properties to sell");
+                }
             }
-
         });
-
-//        sellPropertyButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                checkPlayerHasProperties(PlayerToken playerToken, PropertyProcessor propertyProcessor)
-//            }
-//        });
-
-        //buttonMap.put(ButtonType.SELL_PROPERTY, sellPropertyButton);
 
         return sellPropertyButton;
     }
@@ -198,6 +222,36 @@ public class SelectionBoxGUI extends JPanel {
         JButton tradeButton = sellPropertyButtonSetup(propertyProcessor, playerProcessor);
         visibleAddToPanel(tradeButton);
         tradeButton.setText("Sell properties");
+    }
+
+    public void mortgageButton(PropertyProcessor propertyProcessor, PlayerProcessor playerProcessor){
+        // TODO - add logic
+        // need list of properties to mortgage
+
+        JButton mortgageButton = new JButton();
+        mortgageButton.setHorizontalAlignment(SwingConstants.LEFT);
+
+        mortgageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // check if player has properties, if all properties have houses or hotels, or all properties are already mortgaged
+                if(propertyProcessor.checkPlayerHasProperties(playerProcessor.getActivePlayer().getToken(), propertyProcessor) &&
+                        !propertyProcessor.checkPlayerIfAllPropertiesHaveHousesOrHotels(playerProcessor.getActivePlayer().getToken(), propertyProcessor) &&
+                !propertyProcessor.checkPlayerIfAllPropertiesMortgages(playerProcessor.getActivePlayer().getToken(), propertyProcessor)){
+                    removeAllButtonsPanelInvisible();
+                    commandBoxGUI.setMessage("Pick a property to mortgage");
+                    //propertyProcessorGUI.showSellableProperties();
+                    propertyProcessorGUI.showMortgageableProperties(playerProcessor.getActivePlayer().getToken());
+                    propertyProcessorGUI.showPropertiesThatCanBeMortgaged(paymentBoxGUI, propertyProcessorGUI, playerProcessor, transactionHistoryGUI, moneyProcessor,
+                            mortgagePropertyBoxGUI, commandBoxGUI);
+                }
+                else{
+                    commandBoxGUI.setMessage("You do not have any valid properties to mortgage");
+                }
+            }
+        });
+        mortgageButton.setText("Mortgage properties");
+        visibleAddToPanel(mortgageButton);
     }
 
     private void unMortgageButton() {
@@ -224,21 +278,7 @@ public class SelectionBoxGUI extends JPanel {
         // TODO - add logic
     }
 
-    public void mortgageButton(){
 
-        // need list of properties to sell
-
-//        buttonList.get(buttonTempIndex).setText("HighLight Properties You Can Mortgage");
-//        buttonList.get(buttonTempIndex).setVisible(true);
-//        buttonList.get(buttonTempIndex).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                for(JButton button : buttonList){
-//                    button.setVisible(false);
-//                }
-//            }
-//        });
-    }
 
     public TransactionType getTransactionType() {
         return transactionType;

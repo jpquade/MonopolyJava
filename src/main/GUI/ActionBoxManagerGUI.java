@@ -8,7 +8,8 @@ public class ActionBoxManagerGUI {
     public enum ActionBoxType {
         SELECTION_BOX,
         SELL_PROPERTY_SUB_BOX,
-        PROPERTY_PROCESSOR_GUI
+        PROPERTY_PROCESSOR_GUI,
+        MORTGAGE_PROPERTY_BOX
     }
 
     private final HashMap<ActionBoxType, JPanel> actionBoxTypeJPanelHashMap;

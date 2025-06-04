@@ -27,7 +27,7 @@ public class DiceGUI{
     private int locationIncrement;
     private int tokenIncrement;
 
-    public DiceGUI(PlayerProcessor playerProcessor, InformationPane lLayeredPane, Dice dice, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
+    public DiceGUI(PlayerProcessor playerProcessor, InformationPaneGUI lLayeredPane, Dice dice, LocationProcessor locationProcessor, TransactionHistoryGUI transactionHistoryGUI) throws IOException {
 
         int diceSize = 30;
         int leftX = 135;

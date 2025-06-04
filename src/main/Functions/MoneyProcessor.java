@@ -47,81 +47,44 @@ public class MoneyProcessor {
             commandBoxGUI.setMessage("Insufficient Funds. Raise Money.");
             return false;
         }
-        //selectionBoxButtonGUI
-        //return false;
-
     }
 
-//    // active player pays another player
-//    public boolean transactionHandler(PlayerToken payer, PlayerToken payee, int cost){
-//        if(pay(cost)){
-//            playerPayPlayer(payer, payee, cost);
-//            transactionHistoryGUI.addTransaction(payer.toString() + " paid $" + cost + " to " + payee.toString());
-//            return true;
-//        } else{
-//            return false;
-//        }
-//    }
-//
-//    // active player pays bank
-//    public boolean transactionHandler(PlayerToken payer, int cost){
-//        if(pay(cost)){
-//            playerPayBank(cost);
-//            transactionHistoryGUI.addTransaction(payer.toString() + " paid $ " + cost + " to the bank");
-//            return true;
-//        } else{
-//            return false;
-//        }
-//    }
-//
-//    // bank pays active player
-//    public boolean transactionHandler(int cost){
-//        if(pay(cost)){
-//            bankPayPlayer(cost);
-//            transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $ " + cost + " to the bank");
-//            return true;
-//        } else{
-//            return false;
-//        }
-//    }
-
     public boolean transactionHandler(TransactionType transactionType, PlayerToken otherPlayerToken, int cost){
-        if(transactionType == TransactionType.ACTIVE_PLAYER_PAY_OTHER_PLAYER){
-            if(pay(cost)){
-                playerPayPlayer(playerProcessor.getActivePlayer().getToken(), otherPlayerToken, cost);
-                transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $" + cost + " to " + otherPlayerToken.toString());
-                return true;
-            } else{
-                return false;
+        return switch (transactionType) {
+            case ACTIVE_PLAYER_PAY_OTHER_PLAYER -> {
+                if (pay(cost)) {
+                    playerPayPlayer(playerProcessor.getActivePlayer().getToken(), otherPlayerToken, cost);
+                    transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $" + cost + " to " + otherPlayerToken.toString());
+                    yield true;
+                }
+                yield false;
             }
-        }
-        else if(transactionType == TransactionType.OTHER_PLAYER_PAY_ACTIVE_PLAYER){
-            if(pay(cost)){
-                playerPayPlayer(otherPlayerToken, playerProcessor.getActivePlayer().getToken(), cost);
-                transactionHistoryGUI.addTransaction(otherPlayerToken.toString() + " paid $" + cost + " to " + playerProcessor.getActivePlayer().getToken());
-                return true;
-            } else{
-                return false;
+            case OTHER_PLAYER_PAY_ACTIVE_PLAYER -> {
+                if (pay(cost)) {
+                    playerPayPlayer(otherPlayerToken, playerProcessor.getActivePlayer().getToken(), cost);
+                    transactionHistoryGUI.addTransaction(otherPlayerToken.toString() + " paid $" + cost + " to " + playerProcessor.getActivePlayer().getToken());
+                    yield true;
+                }
+                yield false;
             }
-        }
-        else if(transactionType == TransactionType.ACTIVE_PLAYER_PAY_BANK){
-            if(pay(cost)){
-                playerPayBank(cost);
-                transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $ " + cost + " to the bank");
-                return true;
-            } else{
-            return false;}
+            case ACTIVE_PLAYER_PAY_BANK -> {
+                if (pay(cost)) {
+                    playerPayBank(cost);
+                    transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $ " + cost + " to the bank");
+                    yield true;
+                }
+                yield false;
             }
-        else if(transactionType == TransactionType.BANK_PAY_ACTIVE_PLAYER){
-            if(pay(cost)){
-                bankPayPlayer(cost);
-                transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $ " + cost + " to the bank");
-                return true;
-            } else{
-            return false;
+            case BANK_PAY_ACTIVE_PLAYER -> {
+                if (pay(cost)) {
+                    bankPayPlayer(cost);
+                    transactionHistoryGUI.addTransaction(playerProcessor.getActivePlayer().getToken().toString() + " paid $ " + cost + " to the bank");
+                    yield true;
+                }
+                yield false;
             }
-        }
-        else return false;
+            default -> false;
+        };
     }
 
     public void playerPayPlayer(PlayerToken payer, PlayerToken payee, int cost){

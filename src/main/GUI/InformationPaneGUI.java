@@ -3,11 +3,11 @@ package main.GUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class InformationPane extends JLayeredPane{
+public class InformationPaneGUI extends JLayeredPane{
 
    // private final JLayeredPane informationSidePane;
 
-    public InformationPane() {
+    public InformationPaneGUI() {
         this.setBackground(Color.WHITE);
         this.setBounds(0,0, 500, 1000);
         this.setOpaque(true);

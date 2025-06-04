@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ActivePlayerBoxGUI  extends JPanel {
 
-    private JLabel activePlayer;
+    private final JLabel activePlayer;
 
     public ActivePlayerBoxGUI() {
         this.setBounds(370, 30, 100, 50);

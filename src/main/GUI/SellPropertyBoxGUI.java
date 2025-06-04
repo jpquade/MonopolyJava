@@ -30,15 +30,8 @@ public class SellPropertyBoxGUI extends JPanel{
 
     private PlayerToken selectedPlayer;
 
-    JTextField priceField;
+    private JTextField priceField;
 
-    private enum ButtonType {
-        PROPERTY_DISPLAY,
-        PRICE_DISPLAY,
-        PLAYER_LIST_DISPLAY,
-        CONFIRM_BUTTON,
-        CANCEL_BUTTON
-    }
 
     public SellPropertyBoxGUI(CommandBoxGUI commandBoxGUI, PropertyProcessor propertyProcessor, ActionBoxManagerGUI actionBoxManagerGUI) {
         this.propertyProcessor = propertyProcessor;
@@ -55,7 +48,7 @@ public class SellPropertyBoxGUI extends JPanel{
 
     }
 
-    public void sellingPropertyMenu(SelectionBoxGUI selectionBoxGUI, PropertyProcessorGUI propertyProcessorGUI,
+    public void sellingPropertyMenu(PaymentBoxGUI paymentBoxGUI, PropertyProcessorGUI propertyProcessorGUI,
                                     PlayerProcessor playerProcessor, TransactionHistoryGUI transactionHistoryGUI, MoneyProcessor moneyProcessor,
                                     PropertyProcessor propertyProcessor) {
 
@@ -63,41 +56,27 @@ public class SellPropertyBoxGUI extends JPanel{
         this.removeAll();
         this.add(new JLabel("<html><u>Sell Property</u></html>"));
 
-        for(ButtonType buttonType : ButtonType.values()){
-
-            switch(buttonType){
-                case PROPERTY_DISPLAY:
-                    propertyNameTag();
-                    break;
-                case PRICE_DISPLAY:
-                    priceDisplay();
-                    break;
-                case PLAYER_LIST_DISPLAY:
-                    playerListDisplaySetup(playerProcessor);
-                    break;
-                case CONFIRM_BUTTON:
-                    confirmButton(playerProcessor, transactionHistoryGUI, moneyProcessor, propertyProcessorGUI, selectionBoxGUI);
-                    break;
-                case CANCEL_BUTTON:
-                    cancelButton(selectionBoxGUI, propertyProcessorGUI, playerProcessor);
-                    break;
-            }
-        }
+        propertyNameTag();
+        priceDisplay();
+        playerListDisplaySetup(playerProcessor);
+        confirmButton(playerProcessor, transactionHistoryGUI, moneyProcessor, propertyProcessorGUI, paymentBoxGUI);
+        cancelButton(paymentBoxGUI, propertyProcessorGUI, playerProcessor);
     }
 
     // adds a mouse listener to each property tile button to enable selling
-    public void checkIfSellablePropertySetup(SelectionBoxGUI selectionBoxGUI, PropertyProcessorGUI propertyProcessorGUI,
+    public void checkIfSellablePropertySetup(PaymentBoxGUI paymentBoxGUI, PropertyProcessorGUI propertyProcessorGUI,
                                              PlayerProcessor playerProcessor, TransactionHistoryGUI transactionHistoryGUI, MoneyProcessor moneyProcessor) {
+        // loop applies a mouse listener to each property tile button when clicked
         for(PropertyTile propertyTile : PropertyTile.values()){
             JButton tile = propertyProcessorGUI.getTileButtonMap().get(propertyTile);
             tile.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e){
-                    if(propertyProcessorGUI.getEnableSellMap().get(propertyTile)) {;
-                        setCurrentPropertyToSell(propertyTile);
-                        sellingPropertyMenu(selectionBoxGUI, propertyProcessorGUI, playerProcessor, transactionHistoryGUI, moneyProcessor, propertyProcessor);
-                        commandBoxGUI.setMessage("Changes options to sell property");
-                    }
+                if(propertyProcessorGUI.getEnableSellMap().get(propertyTile)) {;
+                    setCurrentPropertyToSell(propertyTile);
+                    sellingPropertyMenu(paymentBoxGUI, propertyProcessorGUI, playerProcessor, transactionHistoryGUI, moneyProcessor, propertyProcessor);
+                    commandBoxGUI.setMessage("Changes options to sell property");
+                }
                 }
             });
         }
@@ -139,7 +118,7 @@ public class SellPropertyBoxGUI extends JPanel{
     }
 
     public void confirmButton(PlayerProcessor playerProcessor, TransactionHistoryGUI transactionHistoryGUI, MoneyProcessor moneyProcessor,
-                              PropertyProcessorGUI propertyProcessorGUI, SelectionBoxGUI selectionBoxGUI){
+                              PropertyProcessorGUI propertyProcessorGUI, PaymentBoxGUI paymentBoxGUI){
         JButton confirmButton = new JButton();
         confirmButton.setText("Confirm");
         this.add(confirmButton);
@@ -185,7 +164,7 @@ public class SellPropertyBoxGUI extends JPanel{
                             propertyProcessorGUI.removeBlackBorderNotSellable();
 
                             // Set the selection box button panel to visible
-                            selectionBoxGUI.paymentOptions(propertyProcessor, playerProcessor);
+                            paymentBoxGUI.paymentOptions(propertyProcessor, playerProcessor);
 
                         } else{
                             commandBoxGUI.setMessage("Player does not have enough money to buy property");
@@ -206,7 +185,7 @@ public class SellPropertyBoxGUI extends JPanel{
         });
     }
 
-    public void cancelButton(SelectionBoxGUI selectionBoxGUI, PropertyProcessorGUI propertyProcessorGUI, PlayerProcessor playerProcessor){
+    public void cancelButton(PaymentBoxGUI paymentBoxGUI, PropertyProcessorGUI propertyProcessorGUI, PlayerProcessor playerProcessor){
         JButton cancelButton = new JButton();
         cancelButton.setText("Cancel");
         this.add(cancelButton);
@@ -219,7 +198,7 @@ public class SellPropertyBoxGUI extends JPanel{
             propertyProcessorGUI.removeBlackBorderNotSellable();
 
             // Set the selection box button panel to visible
-            selectionBoxGUI.paymentOptions(propertyProcessor, playerProcessor);
+            paymentBoxGUI.paymentOptions(propertyProcessor, playerProcessor);
 
             // Set the sell property sub box to invisible
             this.setVisible(false);
